@@ -2,14 +2,15 @@
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-exports.up = (knex) => knex.schema.createTable('recipients', (table) => {
+exports.up = (knex) => knex.schema.createTable('pending_invite', (table) => {
     table.increments('id');
-    table.integer('user_id').references("id").inTable('users');
-    table.string('requests');
+    table.integer('sending_user').references("id").inTable('users');
+    table.integer('recieving_user').references("id").inTable('users');
+    table.integer('post').references("id").inTable('posts');
   });
   
   /**
    * @param { import("knex").Knex } knex
    * @returns { Promise<void> }
    */
-  exports.down = (knex) => knex.schema.dropTable('recipients');
+  exports.down = (knex) => knex.schema.dropTable('pending_invite');
