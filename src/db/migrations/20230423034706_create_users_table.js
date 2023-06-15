@@ -2,15 +2,14 @@
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-exports.up = (knex) => knex.schema.createTable('users', (table) => {
-  table.increments();
-  table.string('username').notNullable().unique();
-  table.string('password_hash').notNullable();
-  table.timestamps(true, true);
+exports.up = (knex) => knex.schema.createTable('recipients', (table) => {
+  table.increments('id');
+  table.integer('user_id').references("id").inTable('users');
+  table.string('requests');
 });
 
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-exports.down = (knex) => knex.schema.dropTable('users');
+exports.down = (knex) => knex.schema.dropTable('recipients');
