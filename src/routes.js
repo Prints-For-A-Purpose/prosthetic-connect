@@ -1,5 +1,7 @@
 const express = require("express");
 const userController = require("./controllers/user");
+const requestController = require("./controllers/request");
+const commentsController = require("./controllers/comments");
 const addModels = require("./middleware/add-models");
 const checkAuthentication = require("./middleware/check-authentication");
 
@@ -9,6 +11,12 @@ Router.use(addModels);
 Router.get("/users", userController.list);
 Router.post("/users", userController.create);
 Router.get("/users/:id", userController.show);
+Router.get("/users/:id/requests", requestController.showMe);
+
+Router.get("/requests/", requestController.list);
+Router.get("/requests/:id", requestController.show);
+
+Router.get("/comments/:id", commentsController.list);
 // We can use middleware slotted in between the route and the controller as well
 Router.patch("/users/:id", checkAuthentication, userController.update);
 
