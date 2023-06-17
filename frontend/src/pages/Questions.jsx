@@ -1,7 +1,8 @@
+
 import React, { useState } from 'react';
 
 export default function QuestionsPage() {
-    const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [title, setTitle] = useState('');
   const [summary, setSummary] = useState('');
 
