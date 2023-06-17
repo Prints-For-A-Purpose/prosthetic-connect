@@ -16,6 +16,7 @@ Router.get("/users/:id/requests", requestController.showMe);
 Router.get("/requests/", requestController.list);
 Router.get("/requests/:id", requestController.show);
 
+Router.post("/comments", commentsController.create);
 Router.get("/comments/:id", commentsController.list);
 // We can use middleware slotted in between the route and the controller as well
 Router.patch("/users/:id", checkAuthentication, userController.update);
