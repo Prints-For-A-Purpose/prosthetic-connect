@@ -1,5 +1,5 @@
 const User = require("../db/models/user");
-const Request = require("../db/models/request");
+const Request = require("../db/models/requests");
 const Comment = require("../db/models/comments");
 
 const addModels = (req, res, next) => {
