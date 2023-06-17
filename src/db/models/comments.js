@@ -43,7 +43,7 @@ class Comment {
 
   static async createComment(request_id, user_id, content, is_public) {
     const query = `INSERT INTO comments (request_id, user_id, content, is_public)
-        VALUES (?, ?, ?, ?) RETURNING *`;
+    VALUES (?, ?, ?, ? ) RETURNING *;`;
     const {
       rows: [comment],
     } = await knex.raw(query, [request_id, user_id, content, is_public]);
