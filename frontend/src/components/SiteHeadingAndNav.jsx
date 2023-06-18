@@ -8,7 +8,7 @@ export default function SiteHeadingAndNav() {
   return (
     <header>
       <a id="logo" href="/">
-        React/Express Auth
+        Print For A Purpose
       </a>
       <nav>
         <ul>
@@ -19,6 +19,9 @@ export default function SiteHeadingAndNav() {
             <NavLink to="/users" end={true}>
               Users
             </NavLink>
+          </li>
+          <li>
+          <NavLink to="/About-us">About Us</NavLink>
           </li>
           {currentUser ? (
             <>
