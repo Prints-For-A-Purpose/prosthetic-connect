@@ -2,6 +2,7 @@ const express = require('express');
 const userController = require('./controllers/user');
 const addModels = require('./middleware/add-models');
 const checkAuthentication = require('./middleware/check-authentication');
+const requestController = require('./controllers/request');
 
 const Router = express.Router();
 Router.use(addModels);
@@ -15,6 +16,8 @@ Router.patch('/users/:id', checkAuthentication, userController.update);
 Router.post('/login', userController.login);
 Router.delete('/logout', userController.logout);
 Router.get('/me', userController.showMe);
+
+Router.post('/request', requestController.create);
 
 Router.get('/logged-in-secret', checkAuthentication, (req, res) => {
   res.send({ msg: 'The secret is: there is no secret.' });
