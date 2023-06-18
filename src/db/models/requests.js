@@ -9,6 +9,7 @@ class Request {
     q3_physical_specifications,
     q4_lifestyle_usage,
     q5_additional,
+    created_at,
   }) {
     this.id = id;
     this.user_id = user_id;
@@ -18,9 +19,9 @@ class Request {
     this.q3_physical_specifications = q3_physical_specifications;
     this.q4_lifestyle_usage = q4_lifestyle_usage;
     this.q5_additional = q5_additional;
+    this.timestamp = created_at;
   }
   static async createRequests(
-    id,
     user_id,
     request_status,
     q1_disability_info,
@@ -31,7 +32,7 @@ class Request {
   ) {
     try {
       const query = `INSERT INTO requests (user_id, request_status, q1_disability_info, q2_functional_requirements, q3_physical_specifications, q4_lifestyle_usage, q5_additional)
-        VALUES ((SELECT user_id FROM users WHERE id = ?), ?, ?, ?, ?, ?, ?) 
+        VALUES (?, ?, ?, ?, ?, ?, ?) 
         RETURNING *`;
       const {
         rows: [request],
@@ -44,7 +45,6 @@ class Request {
         q4_lifestyle_usage,
         q5_additional,
       ]);
-      console.log(request);
       return new Request(request);
     } catch (err) {
       console.error(err);
