@@ -2,8 +2,8 @@ import { fetchHandler, getPostOptions, getPatchOptions } from "../utils";
 
 const baseUrl = "/api/comments";
 
-// export const createUser = async ({ username, password, is_fabricator }) =>
-//   fetchHandler(baseUrl, getPostOptions({ username, password, is_fabricator }));
+export const createComment = async ({ request_id, content, is_public }) =>
+  fetchHandler(baseUrl, getPostOptions({ request_id, content, is_public }));
 
 export const getComments = async (id) => {
   const [comments] = await fetchHandler(`${baseUrl}/${id}`);

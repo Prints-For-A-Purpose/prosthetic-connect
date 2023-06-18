@@ -1,5 +1,5 @@
 const list = require("./list");
-// const create = require('./create');
+const create = require("./create");
 // const show = require("./show");
 // const update = require('./update');
 
@@ -9,7 +9,7 @@ const list = require("./list");
 
 module.exports = {
   list,
-  //   create,
+  create,
   //   show,
   //   update,
 
