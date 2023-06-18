@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 export default function QuestionsPage() {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -66,35 +66,41 @@ export default function QuestionsPage() {
 
         <h3>Disability or Need Information:</h3>
         <label htmlFor="details">
-          Can you provide a description of your specific disability, condition, or need for which the 3D-printed item is required?
+          Can you provide a description of your specific disability, condition,
+          or need for which the 3D-printed item is required?
         </label>
         <input type="text" id="details" name="details" onChange={onChange} />
         <br />
 
         <h3>Functional Requirements:</h3>
         <label htmlFor="requirement">
-          What are the desired functionalities or features you would like the 3D-printed item to have? (e.g., grasping, gripping, specific movements)
+          What are the desired functionalities or features you would like the
+          3D-printed item to have? (e.g., grasping, gripping, specific
+          movements)
         </label>
         <input type="text" id="requirement" name="requirement" onChange={onChange} required />
         <br />
 
         <h3>Physical Measurements or Specifications (If Applicable):</h3>
         <label htmlFor="specifications">
-          What measurements or specifications are needed to ensure a comfortable and secure fit of the 3D-printed item? (e.g., circumference, length)
+          What measurements or specifications are needed to ensure a comfortable
+          and secure fit of the 3D-printed item? (e.g., circumference, length)
         </label>
         <input type="text" id="specifications" name="specifications" onChange={onChange} required />
         <br />
 
         <h3>Lifestyle and Usage:</h3>
         <label htmlFor="daily_routine">
-          Could you provide relevant details about your daily routine, lifestyle, or specific use cases for the 3D-printed item?
+          Could you provide relevant details about your daily routine,
+          lifestyle, or specific use cases for the 3D-printed item?
         </label>
         <input type="text" id="daily_routine" name="daily_routine" onChange={onChange} required />
         <br />
 
         <h3>Additional Information:</h3>
         <label htmlFor="additional_requests">
-          Do you have any other specific requests, concerns, or preferences that would help us create a tailored and suitable 3D-printed item for you?
+          Do you have any other specific requests, concerns, or preferences that
+          would help us create a tailored and suitable 3D-printed item for you?
         </label>
         <input type="text" id="additional_requests" name="additional_requests" onChange={onChange} required />
         <br />

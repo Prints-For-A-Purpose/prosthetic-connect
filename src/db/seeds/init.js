@@ -1,4 +1,4 @@
-const User = require('../models/user');
+const User = require("../models/user");
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
@@ -9,7 +9,7 @@ exports.seed = async (knex) => {
   await knex("requests").del();
   await knex("users").del();
   await knex("users").insert([
-    { username: "cool_cat", password_hash: "123", is_fabricator: false },
+    { username: "cool_cat", password_hash: "123", is_fabricator: true },
     { username: "l33t-guy", password_hash: "123", is_fabricator: true },
     { username: "wowow", password_hash: "123", is_fabricator: false },
   ]);
@@ -61,21 +61,20 @@ exports.seed = async (knex) => {
       user_id: 3,
       content: "mi nombre is jeff",
       is_public: false,
-    }
-  ])
+    },
+  ]);
   await knex("invitations").insert([
     {
       request_id: 1,
-      user_id: 1
+      user_id: 1,
     },
     {
       request_id: 2,
-      user_id: 2
+      user_id: 2,
     },
     {
       request_id: 3,
-      user_id: 3
-    }
-  ])
-}
-  
+      user_id: 3,
+    },
+  ]);
+};
