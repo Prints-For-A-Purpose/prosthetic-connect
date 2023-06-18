@@ -6,7 +6,8 @@ const createUser = async (req, res) => {
   } = req;
 
   // TODO: check if username is taken, what should you return?
-  const user = await User.create(username, password);
+  //we can return an error code and user already exist 
+  const user = await User.create(username, password, is_fabricator);
   session.userId = user.id;
 
   res.send(user);
