@@ -1,14 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { getRequest } from "../adapters/request-adapter";
 import { getUser } from "../adapters/user-adapter";
 import { getComments } from "../adapters/comments-adapter";
 import { createComment } from "../adapters/comments-adapter";
+import CurrentUserContext from "../contexts/current-user-context";
 
 import CommentBox from "../components/CommentBox";
 
 export default function Request() {
+  const { currentUser } = useContext(CurrentUserContext);
   const [request, setRequest] = useState(null);
   const [username, setUsername] = useState(null);
   const [comments, setComments] = useState([]);
@@ -97,18 +99,20 @@ export default function Request() {
             <CommentBox comment={com} />
           </div>
         ))}
-        <form onSubmit={handleSubmit}>
-          <label htmlFor="content">new comment</label>
-          <input
-            type="text"
-            autoComplete="off"
-            id="content"
-            name="content"
-            onChange={handleChange}
-            value={content}
-          ></input>
-          <button>Submit Comment</button>
-        </form>
+        {currentUser && (
+          <form onSubmit={handleSubmit}>
+            <label htmlFor="content">new comment</label>
+            <input
+              type="text"
+              autoComplete="off"
+              id="content"
+              name="content"
+              onChange={handleChange}
+              value={content}
+            ></input>
+            <button>Submit Comment</button>
+          </form>
+        )}
       </div>
     </>
   );
