@@ -33,30 +33,34 @@ export default function QuestionsPage() {
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <h3>Card Description</h3>
-        <label htmlFor="card-title">Title</label>
+    <div className="container">
+
+
+      <form onSubmit={handleSubmit} className="form-container">
+        <h3 className="form-heading">Card Description</h3>
+        <label htmlFor="card-title"  className="form-label">Title</label>
         <input
           type="text"
           id="card-title"
           name="title"
           onChange={onChange}
+          className="form-input"
           required
         />
         <br />
-        <label htmlFor="card-summary">Summary</label>
+        <label htmlFor="card-summary" className="form-label">Summary</label>
         <input
           type="text"
           id="card-summary"
           name="summary"
           onChange={onChange}
+          className="form-input"
           required
         />
         <br />
 
-        <h3>Disability or Need Information:</h3>
-        <label htmlFor="q1_disability_info">
+        <h3 className="form-heading">Disability or Need Information:</h3>
+        <label htmlFor="q1_disability_info"  className="form-label">
           Can you provide a description of your specific disability, condition,
           or need for which the 3D-printed item is required?
         </label>
@@ -65,11 +69,12 @@ export default function QuestionsPage() {
           id="q1_disability_info"
           name="q1_disability_info"
           onChange={onChange}
+          className="form-input"
         />
         <br />
 
-        <h3>Functional Requirements:</h3>
-        <label htmlFor="q2_functional_requirements">
+        <h3 className="form-heading">Functional Requirements:</h3>
+        <label htmlFor="q2_functional_requirements"  className="form-label">
           What are the desired functionalities or features you would like the
           3D-printed item to have? (e.g., grasping, gripping, specific
           movements)
@@ -79,12 +84,13 @@ export default function QuestionsPage() {
           id="q2_functional_requirements"
           name="q2_functional_requirements"
           onChange={onChange}
+          className="form-input"
           required
         />
         <br />
 
-        <h3>Physical Measurements or Specifications (If Applicable):</h3>
-        <label htmlFor="q3_physical_specifications">
+        <h3 className="form-heading">Physical Measurements or Specifications (If Applicable):</h3>
+        <label htmlFor="q3_physical_specifications"  className="form-label">
           What measurements or specifications are needed to ensure a comfortable
           and secure fit of the 3D-printed item? (e.g., circumference, length)
         </label>
@@ -93,12 +99,13 @@ export default function QuestionsPage() {
           id="q3_physical_specifications"
           name="q3_physical_specifications"
           onChange={onChange}
+          className="form-input"
           required
         />
         <br />
 
-        <h3>Lifestyle and Usage:</h3>
-        <label htmlFor="q4_lifestyle_usage">
+        <h3 className="form-heading">Lifestyle and Usage:</h3>
+        <label htmlFor="q4_lifestyle_usage"  className="form-label">
           Could you provide relevant details about your daily routine,
           lifestyle, or specific use cases for the 3D-printed item?
         </label>
@@ -107,12 +114,13 @@ export default function QuestionsPage() {
           id="q4_lifestyle_usage"
           name="q4_lifestyle_usage"
           onChange={onChange}
+          className="form-input"
           required
         />
         <br />
 
-        <h3>Additional Information:</h3>
-        <label htmlFor="q5_additional">
+        <h3 className="form-heading">Additional Information:</h3>
+        <label htmlFor="q5_additional"  className="form-label">
           Do you have any other specific requests, concerns, or preferences that
           would help us create a tailored and suitable 3D-printed item for you?
         </label>
@@ -121,12 +129,13 @@ export default function QuestionsPage() {
           id="q5_additional"
           name="q5_additional"
           onChange={onChange}
+          className="form-input"
           required
         />
         <br />
 
-        <button type="submit">Submit</button>
+        <button type="submit" className="form-submit-button">Submit</button>
       </form>
-    </>
+    </div>
   );
 }
