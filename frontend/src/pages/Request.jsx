@@ -1,13 +1,15 @@
 import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+
+import CurrentUserContext from "../contexts/current-user-context";
+
+import CommentBox from "../components/CommentBox";
+
 import { getRequest } from "../adapters/request-adapter";
 import { getUser } from "../adapters/user-adapter";
 import { getComments } from "../adapters/comments-adapter";
 import { createComment } from "../adapters/comments-adapter";
-import CurrentUserContext from "../contexts/current-user-context";
-
-import CommentBox from "../components/CommentBox";
 
 export default function Request() {
   const { currentUser } = useContext(CurrentUserContext);
@@ -95,7 +97,7 @@ export default function Request() {
       <div>
         <h3>Comments</h3>
         {comments.map((com) => (
-          <div key={com.id}>
+          <div key={com.id} style={{ borderStyle: "dotted" }} id={com.id}>
             <CommentBox comment={com} />
           </div>
         ))}
@@ -109,6 +111,7 @@ export default function Request() {
               name="content"
               onChange={handleChange}
               value={content}
+              required
             ></input>
             <button>Submit Comment</button>
           </form>

@@ -1,9 +1,6 @@
 const knex = require("../knex");
-// const { hashPassword, isValidPassword } = require("../../utils/auth-utils");
 
 class Comment {
-  //   #passwordHash = null;
-
   constructor({
     id,
     request_id,
@@ -50,21 +47,30 @@ class Comment {
     return new Comment(comment);
   }
 
+  static async find(id) {
+    try {
+      const query = `SELECT * FROM comments WHERE id = ?`;
+      const {
+        rows: [comment],
+      } = await knex.raw(query, [id]);
+      return comment ? new Comment(comment) : null;
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
+  }
+
   //   static async deleteAll() {
   //     return knex.raw("TRUNCATE users;");
   //   }
 
-  //   update = async (username) => {
-  //     // dynamic queries are easier if you add more properties
-  //     const [updatedUser] = await knex("users")
-  //       .where({ id: this.id })
-  //       .update({ username })
-  //       .returning("*");
-  //     return updatedUser ? new User(updatedUser) : null;
-  //   };
-
-  //   isValidPassword = async (password) =>
-  //     isValidPassword(password, this.#passwordHash);
+  update = async (content) => {
+    const [updatedContent] = await knex("comments")
+      .where({ id: this.id })
+      .update({ content })
+      .returning("*");
+    return updatedContent ? new Comment(updatedContent) : null;
+  };
 }
 
 module.exports = Comment;

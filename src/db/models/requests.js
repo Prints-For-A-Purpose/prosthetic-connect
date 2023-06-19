@@ -67,7 +67,6 @@ class Request {
     try {
       const query = `SELECT * FROM requests`;
       const { rows } = await knex.raw(query);
-      console.log(rows);
       return rows.map((request) => new Request(request));
     } catch (err) {
       console.error(err);

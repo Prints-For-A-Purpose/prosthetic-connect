@@ -1,29 +1,34 @@
 import { Link } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import CurrentUserContext from "../contexts/current-user-context";
+import CommentDeleteEdit from "../components/CommentDeleteEdit";
 
 export default function CommentBox({ comment }) {
   const { currentUser } = useContext(CurrentUserContext);
+  const [commentContent, setCommentContent] = useState(`${comment.content}`);
 
   return (
-    <div style={{ borderStyle: "dotted" }}>
-      <p>
-        {currentUser && currentUser.id === comment.user_id ? (
-          <>
-            <p>
-              <Link to={`/users/${comment.user_id}`}>{comment.username}</Link>{" "}
-              at {comment.timestamp}: {comment.content}
-            </p>
-            <button>Delete</button>
-            <button>Edit</button>
-          </>
-        ) : (
+    <>
+      {currentUser.id === comment.user_id ? (
+        <>
           <p>
-            <Link to={`/users/${comment.user_id}`}>{comment.username}</Link> at
-            {comment.timestamp}: {comment.content}
+            <Link to={`/users/${comment.user_id}`}>{comment.username}</Link>
+            {` at 
+            ${comment.timestamp}: ${commentContent}`}
           </p>
-        )}
-      </p>
-    </div>
+          <CommentDeleteEdit
+            currentUser={currentUser}
+            comment={comment}
+            setCommentContent={setCommentContent}
+          ></CommentDeleteEdit>
+        </>
+      ) : (
+        <p>
+          <Link to={`/users/${comment.user_id}`}>{comment.username}</Link>
+          {` at 
+            ${comment.timestamp}: ${commentContent}`}
+        </p>
+      )}
+    </>
   );
 }
