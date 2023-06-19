@@ -1,16 +1,20 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { getRequest } from "../adapters/request-adapter";
 import { getUser } from "../adapters/user-adapter";
 import { getComments } from "../adapters/comments-adapter";
+import { createComment } from "../adapters/comments-adapter";
+import CurrentUserContext from "../contexts/current-user-context";
+
 import CommentBox from "../components/CommentBox";
 
 export default function Request() {
+  const { currentUser } = useContext(CurrentUserContext);
   const [request, setRequest] = useState(null);
   const [username, setUsername] = useState(null);
   const [comments, setComments] = useState([]);
-  const [commentContent, setContent] = useState("");
+  const [content, setContent] = useState("");
   const [errorText, setErrorText] = useState(null);
   const { id } = useParams();
 
@@ -24,26 +28,29 @@ export default function Request() {
       setRequest(request);
       setUsername(user[0].username);
     };
-
     loadRequest();
   }, [id]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    if (name === "commentContent") setContent(value);
+    if (name === "content") setContent(value);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setErrorText("");
-    console.log(session.user_id);
-    // if (!commentContent) return setErrorText("Missing comment content.");
-    // const [newComment, error] = await createComment({
-    //   username,
-    //   password,
-    //   is_fabricator,
-    // });
-    // if (error) return setErrorText(error.statusText);
+    const is_public = true;
+    const request_id = request.id;
+    if (!content) return setErrorText("Missing comment content.");
+    const [newComment, error] = await createComment({
+      request_id,
+      content,
+      is_public,
+    });
+    if (error) return setErrorText(error.statusText);
+    const allComments = await getComments(id);
+    setContent("");
+    setComments(allComments);
   };
 
   if (!request && !errorText && !username) return null;
@@ -92,18 +99,20 @@ export default function Request() {
             <CommentBox comment={com} />
           </div>
         ))}
-        <form onSubmit={handleSubmit}>
-          <label htmlFor="commentContent">new comment</label>
-          <input
-            type="text"
-            autoComplete="off"
-            id="commentContent"
-            name="commentContent"
-            onChange={handleChange}
-            value={commentContent}
-          ></input>
-          <button>Submit Comment</button>
-        </form>
+        {currentUser && (
+          <form onSubmit={handleSubmit}>
+            <label htmlFor="content">new comment</label>
+            <input
+              type="text"
+              autoComplete="off"
+              id="content"
+              name="content"
+              onChange={handleChange}
+              value={content}
+            ></input>
+            <button>Submit Comment</button>
+          </form>
+        )}
       </div>
     </>
   );

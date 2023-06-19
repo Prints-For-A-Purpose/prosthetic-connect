@@ -1,26 +1,39 @@
 const knex = require("../../db/knex");
 
 const createRequest = async (req, res) => {
-    const {
-        session,
-        db: { Request },
-        body: { details, requirement, specifications, daily_routine, additional_requests },
-    } = req;
+  const {
+    session,
+    db: { Request },
+    // body: { details, requirement, specifications, daily_routine, additional_requests },
+    body: {
+      q1_disability_info,
+      q2_functional_requirements,
+      q3_physical_specifications,
+      q4_lifestyle_usage,
+      q5_additional,
+    },
+  } = req;
 
-    console.log(req.body);    // TODO: create a post request  
-    //on submit sends the questionaire data to db
-    const updateInfo = await knex("requests").insert({
-        //user_id: session.userId,
-        q1_disability_info: details,
-        q2_functional_requirements: requirement,
-        q3_physical_specifications: specifications,
-        q4_lifestyle_usage: daily_routine,
-        q5_additional: additional_requests
-    });
+  if (!session.userId) {
+    res.send(401);
+    return;
+  }
 
+  //on submit sends the questionnaire data to db
+  const request_status = "Active";
+  const user_id = session.userId;
 
+  const newRequest = await Request.createRequests(
+    user_id,
+    request_status,
+    q1_disability_info,
+    q2_functional_requirements,
+    q3_physical_specifications,
+    q4_lifestyle_usage,
+    q5_additional
+  );
 
-    res.send(updateInfo);
+  res.send(newRequest);
 };
 
 module.exports = createRequest;
