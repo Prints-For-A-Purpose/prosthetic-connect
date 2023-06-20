@@ -6,7 +6,6 @@ import RequestBox from "../components/RequestBox";
 import Pagination from "../components/Pagination";
 
 export default function HomePage() {
-  // const navigate = useNavigate();
   let { id } = useParams();
   let page = id ? Number(id) : 1;
 

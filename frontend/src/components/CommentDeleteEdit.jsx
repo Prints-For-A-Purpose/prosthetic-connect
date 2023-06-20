@@ -29,7 +29,7 @@ export default function CommentDeleteEdit({
 
   const deleteCurrentComment = async () => {
     deleteComment(comment.id);
-    const allComments = await getComments(request_id);
+    const allComments = await getComments(request_id, 1);
     setComments(allComments);
   };
 

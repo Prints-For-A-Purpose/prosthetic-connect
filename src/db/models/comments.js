@@ -19,24 +19,19 @@ class Comment {
     this.username = username;
   }
 
-  static async list(id) {
+  static async list(id, page) {
+    page = (Number(page) - 1) * 7;
     const query = `SELECT c.id, c.request_id, c.user_id, c.content, c.is_public, c.created_at, u.username
     FROM comments AS c
     INNER JOIN users AS u ON c.user_id = u.id
-    WHERE c.request_id = ? 
+    WHERE c.request_id = ?
     ORDER BY 
-    c.created_at DESC`;
-    const { rows } = await knex.raw(query, [id]);
+    c.created_at DESC
+    OFFSET ?
+    ROWS lIMIT 7;`;
+    const { rows } = await knex.raw(query, [id, page]);
     return rows.map((comments) => new Comment(comments));
   }
-
-  //   static async findByUsername(username) {
-  //     const query = "SELECT * FROM users WHERE username = ?";
-  //     const {
-  //       rows: [user],
-  //     } = await knex.raw(query, [username]);
-  //     return user ? new User(user) : null;
-  //   }
 
   static async createComment(request_id, user_id, content, is_public) {
     const query = `INSERT INTO comments (request_id, user_id, content, is_public)

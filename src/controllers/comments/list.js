@@ -1,10 +1,10 @@
 const listComments = async (req, res) => {
   const {
     db: { Comment },
-    params: { id },
+    params: { id, page },
   } = req;
 
-  const comments = await Comment.list(id);
+  const comments = await Comment.list(id, page);
   res.send(comments);
 };
 

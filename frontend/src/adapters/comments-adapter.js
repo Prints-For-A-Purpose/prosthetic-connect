@@ -10,8 +10,8 @@ const baseUrl = "/api/comments";
 export const createComment = async ({ request_id, content, is_public }) =>
   fetchHandler(baseUrl, getPostOptions({ request_id, content, is_public }));
 
-export const getComments = async (id) => {
-  const [comments] = await fetchHandler(`${baseUrl}/request/${id}`);
+export const getComments = async (id, page) => {
+  const [comments] = await fetchHandler(`${baseUrl}/request/${id}/${page}`);
   return comments || [];
 };
 

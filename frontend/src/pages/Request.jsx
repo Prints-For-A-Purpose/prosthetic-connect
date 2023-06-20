@@ -9,14 +9,14 @@ import CommentBox from "../components/CommentBox";
 import { getRequest } from "../adapters/request-adapter";
 import { getUser } from "../adapters/user-adapter";
 import { getComments } from "../adapters/comments-adapter";
-import { createComment } from "../adapters/comments-adapter";
+import NewComment from "../components/NewComment";
+import CommentPagination from "../components/CommentPagination";
 
 export default function Request() {
   const { currentUser } = useContext(CurrentUserContext);
   const [request, setRequest] = useState(null);
   const [username, setUsername] = useState(null);
   const [comments, setComments] = useState([]);
-  const [content, setContent] = useState("");
   const [errorText, setErrorText] = useState(null);
   const { id } = useParams();
 
@@ -25,7 +25,7 @@ export default function Request() {
       const [data, error] = await getRequest(id);
       if (error) return setErrorText(error.statusText);
       setRequest(data);
-      const allComments = await getComments(id);
+      const allComments = await getComments(id, 1);
       setComments(allComments);
       const user = await getUser(data.user_id);
       const [{ username }] = user;
@@ -33,28 +33,6 @@ export default function Request() {
     };
     loadRequest();
   }, [id]);
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    if (name === "content") setContent(value);
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setErrorText("");
-    const is_public = true;
-    const request_id = request.id;
-    if (!content) return setErrorText("Missing comment content.");
-    const [newComment, error] = await createComment({
-      request_id,
-      content,
-      is_public,
-    });
-    if (error) return setErrorText(error.statusText);
-    const allComments = await getComments(id);
-    setContent("");
-    setComments(allComments);
-  };
 
   if (!request && !errorText && !username) return null;
   if (errorText) return <p>{errorText}</p>;
@@ -98,7 +76,7 @@ export default function Request() {
       <div>
         <h3>Comments</h3>
         {comments.map((com) => (
-          <div key={com.id} style={{ borderStyle: "dotted" }} id={com.id}>
+          <div key={com.id} style={{ borderStyle: "dotted" }}>
             <CommentBox
               comment={com}
               setComments={setComments}
@@ -106,20 +84,13 @@ export default function Request() {
             />
           </div>
         ))}
+        <CommentPagination
+          id={id}
+          setComments={setComments}
+          request_id={request.id}
+        />
         {currentUser && (
-          <form onSubmit={handleSubmit}>
-            <label htmlFor="content">new comment</label>
-            <input
-              type="text"
-              autoComplete="off"
-              id="content"
-              name="content"
-              onChange={handleChange}
-              value={content}
-              required
-            ></input>
-            <button>Submit Comment</button>
-          </form>
+          <NewComment request={request} setComments={setComments} id={id} />
         )}
       </div>
     </>
