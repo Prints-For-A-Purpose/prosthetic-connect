@@ -1,6 +1,10 @@
 const listRequests = async (req, res) => {
-  const { Request } = req.db;
-  const requests = await Request.list();
+  const {
+    db: { Request },
+    params: { id },
+  } = req;
+
+  const requests = await Request.list(id);
   res.send(requests);
 };
 

@@ -15,7 +15,7 @@ Router.get("/users/:id/requests", requestController.showMe);
 Router.patch("/users/:id", checkAuthentication, userController.update);
 
 Router.post("/requests/", requestController.create);
-Router.get("/requests/", requestController.list);
+Router.get("/requests/home/:id", requestController.list);
 Router.get("/requests/:id", requestController.show);
 
 Router.post("/comments", commentsController.create);

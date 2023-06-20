@@ -244,7 +244,24 @@ nav a {
   }
 }
 
+.pagination {
+  display: inline-block;
+}
 
+.pagination a {
+  color: white;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: background-color .3s;
+}
+
+.pagination a.active {
+  background-color: #2e78ba;
+  color: white;
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd;}
 
 
 /* automatically added by NavLink component */
