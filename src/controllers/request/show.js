@@ -4,7 +4,7 @@ const showRequest = async (req, res) => {
     params: { id },
   } = req;
 
-  if (!Number.isInteger(id)) return res.sendStatus(404);
+  if (!Number.isInteger(Number(id))) return res.sendStatus(404);
   const request = await Request.find(id);
   if (!request) return res.sendStatus(404);
 

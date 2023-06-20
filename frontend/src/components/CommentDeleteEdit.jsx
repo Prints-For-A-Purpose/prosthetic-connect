@@ -1,10 +1,16 @@
 import { useState } from "react";
-import { updateComment } from "../adapters/comments-adapter";
+import {
+  updateComment,
+  deleteComment,
+  getComments,
+} from "../adapters/comments-adapter";
 
 export default function CommentDeleteEdit({
   currentUser,
   comment,
   setCommentContent,
+  setComments,
+  request_id,
 }) {
   const [edit, setEdit] = useState(`${comment.content}`);
   const [formVisibility, setFormVisibility] = useState({ display: "none" });
@@ -19,6 +25,12 @@ export default function CommentDeleteEdit({
     setButtonVisibility({
       display: "none",
     });
+  };
+
+  const deleteCurrentComment = async () => {
+    deleteComment(comment.id);
+    const allComments = await getComments(request_id);
+    setComments(allComments);
   };
 
   const handleSubmit = async (event) => {
@@ -42,7 +54,7 @@ export default function CommentDeleteEdit({
 
   return (
     <>
-      <button>Delete</button>
+      <button onClick={deleteCurrentComment}>Delete</button>
       <button onClick={showForm} style={buttonVisibility}>
         Edit
       </button>

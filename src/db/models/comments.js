@@ -60,9 +60,20 @@ class Comment {
     }
   }
 
+  static async deleteComment(id) {
+    try {
+      const query = `DELETE FROM comments WHERE id = ?`;
+      const { rowCount: count } = await knex.raw(query, [id]);
+      return count;
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
+  }
+
   //   static async deleteAll() {
   //     return knex.raw("TRUNCATE users;");
-  //   }
+  //   }DELETE FROM table_name WHERE condition
 
   update = async (content) => {
     const [updatedContent] = await knex("comments")

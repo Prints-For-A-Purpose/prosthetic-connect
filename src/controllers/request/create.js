@@ -15,8 +15,7 @@ const createRequest = async (req, res) => {
   } = req;
 
   if (!session.userId) {
-    res.send(401);
-    return;
+    return res.sendStatus(401);
   }
 
   //on submit sends the questionnaire data to db

@@ -20,8 +20,8 @@ Router.get("/requests/:id", requestController.show);
 
 Router.post("/comments", commentsController.create);
 Router.get("/comments/request/:id", commentsController.list);
-// Router.patch("/comments/:id", commentsController.update);
 Router.patch("/comments/:id", checkAuthentication, commentsController.update);
+Router.delete("/comments/:id", commentsController.deletion);
 
 Router.post("/login", userController.login);
 Router.delete("/logout", userController.logout);
