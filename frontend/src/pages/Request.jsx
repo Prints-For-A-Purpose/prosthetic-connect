@@ -23,12 +23,18 @@ export default function Request() {
   useEffect(() => {
     const loadRequest = async () => {
       const [request, error] = await getRequest(id);
-      const user = await getUser(request.user_id);
+      const userID = request.user_id;
+      let user;
+      if (userID) {
+        user = await getUser(userID);
+      }
       const allComments = await getComments(id);
       if (error) return setErrorText(error.statusText);
       setComments(allComments);
       setRequest(request);
-      setUsername(user[0].username);
+      if (user !== undefined) {
+        setUsername(user[0].username);
+      }
     };
     loadRequest();
   }, [id]);
