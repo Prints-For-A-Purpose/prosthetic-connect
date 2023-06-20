@@ -18,7 +18,15 @@ export default function HomePage() {
 
   return (
     <>
-      <h1>Home</h1>
+      <h1 style={{
+  display: "flex",
+  justifyContent: "center",
+  fontSize: "3rem",
+  marginBottom: "2rem",
+  textShadow: "2px 2px 4px rgba(0, 0, 0, 0.3)"
+}}
+
+>Home</h1>
       <div className="homediv">
         {requests.map((request) => (
           <RequestBox key={request.id} request={request} />
