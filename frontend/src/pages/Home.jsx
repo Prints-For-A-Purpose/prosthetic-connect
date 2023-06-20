@@ -12,13 +12,7 @@ export default function HomePage() {
   return (
     <>
       <h1>Home</h1>
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "nowrap",
-          justifyContent: "space-between",
-        }}
-      >
+      <div className="homediv">
         {requests.map((request) => (
           <RequestBox key={request.id} request={request} />
         ))}

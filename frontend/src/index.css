@@ -281,9 +281,31 @@ nav a {
     width: 100%;
   }
 }
+.homediv {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.request-card { 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 200px;
+  height:400px;
+  color: #ffffff;
+  background-color:#000000;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
 
 
-
+.request-card a:hover { 
+  text-decoration-color: blue;
+  text-decoration: underine;
+}
 
 /* automatically added by NavLink component */
 .active {
