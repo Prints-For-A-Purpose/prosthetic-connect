@@ -40,7 +40,45 @@ nav a {
   display: block;
   color: #ffffff;
 }
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background: #2e79ba;
+}
 
+#logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: #fbfcfe;
+}
+
+nav ul {
+  display: flex;
+  gap: 1rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+nav a {
+  display: block;
+  color: #ffffff;
+}
+
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  nav ul {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
  /* form {
   padding: 1rem;
   border: 1px solid #CCC;
