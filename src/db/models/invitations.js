@@ -12,12 +12,12 @@ class Invitation {
     static async createInvite (user_id, request_id) {
     try {
       const query = `INSERT INTO invitations (user_id, request_id)
-        VALUES ((SELECT user_id FROM users WHERE id = ?), (SELECT request_id FROM requests WHERE id = ?)) 
+        VALUES ((SELECT id FROM users WHERE id = ?), (SELECT id FROM requests WHERE id = ?)) 
         RETURNING *`;
       const {
         rows: [inviteNew],
       } = await knex.raw(query, [user_id, request_id]);
-       console.log(request)
+       console.log(inviteNew)
       return new Invitation(inviteNew);
     } catch (err) {
       console.error(err);
@@ -28,8 +28,7 @@ class Invitation {
     try {
       const query = `SELECT * FROM invitations WHERE user_id = ?`;
       const { rows } = await knex.raw(query, [user_id]);
-      const mapped = rows.map((usersInv) => new Invitation(usersInv))
-      return mapped.length != 0 ? mapped: null
+      return rows.map((usersInv) => new Invitation(usersInv))
     } catch (err) {
       console.error(err);
       return null;
@@ -39,7 +38,7 @@ class Invitation {
     try {
       const query = `SELECT * FROM invitations WHERE request_id = ?`;
       const { rows } = await knex.raw(query, [request_id]);
-      const mapped = rows.map((postsInv) => new Request(postsInv))
+      const mapped = rows.map((postsInv) => new Invitation(postsInv))
       return mapped.length != 0 ? mapped: null
     } catch (err) {
       console.error(err);
