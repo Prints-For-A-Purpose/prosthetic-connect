@@ -2,6 +2,7 @@ const express = require("express");
 const userController = require("./controllers/user");
 const requestController = require("./controllers/request");
 const commentsController = require("./controllers/comments");
+const inviteController = require("./controllers/invitations")
 const addModels = require("./middleware/add-models");
 const checkAuthentication = require("./middleware/check-authentication");
 
@@ -22,6 +23,12 @@ Router.post("/comments", commentsController.create);
 Router.get("/comments/request/:id", commentsController.list);
 Router.patch("/comments/:id", checkAuthentication, commentsController.update);
 Router.delete("/comments/:id", commentsController.deletion);
+
+Router.get("/invite-all", inviteController.listAll);
+Router.post("/invite",inviteController.create);
+Router.get("/invite/:id/user", inviteController.showUsersInvites);
+Router.get("/invite/:id/request", inviteController.showRequestsInvite);
+
 
 Router.post("/login", userController.login);
 Router.delete("/logout", userController.logout);
