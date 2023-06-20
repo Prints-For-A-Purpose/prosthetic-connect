@@ -22,13 +22,14 @@ export default function Request() {
 
   useEffect(() => {
     const loadRequest = async () => {
-      const [request, error] = await getRequest(id);
-      const user = await getUser(request.user_id);
-      const allComments = await getComments(id);
+      const [data, error] = await getRequest(id);
       if (error) return setErrorText(error.statusText);
+      setRequest(data);
+      const allComments = await getComments(id);
       setComments(allComments);
-      setRequest(request);
-      setUsername(user[0].username);
+      const user = await getUser(data.user_id);
+      const [{ username }] = user;
+      setUsername(username);
     };
     loadRequest();
   }, [id]);
@@ -98,7 +99,11 @@ export default function Request() {
         <h3>Comments</h3>
         {comments.map((com) => (
           <div key={com.id} style={{ borderStyle: "dotted" }} id={com.id}>
-            <CommentBox comment={com} />
+            <CommentBox
+              comment={com}
+              setComments={setComments}
+              request_id={request.id}
+            />
           </div>
         ))}
         {currentUser && (

@@ -1,4 +1,9 @@
-import { fetchHandler, getPostOptions, getPatchOptions } from "../utils";
+import {
+  fetchHandler,
+  getPostOptions,
+  getPatchOptions,
+  deleteOptions,
+} from "../utils";
 
 const baseUrl = "/api/comments";
 
@@ -10,7 +15,8 @@ export const getComments = async (id) => {
   return comments || [];
 };
 
-// export const getRequest = async (id) => fetchHandler(`${baseUrl}/${id}`);
+export const deleteComment = async (id) =>
+  fetchHandler(`${baseUrl}/${id}`, deleteOptions);
 
 export const updateComment = async ({ id, user_id, content }) =>
   fetchHandler(`${baseUrl}/${id}`, getPatchOptions({ user_id, content }));

@@ -24,9 +24,8 @@ export default function App() {
       <SiteHeadingAndNav />
       <main>
         <Routes>
-         
-          <Route path="/" element={<Home />} /> 
-          
+          <Route path="/" element={<Home />} />
+          <Route path="/:id" element={<Home />} />
           <Route path="/new-question" element={<QuestionsPage />} />
           <Route path="/requests/:id" element={<Request />} />
           <Route path="/login" element={<LoginPage />} />
@@ -35,7 +34,6 @@ export default function App() {
           <Route path="/users" element={<UsersPage />} />
           <Route path="/users/:id" element={<UserPage />} />
           <Route path="*" element={<NotFoundPage />} />
-          
         </Routes>
       </main>
     </>

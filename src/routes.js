@@ -16,13 +16,13 @@ Router.get("/users/:id/requests", requestController.showMe);
 Router.patch("/users/:id", checkAuthentication, userController.update);
 
 Router.post("/requests/", requestController.create);
-Router.get("/requests/", requestController.list);
+Router.get("/requests/home/:id", requestController.list);
 Router.get("/requests/:id", requestController.show);
 
 Router.post("/comments", commentsController.create);
 Router.get("/comments/request/:id", commentsController.list);
-// Router.patch("/comments/:id", commentsController.update);
 Router.patch("/comments/:id", checkAuthentication, commentsController.update);
+Router.delete("/comments/:id", commentsController.deletion);
 
 Router.get("/invite-all", inviteController.listAll);
 Router.post("/invite",inviteController.create);

@@ -20,7 +20,6 @@ export default function UserPage() {
       if (error) return setErrorText(error.statusText);
       setUserProfile(user);
     };
-
     loadUser();
   }, [id]);
 

@@ -3,6 +3,7 @@ const listComments = async (req, res) => {
     db: { Comment },
     params: { id },
   } = req;
+
   const comments = await Comment.list(id);
   res.send(comments);
 };

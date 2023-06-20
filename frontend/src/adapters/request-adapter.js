@@ -19,16 +19,9 @@ export const createRequests = async ({
       q5_additional,
     })
   );
-//postman
-// {
-//   "q1_disability_info": "sdasad",
-//   "q2_functional_requirements": "sdasad",
-//   "q3_physical_specifications": "sdasad",
-//   "q4_lifestyle_usage": "sdasad",
-//   "q5_additional": "sdasad"
-// }
-export const getAllRequests = async () => {
-  const [requests] = await fetchHandler(baseUrl);
+
+export const getFirstThree = async (id) => {
+  const [requests] = await fetchHandler(`${baseUrl}/home/${id}`);
   return requests || [];
 };
 

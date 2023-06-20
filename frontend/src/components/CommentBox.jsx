@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import CurrentUserContext from "../contexts/current-user-context";
 import CommentDeleteEdit from "../components/CommentDeleteEdit";
 
-export default function CommentBox({ comment }) {
+export default function CommentBox({ comment, setComments, request_id }) {
   const { currentUser } = useContext(CurrentUserContext);
   const [commentContent, setCommentContent] = useState(`${comment.content}`);
 
@@ -20,6 +20,8 @@ export default function CommentBox({ comment }) {
             currentUser={currentUser}
             comment={comment}
             setCommentContent={setCommentContent}
+            setComments={setComments}
+            request_id={request_id}
           ></CommentDeleteEdit>
         </>
       ) : (

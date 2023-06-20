@@ -63,10 +63,11 @@ class Request {
       return null;
     }
   }
-  static async list() {
+  static async list(page) {
     try {
-      const query = `SELECT * FROM requests`;
-      const { rows } = await knex.raw(query);
+      page = (Number(page) - 1) * 3;
+      const query = `SELECT * FROM requests OFFSET ? ROWS LIMIT 3`;
+      const { rows } = await knex.raw(query, [page]);
       return rows.map((request) => new Request(request));
     } catch (err) {
       console.error(err);

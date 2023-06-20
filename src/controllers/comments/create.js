@@ -5,8 +5,7 @@ const createComment = async (req, res) => {
     body: { request_id, content, is_public },
   } = req;
   if (!session.userId) {
-    res.send(401);
-    return;
+    return res.sendStatus(401);
   }
   const comment = await Comment.createComment(
     request_id,
