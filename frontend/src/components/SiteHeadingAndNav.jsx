@@ -4,7 +4,6 @@ import CurrentUserContext from "../contexts/current-user-context";
 
 export default function SiteHeadingAndNav() {
   const { currentUser } = useContext(CurrentUserContext);
-
   return (
     <header>
       <a id="logo" href="/">
@@ -21,13 +20,21 @@ export default function SiteHeadingAndNav() {
             </NavLink>
           </li>
           <li>
-          <NavLink to="/About-us">About Us</NavLink>
+            <NavLink to="/About-us">About Us</NavLink>
           </li>
-          {currentUser ? (
+          {currentUser && currentUser.is_fabricator === false ? (
             <>
               <li>
                 <NavLink to="/new-question">Request</NavLink>
               </li>
+              <li>
+                <NavLink to={`/users/${currentUser.id}`}>
+                  {currentUser.username}
+                </NavLink>
+              </li>
+            </>
+          ) : currentUser ? (
+            <>
               <li>
                 <NavLink to={`/users/${currentUser.id}`}>
                   {currentUser.username}

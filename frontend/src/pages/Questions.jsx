@@ -7,6 +7,8 @@ export default function QuestionsPage() {
   const navigate = useNavigate();
   const { currentUser } = useContext(CurrentUserContext);
 
+  if (currentUser && currentUser.is_fabricator === true)
+    return <Navigate to="/" />;
   if (currentUser === null) return <Navigate to="/sign-up" />;
 
   const [request, setRequest] = useState({
@@ -72,6 +74,7 @@ export default function QuestionsPage() {
           name="q1_disability_info"
           onChange={onChange}
           className="form-input"
+          required
         />
         <br />
 
