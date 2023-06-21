@@ -1,26 +1,6 @@
 import React from "react";
 
-const ProgressBar = ({ percentage }) => {
-  const getStatusStyles = (status) => {
-    const statusStyles = {
-      Active: {
-        color: "#ff9800",
-        progress: 30,
-      },
-      In_progress: {
-        color: "#2196f3",
-        progress: 50,
-      },
-      Done: {
-        color: "#4caf50",
-        progress: 100,
-      },
-    };
-    return statusStyles[status] || statusStyles.Active;
-  };
-
-  const { color, progress } = getStatusStyles(percentage);
-
+const ProgressBar = ({ color, progress }) => {
   const containerStyles = {
     height: 20,
     width: "100%",
