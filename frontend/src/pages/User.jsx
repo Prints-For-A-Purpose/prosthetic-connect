@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import CurrentUserContext from "../contexts/current-user-context";
 import { getUser, getUserRequests } from "../adapters/user-adapter";
+import { homePagination } from "../adapters/request-adapter";
 import { logUserOut } from "../adapters/auth-adapter";
 import UpdateUsernameForm from "../components/UpdateUsernameForm";
 import RequestBox from "../components/RequestBox";
@@ -30,6 +31,7 @@ export default function UserPage() {
   const handleLogout = async () => {
     logUserOut();
     setCurrentUser(null);
+    const newFeed = await homePagination(1);
     navigate("/");
   };
 

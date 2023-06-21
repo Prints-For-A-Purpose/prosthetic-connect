@@ -10,19 +10,19 @@ const Router = express.Router();
 Router.use(addModels);
 
 Router.get("/users", userController.list);
-Router.post("/users", userController.create);
 Router.get("/users/:id", userController.show);
 Router.get("/users/:id/requests", requestController.showMe);
+Router.post("/users", userController.create);
 Router.patch("/users/:id", checkAuthentication, userController.update);
 
-Router.post("/requests/", requestController.create);
 Router.get("/requests/home/:id", requestController.list);
 Router.get("/requests/:id", requestController.show);
-Router.delete("/requests/:id", requestController.deletion);
-Router.patch("/requests/:id", requestController.update);
+Router.post("/requests/", checkAuthentication, requestController.create);
+Router.delete("/requests/:id", checkAuthentication, requestController.deletion);
+Router.patch("/requests/:id", checkAuthentication, requestController.update);
 
-Router.post("/comments", commentsController.create);
 Router.get("/comments/request/:id/:page", commentsController.list);
+Router.post("/comments", checkAuthentication, commentsController.create);
 Router.patch("/comments/:id", checkAuthentication, commentsController.update);
 Router.delete(
   "/comments/:id",

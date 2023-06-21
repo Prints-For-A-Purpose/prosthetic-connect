@@ -4,7 +4,6 @@ const createRequest = async (req, res) => {
   const {
     session,
     db: { Request },
-    // body: { details, requirement, specifications, daily_routine, additional_requests },
     body: {
       q1_disability_info,
       q2_functional_requirements,
@@ -14,11 +13,15 @@ const createRequest = async (req, res) => {
     },
   } = req;
 
-  if (!session.userId) {
+  if (!session.userId) return res.sendStatus(401);
+
+  if (
+    typeof session.is_fabricator === "boolean" &&
+    session.is_fabricator === true
+  ) {
     return res.sendStatus(401);
   }
 
-  //on submit sends the questionnaire data to db
   const request_status = "Active";
   const user_id = session.userId;
 

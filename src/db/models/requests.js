@@ -63,6 +63,7 @@ class Request {
       return null;
     }
   }
+
   static async list(page, is_fabricator) {
     try {
       page = (Number(page) - 1) * 3;
@@ -121,10 +122,10 @@ class Request {
       const query1 = `DELETE FROM invitations WHERE request_id = ?;`;
       const query2 = `DELETE FROM comments WHERE request_id = ?`;
       const query3 = `DELETE FROM requests WHERE id = ?`;
-      const { rowCount: count1 } = await knex.raw(query1, [request_id]);
-      const { rowCount: count2 } = await knex.raw(query2, [request_id]);
-      const { rowCount: count3 } = await knex.raw(query3, [request_id]);
-      return count3;
+      const deletedInvitations = await knex.raw(query1, [request_id]);
+      const deletedComments = await knex.raw(query2, [request_id]);
+      const { rowCount: count } = await knex.raw(query3, [request_id]);
+      return count;
     } catch (err) {
       console.error(err);
       return null;

@@ -3,24 +3,24 @@ import ProgressBar from "./ProgressBar";
 
 export default function RequestBox({ request }) {
   const { request_status } = request;
-  
+
   const progressStatus = {
-    "Active": {
+    Active: {
       color: "#ff9800",
       progress: 30,
     },
-    "In_progress": {
+    In_progress: {
       color: "#2196f3",
       progress: 50,
     },
-    "Done": {
+    Done: {
       color: "#4caf50",
       progress: 100,
     },
   };
 
-  const { color, progress } = progressStatus[request_status] || progressStatus.Active;
-  console.log({ progressStatus: progressStatus[request_status], request});
+  const { color, progress } =
+    progressStatus[request_status] || progressStatus.Active;
 
   return (
     <div className="request-container">

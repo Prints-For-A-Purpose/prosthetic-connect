@@ -26,7 +26,6 @@ const updateRequest = async (req, res) => {
   );
   if (!update) return res.sendStatus(404);
 
-  //   const updatedUser = await user.update(username);
   return res.sendStatus(202);
 };
 

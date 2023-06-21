@@ -17,13 +17,8 @@ export default function HomePage() {
 
   useEffect(() => {
     const loadRequest = async () => {
-      // if (fabFeed) {
       const newFeed = await homePagination(page);
       setRequests(newFeed);
-      // } else {
-      //   const newFeed = await homePaginationForRecipient(page);
-      //   setRequests(newFeed);
-      // }
     };
     loadRequest();
   }, [page]);
