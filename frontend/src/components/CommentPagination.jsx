@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { getComments } from "../adapters/comments-adapter";
 
-export default function CommentPagination({ id, setComments, request_id }) {
+export default function CommentPagination({ id, setComments }) {
   const [n, setN] = useState(1);
 
   let l = Math.floor(n / 7) * 7 + 1;

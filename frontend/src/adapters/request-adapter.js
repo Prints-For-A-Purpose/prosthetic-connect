@@ -25,7 +25,7 @@ export const createRequests = async ({
     })
   );
 
-export const getFirstThree = async (id) => {
+export const homePagination = async (id) => {
   const [requests] = await fetchHandler(`${baseUrl}/home/${id}`);
   return requests || [];
 };

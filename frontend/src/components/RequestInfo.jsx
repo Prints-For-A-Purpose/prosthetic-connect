@@ -74,7 +74,11 @@ export default function RequestInfo({ request, currentUser }) {
 
   return (
     <>
-      {authorized && <button onClick={deleteReq}>Delete</button>}
+      {authorized && (
+        <button onClick={deleteReq} style={buttonVisibility}>
+          Delete
+        </button>
+      )}
       {authorized && (
         <button onClick={showForm} style={buttonVisibility}>
           Edit

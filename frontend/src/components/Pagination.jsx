@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 export default function PaginationBox() {
   let { id } = useParams();
-  let page = id ? Number(id) : 1;
+  let page = !!id ? Number(id) : 1;
   const navigate = useNavigate();
 
   const [n, setN] = useState(page);

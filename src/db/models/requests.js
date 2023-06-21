@@ -63,15 +63,32 @@ class Request {
       return null;
     }
   }
-  static async list(page) {
+  static async list(page, is_fabricator) {
     try {
       page = (Number(page) - 1) * 3;
-      const query = `SELECT * 
-      FROM requests 
+      const query =
+        typeof is_fabricator === "boolean" && is_fabricator === true
+          ? `SELECT * 
+      FROM requests
+      WHERE request_status = 'Active'
       ORDER BY 
       created_at DESC
       OFFSET ? 
-      ROWS LIMIT 4`;
+      ROWS LIMIT 4`
+          : typeof is_fabricator === "boolean" && is_fabricator === false
+          ? `SELECT * 
+          FROM requests 
+          ORDER BY 
+          created_at DESC
+          OFFSET ? 
+          ROWS LIMIT 4`
+          : `SELECT * 
+          FROM requests
+          WHERE request_status = 'Done' 
+          ORDER BY 
+          created_at DESC
+          OFFSET ? 
+          ROWS LIMIT 4`;
       const { rows } = await knex.raw(query, [page]);
       return rows.map((request) => new Request(request));
     } catch (err) {
