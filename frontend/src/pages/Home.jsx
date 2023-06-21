@@ -10,11 +10,26 @@ export default function HomePage() {
   let page = id ? Number(id) : 1;
 
   const [requests, setRequests] = useState([]);
+  const [filteredRequests, setFilteredRequests] = useState([]);
+  const [searchKeyword, setSearchKeyword] = useState('');
+
 
   useEffect(() => {
     getFirstThree(page).then(setRequests);
   }, [page]);
 
+  useEffect(() => {
+    if (searchKeyword) {
+      const filtered = requests.filter(request =>
+        Object.values(request).some(value =>
+          typeof value === 'string' && value.toLowerCase().includes(searchKeyword.toLowerCase())
+        )
+      );
+      setFilteredRequests(filtered);
+    } else {
+      setFilteredRequests(requests);
+    }
+  }, [searchKeyword, requests]);
   return (
     <>
       <h1 style={{
@@ -26,10 +41,18 @@ export default function HomePage() {
 }}
 
 >Home</h1>
+<div className="search-bar">
+      <input
+        type="text"
+        value={searchKeyword}
+        onChange={e => setSearchKeyword(e.target.value)}
+        placeholder="Search..."
+      />
+    </div>
       <div className="homediv">
-        {requests.map((request) => (
-          <RequestBox key={request.id} request={request} />
-        ))}
+      {filteredRequests.map(request => (
+        <RequestBox key={request.id} request={request} />
+      ))}
       </div>
       <Pagination></Pagination>
     </>
