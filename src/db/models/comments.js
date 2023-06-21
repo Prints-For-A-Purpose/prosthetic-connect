@@ -66,10 +66,6 @@ class Comment {
     }
   }
 
-  //   static async deleteAll() {
-  //     return knex.raw("TRUNCATE users;");
-  //   }DELETE FROM table_name WHERE condition
-
   update = async (content) => {
     const [updatedContent] = await knex("comments")
       .where({ id: this.id })

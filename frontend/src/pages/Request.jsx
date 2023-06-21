@@ -9,8 +9,10 @@ import CommentBox from "../components/CommentBox";
 import { getRequest } from "../adapters/request-adapter";
 import { getUser } from "../adapters/user-adapter";
 import { getComments } from "../adapters/comments-adapter";
+
 import NewComment from "../components/NewComment";
 import CommentPagination from "../components/CommentPagination";
+import RequestInfo from "../components/RequestInfo";
 
 export default function Request() {
   const { currentUser } = useContext(CurrentUserContext);
@@ -46,33 +48,7 @@ export default function Request() {
       </h2>
       <p>{request.timestamp}</p>
       <h3>Status: {request.request_status}</h3>
-      <div>
-        <h4>
-          Can you provide a description of your specific disability, condition,
-          or need for which the 3D-printed item is required?
-        </h4>
-        <p>{request.q1_disability_info}</p>
-        <h4>
-          What are the desired functionalities or features you would like the
-          3D-printed item to have?
-        </h4>
-        <p>{request.q2_functional_requirements}</p>
-        <h4>
-          What measurements or specifications are needed to ensure a comfortable
-          and secure fit of the 3D-printed item?
-        </h4>
-        <p>{request.q3_physical_specifications}</p>
-        <h4>
-          Could you provide relevant details about your daily routine,
-          lifestyle, or specific use cases for the 3D-printed item?
-        </h4>
-        <p>{request.q4_lifestyle_usage}</p>
-        <h4>
-          Do you have any other specific requests, concerns, or preferences that
-          would help us create a tailored and suitable 3D-printed item for you?
-        </h4>
-        <p>{request.q5_additional || "N/A"}</p>
-      </div>
+      <RequestInfo request={request} currentUser={currentUser}></RequestInfo>
       <div>
         <h3>Comments</h3>
         {comments.map((com) => (

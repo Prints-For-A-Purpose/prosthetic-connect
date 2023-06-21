@@ -31,7 +31,7 @@ export default function NewComment({ request, setComments, id }) {
   return (
     <form onSubmit={handleSubmit}>
       <label htmlFor="content">New Comment</label>
-      <input
+      <textarea
         type="text"
         autoComplete="off"
         id="content"
@@ -39,7 +39,7 @@ export default function NewComment({ request, setComments, id }) {
         onChange={handleChange}
         value={content}
         required
-      ></input>
+      ></textarea>
       <button>Submit Comment</button>
     </form>
   );

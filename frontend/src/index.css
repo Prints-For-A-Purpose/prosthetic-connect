@@ -5,11 +5,11 @@ body {
   color: white;
 }
 
-input, label {
+input, label, textarea {
   display: block;
 }
 
-input {
+input, textarea{
   margin-bottom: 1rem;
 }
 
@@ -70,7 +70,7 @@ nav a {
   color: #555;
 }
 
-.signup-form input {
+.signup-form input textarea{
   width: 100%;
   padding: 0.8rem;
   border: none;
@@ -142,7 +142,7 @@ nav a {
   color: #555;
 }
 
-.login-form input {
+.login-form input textarea{
   width: 100%;
   padding: 0.8rem;
   border: none;
