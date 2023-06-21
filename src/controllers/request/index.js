@@ -1,20 +1,15 @@
-const create = require('./create');
-
+const create = require("./create");
 const list = require("./list");
 const show = require("./show");
-// const update = require('./update');
-
-// const login = require('./login');
-// const logout = require('./logout');
+const update = require("./update");
 const showMe = require("./show-me");
+const deletion = require("./deletion");
 
 module.exports = {
   list,
   create,
   show,
-  //   update,
-
-  //   login,
-  //   logout,
+  update,
+  deletion,
   showMe,
 };

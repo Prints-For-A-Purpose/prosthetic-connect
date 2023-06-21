@@ -60,7 +60,7 @@ export default function CommentDeleteEdit({
       </button>
       <form onSubmit={handleSubmit} style={formVisibility}>
         <label htmlFor="content">Edit Comment</label>
-        <input
+        <textarea
           type="text"
           id="content"
           name="content"

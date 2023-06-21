@@ -18,11 +18,17 @@ Router.patch("/users/:id", checkAuthentication, userController.update);
 Router.post("/requests/", requestController.create);
 Router.get("/requests/home/:id", requestController.list);
 Router.get("/requests/:id", requestController.show);
+Router.delete("/requests/:id", requestController.deletion);
+Router.patch("/requests/:id", requestController.update);
 
 Router.post("/comments", commentsController.create);
 Router.get("/comments/request/:id/:page", commentsController.list);
 Router.patch("/comments/:id", checkAuthentication, commentsController.update);
-Router.delete("/comments/:id", commentsController.deletion);
+Router.delete(
+  "/comments/:id",
+  checkAuthentication,
+  commentsController.deletion
+);
 
 Router.get("/invite-all", inviteController.listAll);
 Router.post("/invite", inviteController.create);

@@ -9,7 +9,7 @@ export default function CommentBox({ comment, setComments, request_id }) {
 
   return (
     <>
-      {currentUser.id === comment.user_id ? (
+      {currentUser && currentUser.id === comment.user_id ? (
         <>
           <p>
             <Link to={`/users/${comment.user_id}`}>{comment.username}</Link>

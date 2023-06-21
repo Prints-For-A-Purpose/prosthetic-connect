@@ -4,6 +4,10 @@ const showUser = async (req, res) => {
     params: { id },
   } = req;
 
+  if (!Number.isInteger(+id)) {
+    return res.sendStatus(404);
+  }
+
   const user = await User.find(id);
   if (!user) return res.sendStatus(404);
 
