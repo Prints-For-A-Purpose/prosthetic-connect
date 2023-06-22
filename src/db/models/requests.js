@@ -104,19 +104,6 @@ class Request {
     return rows.map((request) => new Request(request));
   }
 
-  updateStatus = async (request_status) => {
-    try {
-      const [updatedRequest] = await knex("requests")
-        .where({ id: this.id })
-        .update({ request_status })
-        .returning("*");
-      return updatedRequest ? new Request(updatedRequest) : null;
-    } catch (err) {
-      console.error(err);
-      return null;
-    }
-  };
-
   static async deleteRequest(request_id) {
     try {
       const query1 = `DELETE FROM invitations WHERE request_id = ?;`;
@@ -145,6 +132,19 @@ class Request {
         q5,
         id,
       ]);
+      return count ? count : null;
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
+  }
+
+  static async updateStatus(id, request_status) {
+    try {
+      const query = `UPDATE requests
+        SET request_status = ?
+        WHERE id = ?`;
+      const { rowCount: count } = await knex.raw(query, [request_status, id]);
       return count ? count : null;
     } catch (err) {
       console.error(err);

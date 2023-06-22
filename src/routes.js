@@ -20,6 +20,11 @@ Router.get("/requests/:id", requestController.show);
 Router.post("/requests/", checkAuthentication, requestController.create);
 Router.delete("/requests/:id", checkAuthentication, requestController.deletion);
 Router.patch("/requests/:id", checkAuthentication, requestController.update);
+Router.patch(
+  "/requests/edit/:id",
+  checkAuthentication,
+  requestController.updateStatus
+);
 
 Router.get("/comments/request/:id/:page", commentsController.list);
 Router.post("/comments", checkAuthentication, commentsController.create);
