@@ -9,7 +9,7 @@ import CommentBox from "../components/CommentBox";
 import { getRequest } from "../adapters/request-adapter";
 import { getUser } from "../adapters/user-adapter";
 import { getComments } from "../adapters/comments-adapter";
-import { formatTimestamp } from "../utils"
+import { formatTimestamp } from "../utils";
 
 import NewComment from "../components/NewComment";
 import CommentPagination from "../components/CommentPagination";
@@ -25,20 +25,20 @@ export default function Request() {
   const [status, setStatus] = useState("");
   const { id } = useParams();
 
-  const progressStatus = {
-    Active: {
-      color: "#ff9800",
-      progress: 30,
-    },
-    In_progress: {
-      color: "#2196f3",
-      progress: 50,
-    },
-    Done: {
-      color: "#4caf50",
-      progress: 100,
-    },
-  };
+  // const progressStatus = {
+  //   Active: {
+  //     color: "#ff9800",
+  //     progress: 30,
+  //   },
+  //   In_progress: {
+  //     color: "#2196f3",
+  //     progress: 50,
+  //   },
+  //   Done: {
+  //     color: "#4caf50",
+  //     progress: 100,
+  //   },
+  // };
 
   useEffect(() => {
     const loadRequest = async () => {
@@ -55,12 +55,10 @@ export default function Request() {
     loadRequest();
   }, [id]);
 
-  const { color, progress } = progressStatus[status] || progressStatus.Active;
+  // const { color, progress } = progressStatus[status] || progressStatus.Active;
 
   if (!request && !errorText && !username) return null;
   if (errorText) return <p>{errorText}</p>;
-
-
 
   return (
     <>
@@ -71,7 +69,6 @@ export default function Request() {
       </h2>
       <p>{formatTimestamp(request.timestamp)}</p>
       <h3>Status: {request.request_status}</h3>
-      <ProgressBar color={color} progress={progress} />
       <RequestInfo request={request} currentUser={currentUser}></RequestInfo>
       <div>
         <h3>Comments</h3>

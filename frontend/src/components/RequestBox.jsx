@@ -6,21 +6,21 @@ export default function RequestBox({ request }) {
   const { request_status } = request;
 
   const progressStatus = {
-    "Active": {
-      color: "#ff9800",
-      progress: 30,
+    Active: {
+      newColor: "#ff9800",
+      newProgress: 30,
     },
-    "In_progress": {
-      color: "#2196f3",
-      progress: 50,
+    In_progress: {
+      newColor: "#2196f3",
+      newProgress: 50,
     },
-    "Done": {
-      color: "#4caf50",
-      progress: 100,
+    Done: {
+      newColor: "#4caf50",
+      newProgress: 100,
     },
   };
 
-  const { color, progress } =
+  const { newColor, newProgress } =
     progressStatus[request_status] || progressStatus.Active;
 
   return (
@@ -38,7 +38,7 @@ export default function RequestBox({ request }) {
           <h2>Intended Usage:</h2>
           <p>{request.q4_lifestyle_usage}</p>
         </div>
-        <ProgressBar color={color} progress={progress} />
+        <ProgressBar newColor={newColor} newProgress={newProgress} />
       </div>
     </div>
   );

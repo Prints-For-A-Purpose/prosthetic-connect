@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-const ProgressBar = ({ color, progress }) => {
+const ProgressBar = ({ newColor, newProgress }) => {
   const [containerStyles, setContainerStyles] = useState({
     height: 20,
     width: "100%",
@@ -11,8 +11,8 @@ const ProgressBar = ({ color, progress }) => {
 
   const [fillerStyles, setFillerStyles] = useState({
     height: "100%",
-    width: `${progress}%`,
-    backgroundColor: color,
+    width: `${newProgress}%`,
+    backgroundColor: newColor,
     borderRadius: "inherit",
     textAlign: "right",
   });
@@ -26,7 +26,7 @@ const ProgressBar = ({ color, progress }) => {
   return (
     <div style={containerStyles}>
       <div style={fillerStyles}>
-        <span style={labelStyles}>{`${progress}%`}</span>
+        <span style={labelStyles}>{`${newProgress}%`}</span>
       </div>
     </div>
   );

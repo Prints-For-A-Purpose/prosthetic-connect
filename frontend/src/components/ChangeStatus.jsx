@@ -1,6 +1,7 @@
 // import { useNavigate } from "react-router-dom";
 import { moveStatusProgress } from "../adapters/request-adapter";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import ProgressBar from "../components/ProgressBar";
 
 export default function ChangeStatus({ request_status, request_id }) {
   // const navigate = useNavigate();
@@ -22,17 +23,37 @@ export default function ChangeStatus({ request_status, request_id }) {
     });
   };
 
+  const progressStatus = {
+    Active: {
+      color: "#ff9800",
+      progress: 30,
+    },
+    In_progress: {
+      color: "#2196f3",
+      progress: 50,
+    },
+    Done: {
+      color: "#4caf50",
+      progress: 100,
+    },
+  };
+
+  const [newColor, setColor] = useState(progressStatus[request_status].color);
+  const [newProgress, setNewProgress] = useState(
+    progressStatus[request_status].progress
+  );
+
   const handleSelectSubmit = async (event) => {
     event.preventDefault();
     const results = await moveStatusProgress(request_id, newStatus);
+    setColor(progressStatus[newStatus].color);
+    setNewProgress(progressStatus[newStatus].progress);
     window.location.reload(false);
-    // Progress bar does not use 'useState'
-    // For right now in order to be able to changes we have to reload
-    // Progress bar has to be refactored
   };
 
   return (
     <>
+      <ProgressBar newColor={newColor} newProgress={newProgress} />
       <button style={selectButtonVisibility} onClick={showSelect}>
         Move Progress
       </button>
