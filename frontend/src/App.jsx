@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect,useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import SignUpPage from "./pages/SignUp";
@@ -15,14 +15,25 @@ import AboutUs from "./pages/Aboutus";
 
 export default function App() {
   const { setCurrentUser } = useContext(UserContext);
+  const [isDarkMode, setIsDarkMode] = useState(true);
+
+  const toggleTheme = () => {
+    setIsDarkMode(prevMode => !prevMode);
+  };
+
   useEffect(() => {
     checkForLoggedInUser().then(setCurrentUser);
   }, [setCurrentUser]);
-
+  const themeClass = isDarkMode ? "dark" : "light";
   return (
     <>
-      <SiteHeadingAndNav />
-      <main>
+    <div className={`site-heading-and-nav ${themeClass}`}>
+        <SiteHeadingAndNav />
+      </div>
+      <main className={`app ${themeClass}`}>
+        <button onClick={toggleTheme}>
+          dark/light Mode
+        </button>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/:id" element={<Home />} />
