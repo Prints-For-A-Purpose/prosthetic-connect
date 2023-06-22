@@ -1,3 +1,4 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import ProgressBar from "./ProgressBar";
 
@@ -5,15 +6,15 @@ export default function RequestBox({ request }) {
   const { request_status } = request;
 
   const progressStatus = {
-    Active: {
+    "Active": {
       color: "#ff9800",
       progress: 30,
     },
-    In_progress: {
+    "In_progress": {
       color: "#2196f3",
       progress: 50,
     },
-    Done: {
+    "Done": {
       color: "#4caf50",
       progress: 100,
     },
