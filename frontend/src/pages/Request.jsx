@@ -9,6 +9,7 @@ import CommentBox from "../components/CommentBox";
 import { getRequest } from "../adapters/request-adapter";
 import { getUser } from "../adapters/user-adapter";
 import { getComments } from "../adapters/comments-adapter";
+import { formatTimestamp } from "../utils"
 
 import NewComment from "../components/NewComment";
 import CommentPagination from "../components/CommentPagination";
@@ -39,6 +40,8 @@ export default function Request() {
   if (!request && !errorText && !username) return null;
   if (errorText) return <p>{errorText}</p>;
 
+
+
   return (
     <>
       <h1>Request #{request.id}</h1>
@@ -46,7 +49,7 @@ export default function Request() {
         Requested By:{" "}
         <NavLink to={"/users/" + request.user_id}> {username}</NavLink>
       </h2>
-      <p>{request.timestamp}</p>
+      <p>{formatTimestamp(request.timestamp)}</p>
       <h3>Status: {request.request_status}</h3>
       <RequestInfo request={request} currentUser={currentUser}></RequestInfo>
       <div>

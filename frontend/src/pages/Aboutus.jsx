@@ -7,7 +7,7 @@ export default function AboutUs() {
     alignItems: 'center',
     //backgroundColor: '#081f37',
     padding: '2rem',
-    color: '#ffffff',
+    // color: '#ffffff',
     fontFamily: 'Arial, sans-serif',
   };
 
@@ -43,7 +43,7 @@ export default function AboutUs() {
     borderRadius: '8px',
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
     margin: '2rem 0',
-    color: '#ffffff',
+    // color: '#ffffff',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
