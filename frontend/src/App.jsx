@@ -12,6 +12,7 @@ import UserPage from "./pages/User";
 import QuestionsPage from "./pages/Questions";
 import Request from "./pages/Request";
 import AboutUs from "./pages/Aboutus";
+import Donations from "./pages/Donations";
 
 export default function App() {
   const { setCurrentUser } = useContext(UserContext);
@@ -44,6 +45,7 @@ export default function App() {
           <Route path="/About-us" element={<AboutUs />} />
           <Route path="/users" element={<UsersPage />} />
           <Route path="/users/:id" element={<UserPage />} />
+          <Route path="/Donations" element={<Donations />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
