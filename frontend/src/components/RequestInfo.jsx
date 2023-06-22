@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import ChangeStatus from "./ChangeStatus";
 import {
   deleteRequest,
   updateQuestionnaire,
@@ -80,9 +81,18 @@ export default function RequestInfo({ request, currentUser }) {
         </button>
       )}
       {authorized && (
-        <button onClick={showForm} style={buttonVisibility}>
-          Edit
-        </button>
+        <>
+          <button onClick={showForm} style={buttonVisibility}>
+            Edit
+          </button>
+          <br></br>
+        </>
+      )}
+      {authorized && (
+        <ChangeStatus
+          request_status={request.request_status}
+          request_id={request.id}
+        ></ChangeStatus>
       )}
       <form onSubmit={handleSubmit}>
         <h4>

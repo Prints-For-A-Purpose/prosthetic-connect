@@ -53,3 +53,7 @@ export const updateQuestionnaire = async ({
       q5_additional,
     })
   );
+
+export const moveStatusProgress = async (id, request_status) => {
+  fetchHandler(`${baseUrl}/edit/${id}`, getPatchOptions({ request_status }));
+};
