@@ -45,7 +45,19 @@ class Invitation {
       return null;
     }
   }
-  static async showInviteAll(){
+  static async showRequestCount(request_id){
+    try {
+      const query = `SELECT COUNT(*) FROM invitations where request_id = ?`;
+      const { rows } = await knex.raw(query, [request_id]);
+      console.log(rows)
+      return rows
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
+  }
+
+  static async showInviteCount(){
     try {
       const query = `SELECT * FROM invitations`;
       const { rows } = await knex.raw(query);

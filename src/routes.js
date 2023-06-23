@@ -39,6 +39,7 @@ Router.get("/invite-all", inviteController.listAll);
 Router.post("/invite", inviteController.create);
 Router.get("/invite/:id/user", inviteController.showUsersInvites);
 Router.get("/invite/:id/request", inviteController.showRequestsInvite);
+Router.get("/invite/:id/request/count", inviteController.showRequestsCount);
 
 Router.post("/login", userController.login);
 Router.delete("/logout", userController.logout);
