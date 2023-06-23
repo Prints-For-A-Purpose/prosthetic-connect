@@ -2,9 +2,9 @@ import { moveStatusProgress } from "../adapters/request-adapter";
 import { useState } from "react";
 
 export default function ChangeStatus({
-  request_status,
-  request_id,
+  request,
   setStatus,
+  request_id,
   newContent,
   setErrorText,
 }) {
@@ -14,7 +14,36 @@ export default function ChangeStatus({
   const [selectButtonVisibility, setSelectButtonVisibility] = useState({
     display: "inline-block",
   });
+
+  const { request_status } = request;
+
+  const statusDescriptions = {
+    Archived:
+      "Archived posts are only visible to the Recipient. Drafts are also held as archived until the Recipient is ready to publish them publicly.",
+    Pending:
+      "The Recipient's request is currently waiting for enough Fabricators to join.",
+    Planning:
+      "This is the phase of defining goals, requirements, and project scope. It involves the understanding of the Recipient's situation and working together for brainstorming and researching ideas. The Recipient is welcomed to be as proactive as they want through the next coming phases. ",
+    Design:
+      "This stage focuses on the specific design of the product. Mock-ups and visualization of the final outcome are reached here.",
+    Development:
+      "Now the construction of the device is set into motion. 3D printing, assembly, coding, and other technical requirements begin here.",
+    Testing:
+      "Testing phase is used to ensure functionality, quality, and compliance with the Recipient's exact specifications.",
+    Review:
+      "The review stage involves evaluation and feedback gathering. Here is where improvements and modifications are followed through with.",
+    Iteration:
+      "During iteration, multiple rounds of feedback and versions are required for continuous refinement until the instrument is up to par with the original intent.",
+    Documentation:
+      "Providing documentation in this stage is necessary to preserve knowledge for future fabricators and to serve as reference for device maintenance by the Recipient.",
+    Deployment:
+      "In the last phase, delivery and integration of the device from the Fabricator(s) finally reaches the Recipient who needs it. ",
+  };
+
   const [newStatus, setNewStatus] = useState(request_status);
+  const [explanation, setExplanation] = useState(
+    statusDescriptions[request_status]
+  );
 
   const {
     q1_disability_info,
@@ -23,7 +52,10 @@ export default function ChangeStatus({
     q4_lifestyle_usage,
   } = newContent;
 
-  const handleChange = async (event) => setNewStatus(event.target.value);
+  const handleChange = (event) => {
+    setNewStatus(event.target.value);
+    setExplanation(statusDescriptions[event.target.value]);
+  };
 
   const showSelect = () => {
     setSelectFormVisibility({ display: "block" });
@@ -45,7 +77,7 @@ export default function ChangeStatus({
       );
     } else {
       const results = await moveStatusProgress(request_id, newStatus);
-      setStatus(newStatus);
+      await setStatus(newStatus);
     }
   };
 
@@ -57,19 +89,39 @@ export default function ChangeStatus({
       <form style={selectFormVisibility} onSubmit={handleSelectSubmit}>
         <label>Pick a new Status:</label>
         <select onChange={handleChange} defaultValue={newStatus}>
-          <option value="Active" name="Active">
-            Active
-          </option>
-          <option value="In_progress" name="In Progress">
-            In Progress
-          </option>
-          <option value="Done" name="Done">
-            Done
-          </option>
           <option value="Archived" name="Archived">
-            Archive
+            Archived - 0%
+          </option>
+          <option value="Pending" name="Pending">
+            Pending - 5%
+          </option>
+          <option value="Planning" name="Planning">
+            Planning - 10%
+          </option>
+          <option value="Design" name="Design">
+            Design - 30%
+          </option>
+          <option value="Development" name="Development">
+            Development - 50%
+          </option>
+          <option value="Testing" name="Testing">
+            Testing - 70%
+          </option>
+          <option value="Review" name="Review">
+            Review - 80%
+          </option>
+          <option value="Iteration" name="Iteration">
+            Iteration - 90%
+          </option>
+          <option value="Documentation" name="Documentation">
+            Documentation - 95%
+          </option>
+          <option value="Deployment" name="Deployment">
+            Deployment - 100%
           </option>
         </select>
+        <br></br>
+        <p>{explanation}</p>
         <input type="submit" value="Change Status"></input>
       </form>
     </>

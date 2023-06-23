@@ -18,6 +18,7 @@ export default function UserPage() {
   const [errorText, setErrorText] = useState(null);
   const { id } = useParams();
   const isCurrentUserProfile = currentUser && currentUser.id === Number(id);
+  console.log(isCurrentUserProfile);
   useEffect(() => {
     const loadUser = async () => {
       const [user, error] = await getUser(id);
@@ -67,7 +68,7 @@ export default function UserPage() {
           setCurrentUser={setCurrentUser}
         />
       )}
-      {!!isCurrentUserProfile && (
+      {!!isCurrentUserProfile && role === "Fabricator" && (
         <DonationForm
           id={id}
           setUserProfile={setUserProfile}
@@ -82,13 +83,7 @@ export default function UserPage() {
         ></DonateButton>
       )}
       <h2>{userProfile.is_fabricator ? "Working On" : "Needs Help With"}</h2>
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "nowrap",
-          justifyContent: "center",
-        }}
-      >
+      <div>
         {userRequests.map((request) => (
           <div key={request.id}>
             <RequestBox request={request} />

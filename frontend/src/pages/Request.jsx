@@ -17,13 +17,13 @@ import RequestInfo from "../components/RequestInfo";
 import ProgressBar from "../components/ProgressBar";
 
 export default function Request() {
+  const { id } = useParams();
   const { currentUser } = useContext(CurrentUserContext);
   const [request, setRequest] = useState(null);
-  const [username, setUsername] = useState(null);
-  const [comments, setComments] = useState([]);
   const [errorText, setErrorText] = useState(null);
-  const [status, setStatus] = useState("Active");
-  const { id } = useParams();
+  const [username, setUsername] = useState(null);
+  const [status, setStatus] = useState("");
+  const [comments, setComments] = useState([]);
 
   useEffect(() => {
     const loadRequest = async () => {
@@ -32,13 +32,12 @@ export default function Request() {
       setRequest(data);
       const allComments = await getComments(id, 1);
       setComments(allComments);
-      const user = await getUser(data.user_id);
-      const [{ username }] = user;
-      setUsername(username);
-      setStatus(data.request_status);
+      const user = await getUser(request.user_id);
+      setUsername(user.username);
+      setStatus(request.request_status);
     };
     loadRequest();
-  }, [id]);
+  }, [status]);
 
   if (!request && !errorText && !username) return null;
   if (errorText) return <p>{errorText}</p>;
@@ -52,10 +51,11 @@ export default function Request() {
       </h2>
       <p>{formatTimestamp(request.timestamp)}</p>
       <h3>Status: {request.request_status}</h3>
-      <ProgressBar status={status}></ProgressBar>
+      <ProgressBar request={request}></ProgressBar>
       <RequestInfo
         request={request}
         currentUser={currentUser}
+        // status={status}
         setStatus={setStatus}
         setErrorText={setErrorText}
       ></RequestInfo>

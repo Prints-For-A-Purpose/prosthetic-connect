@@ -18,7 +18,7 @@ export default function RequestBox({ request }) {
           <h2>Intended Usage:</h2>
           <p>{request.q4_lifestyle_usage}</p>
         </div>
-        <ProgressBar status={request.request_status} />
+        <ProgressBar request={request} />
       </div>
     </div>
   );
