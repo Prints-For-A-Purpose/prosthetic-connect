@@ -23,7 +23,7 @@ const createRequest = async (req, res) => {
     return res.sendStatus(401);
   }
 
-  const request_status = draft ? "Archived" : "Active";
+  const request_status = draft ? "Archived" : "Pending";
   const user_id = session.userId;
 
   const newRequest = await Request.createRequests(

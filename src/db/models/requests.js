@@ -71,7 +71,7 @@ class Request {
         typeof is_fabricator === "boolean" && is_fabricator === true
           ? `SELECT * 
       FROM requests
-      WHERE request_status = 'Active'
+      WHERE request_status = 'Pending'
       ORDER BY 
       created_at DESC
       OFFSET ? 
@@ -86,7 +86,7 @@ class Request {
           ROWS LIMIT 4`
           : `SELECT * 
           FROM requests
-          WHERE request_status = 'Done' 
+          WHERE request_status = 'Deployment' 
           ORDER BY 
           created_at DESC
           OFFSET ? 
