@@ -7,6 +7,7 @@ import {
 import { useState } from "react";
 
 export default function RequestInfo({
+  // status,
   request,
   currentUser,
   setStatus,
@@ -42,6 +43,21 @@ export default function RequestInfo({
     display: "inline-block",
   });
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    let formData = await new FormData(event.target);
+    formData = Object.fromEntries(formData.entries());
+    formData.id = request.id;
+    const updatedQuestions = await updateQuestionnaire(formData);
+    setFormVisibility({ display: "none" });
+    setButtonVisibility({
+      display: "inline-block",
+    });
+    setNewContent({
+      ...edit,
+    });
+  };
+
   const deleteReq = async () => {
     const results = await deleteRequest(request.id);
     return navigate(`/users/${currentUser.id}`);
@@ -58,21 +74,6 @@ export default function RequestInfo({
     setEdit({
       ...edit,
       [event.target.name]: event.target.value,
-    });
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    let formData = new FormData(event.target);
-    formData = Object.fromEntries(formData.entries());
-    formData.id = request.id;
-    const updatedQuestions = await updateQuestionnaire(formData);
-    setFormVisibility({ display: "none" });
-    setButtonVisibility({
-      display: "inline-block",
-    });
-    setNewContent({
-      ...edit,
     });
   };
 
@@ -95,7 +96,7 @@ export default function RequestInfo({
       )}
       {authorized && (
         <ChangeStatus
-          request_status={request.request_status}
+          request={request}
           request_id={request.id}
           setStatus={setStatus}
           newContent={newContent}
