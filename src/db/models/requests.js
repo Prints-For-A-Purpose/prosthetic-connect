@@ -79,6 +79,7 @@ class Request {
           : typeof is_fabricator === "boolean" && is_fabricator === false
           ? `SELECT * 
           FROM requests 
+          WHERE NOT request_status = 'Archived'
           ORDER BY 
           created_at DESC
           OFFSET ? 

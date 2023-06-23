@@ -87,7 +87,6 @@ export default function SignUpPage() {
             onChange={handleChange}
           />
         </label>
-
         <button>Sign Up Now!</button>
         <p>
           Already have an account with us? <Link to="/login">Log in!</Link>

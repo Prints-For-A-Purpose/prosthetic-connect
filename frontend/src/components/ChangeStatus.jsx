@@ -47,9 +47,9 @@ export default function ChangeStatus({
           <option value="Done" name="Done">
             Done
           </option>
-          {/* <option value="Archive" name="Archive">
+          <option value="Archived" name="Archived">
             Archive
-          </option> */}
+          </option>
         </select>
         <input type="submit" value="Change Status"></input>
       </form>

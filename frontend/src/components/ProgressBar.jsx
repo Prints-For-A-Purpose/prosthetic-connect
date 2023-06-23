@@ -14,6 +14,10 @@ const ProgressBar = ({ status }) => {
       color: "#4caf50",
       progress: 100,
     },
+    Archived: {
+      color: "#ff1100",
+      progress: 10,
+    },
   };
 
   const { color, progress } = progressStatus[status] || progressStatus.Active;

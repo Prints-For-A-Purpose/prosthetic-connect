@@ -10,8 +10,11 @@ const createRequest = async (req, res) => {
       q3_physical_specifications,
       q4_lifestyle_usage,
       q5_additional,
+      draft,
     },
   } = req;
+
+  console.log(draft);
 
   if (!session.userId) return res.sendStatus(401);
 
@@ -22,7 +25,7 @@ const createRequest = async (req, res) => {
     return res.sendStatus(401);
   }
 
-  const request_status = "Active";
+  const request_status = draft ? "Archived" : "Active";
   const user_id = session.userId;
 
   const newRequest = await Request.createRequests(

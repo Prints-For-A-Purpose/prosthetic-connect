@@ -13,6 +13,7 @@ export const createRequests = async ({
   q3_physical_specifications,
   q4_lifestyle_usage,
   q5_additional,
+  draft,
 }) =>
   fetchHandler(
     baseUrl,
@@ -22,6 +23,7 @@ export const createRequests = async ({
       q3_physical_specifications,
       q4_lifestyle_usage,
       q5_additional,
+      draft,
     })
   );
 
