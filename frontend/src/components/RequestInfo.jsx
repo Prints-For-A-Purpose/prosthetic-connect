@@ -6,7 +6,12 @@ import {
 } from "../adapters/request-adapter";
 import { useState } from "react";
 
-export default function RequestInfo({ request, currentUser, setStatus }) {
+export default function RequestInfo({
+  request,
+  currentUser,
+  setStatus,
+  setErrorText,
+}) {
   const navigate = useNavigate();
   const {
     q1_disability_info,
@@ -93,6 +98,8 @@ export default function RequestInfo({ request, currentUser, setStatus }) {
           request_status={request.request_status}
           request_id={request.id}
           setStatus={setStatus}
+          newContent={newContent}
+          setErrorText={setErrorText}
         ></ChangeStatus>
       )}
       <form onSubmit={handleSubmit}>
@@ -164,7 +171,6 @@ export default function RequestInfo({ request, currentUser, setStatus }) {
           className="form-input"
           name="q5_additional"
           onChange={handleChange}
-          required
         ></textarea>
         <button style={formVisibility}>Submit Edit</button>
       </form>

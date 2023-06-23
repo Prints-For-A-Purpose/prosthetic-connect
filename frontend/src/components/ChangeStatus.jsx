@@ -5,6 +5,8 @@ export default function ChangeStatus({
   request_status,
   request_id,
   setStatus,
+  newContent,
+  setErrorText,
 }) {
   const [selectFormVisibility, setSelectFormVisibility] = useState({
     display: "none",
@@ -12,8 +14,14 @@ export default function ChangeStatus({
   const [selectButtonVisibility, setSelectButtonVisibility] = useState({
     display: "inline-block",
   });
-
   const [newStatus, setNewStatus] = useState(request_status);
+
+  const {
+    q1_disability_info,
+    q2_functional_requirements,
+    q3_physical_specifications,
+    q4_lifestyle_usage,
+  } = newContent;
 
   const handleChange = async (event) => setNewStatus(event.target.value);
 
@@ -26,8 +34,19 @@ export default function ChangeStatus({
 
   const handleSelectSubmit = async (event) => {
     event.preventDefault();
-    const results = await moveStatusProgress(request_id, newStatus);
-    setStatus(newStatus);
+    if (
+      q1_disability_info === "" ||
+      q2_functional_requirements === "" ||
+      q3_physical_specifications === "" ||
+      q4_lifestyle_usage === ""
+    ) {
+      setErrorText(
+        "Please finish your questions before unarchiving this request."
+      );
+    } else {
+      const results = await moveStatusProgress(request_id, newStatus);
+      setStatus(newStatus);
+    }
   };
 
   return (

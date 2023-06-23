@@ -57,6 +57,7 @@ export default function Request() {
         request={request}
         currentUser={currentUser}
         setStatus={setStatus}
+        setErrorText={setErrorText}
       ></RequestInfo>
       <div>
         <h3>Comments</h3>

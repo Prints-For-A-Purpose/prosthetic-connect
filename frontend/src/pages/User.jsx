@@ -10,6 +10,7 @@ import DonationForm from "../components/DonationForm";
 import DonateButton from "../components/DonateButton";
 
 export default function UserPage() {
+  const navigate = useNavigate();
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
   const [userProfile, setUserProfile] = useState(null);
   const [userRequests, setUserRequests] = useState([]);
@@ -35,7 +36,7 @@ export default function UserPage() {
     logUserOut();
     setCurrentUser(null);
     const newFeed = await homePagination(1);
-    navigate("/");
+    return navigate("/");
   };
 
   if (!userProfile && !errorText) return null;
