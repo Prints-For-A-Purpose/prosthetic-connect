@@ -6,12 +6,14 @@ import { homePagination } from "../adapters/request-adapter";
 import { logUserOut } from "../adapters/auth-adapter";
 import UpdateUsernameForm from "../components/UpdateUsernameForm";
 import RequestBox from "../components/RequestBox";
+import DonationForm from "../components/DonationForm";
+import DonateButton from "../components/DonateButton";
 
 export default function UserPage() {
-  const navigate = useNavigate();
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
   const [userProfile, setUserProfile] = useState(null);
   const [userRequests, setUserRequests] = useState([]);
+  const [payment, setPayment] = useState("");
   const [errorText, setErrorText] = useState(null);
   const { id } = useParams();
   const isCurrentUserProfile = currentUser && currentUser.id === Number(id);
@@ -20,6 +22,7 @@ export default function UserPage() {
       const [user, error] = await getUser(id);
       if (error) return setErrorText(error.statusText);
       setUserProfile(user);
+      setPayment(user.payment_url);
     };
     loadUser();
   }, [id]);
@@ -62,6 +65,20 @@ export default function UserPage() {
           currentUser={currentUser}
           setCurrentUser={setCurrentUser}
         />
+      )}
+      {!!isCurrentUserProfile && (
+        <DonationForm
+          id={id}
+          setUserProfile={setUserProfile}
+          payment={userProfile.payment_url ? true : false}
+        ></DonationForm>
+      )}
+      {userProfile.is_fabricator && userProfile.payment_url && (
+        <DonateButton
+          url={userProfile.payment_url}
+          userProfile={userProfile}
+          payment={payment}
+        ></DonateButton>
       )}
       <h2>{userProfile.is_fabricator ? "Working On" : "Needs Help With"}</h2>
       <div

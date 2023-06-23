@@ -4,11 +4,22 @@ const { hashPassword, isValidPassword } = require("../../utils/auth-utils");
 class User {
   #passwordHash = null;
 
-  constructor({ id, username, password_hash, is_fabricator }) {
+  constructor({
+    id,
+    username,
+    password_hash,
+    is_fabricator,
+    bio,
+    payment_url,
+    pfp_url,
+  }) {
     this.id = id;
     this.username = username;
     this.is_fabricator = is_fabricator;
     this.#passwordHash = password_hash;
+    this.bio = bio;
+    this.payment_url = payment_url;
+    this.pfp_url = pfp_url;
   }
 
   static async list() {
@@ -42,6 +53,19 @@ class User {
       rows: [user],
     } = await knex.raw(query, [username, passwordHash, is_fabricator]);
     return new User(user);
+  }
+
+  static async updatePayment(id, payment_url) {
+    try {
+      const query = `UPDATE users
+        SET payment_url = ?
+        WHERE id = ?`;
+      const { rowCount: count } = await knex.raw(query, [payment_url, id]);
+      return count ? count : null;
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
   }
 
   static async deleteAll() {
