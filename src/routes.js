@@ -14,6 +14,11 @@ Router.get("/users/:id", userController.show);
 Router.get("/users/:id/requests", requestController.showMe);
 Router.post("/users", userController.create);
 Router.patch("/users/:id", checkAuthentication, userController.update);
+Router.patch(
+  "/users/payment/:id",
+  checkAuthentication,
+  userController.updatePayment
+);
 
 Router.get("/requests/home/:id", requestController.list);
 Router.get("/requests/:id", requestController.show);

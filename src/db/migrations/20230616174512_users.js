@@ -8,6 +8,9 @@ exports.up = (knex) =>
     table.string("username").unique();
     table.string("password_hash");
     table.boolean("is_fabricator");
+    table.string("bio");
+    table.string("payment_url");
+    table.string("pfp_url");
     table.timestamps(true, true);
   });
 

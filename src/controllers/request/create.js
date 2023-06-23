@@ -14,8 +14,6 @@ const createRequest = async (req, res) => {
     },
   } = req;
 
-  console.log(draft);
-
   if (!session.userId) return res.sendStatus(401);
 
   if (
