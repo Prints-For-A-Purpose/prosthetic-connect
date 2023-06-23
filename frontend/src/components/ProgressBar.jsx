@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Gradient } from "../Gradient";
 
 const ProgressBar = ({ request }) => {
@@ -178,19 +178,6 @@ const ProgressBar = ({ request }) => {
           <span style={labelStyles}>{`${newProgress}%`}</span>
         </div>
       </div>
-      {/* {canvasColor.map((e, i) => {
-        console.log(canvasColor);
-        return (
-          <canvas
-            id={i}
-            key={i}
-            className="gradient-canvas isLoaded"
-            data-js-darken-top=""
-            data-transition-in=""
-            style={e}
-          ></canvas>
-        );
-      })} */}
     </>
   );
 };

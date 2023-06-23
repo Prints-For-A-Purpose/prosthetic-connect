@@ -8,6 +8,7 @@ import UpdateUsernameForm from "../components/UpdateUsernameForm";
 import RequestBox from "../components/RequestBox";
 import DonationForm from "../components/DonationForm";
 import DonateButton from "../components/DonateButton";
+import UploadFile from "../components/UploadFile";
 
 export default function UserPage() {
   const navigate = useNavigate();
@@ -18,7 +19,6 @@ export default function UserPage() {
   const [errorText, setErrorText] = useState(null);
   const { id } = useParams();
   const isCurrentUserProfile = currentUser && currentUser.id === Number(id);
-  console.log(isCurrentUserProfile);
   useEffect(() => {
     const loadUser = async () => {
       const [user, error] = await getUser(id);
@@ -68,6 +68,7 @@ export default function UserPage() {
           setCurrentUser={setCurrentUser}
         />
       )}
+      {!!isCurrentUserProfile && <UploadFile></UploadFile>}
       {!!isCurrentUserProfile && role === "Fabricator" && (
         <DonationForm
           id={id}
