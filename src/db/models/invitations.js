@@ -3,20 +3,22 @@ class Invitation {
     constructor({ 
         id, 
         user_id, 
-        request_id
+        request_id,
+        status
     }) {   
         this.id = id;
         this.user_id = user_id;
         this.request_id = request_id;
+        this.status = status
     }
-    static async createInvite (user_id, request_id) {
+    static async createInvite (user_id, request_id, status) {
     try {
-      const query = `INSERT INTO invitations (user_id, request_id)
-        VALUES ((SELECT id FROM users WHERE id = ?), (SELECT id FROM requests WHERE id = ?)) 
+      const query = `INSERT INTO invitations (user_id, request_id, status)
+        VALUES ((SELECT id FROM users WHERE id = ?), (SELECT id FROM requests WHERE id = ?), ?) 
         RETURNING *`;
       const {
         rows: [inviteNew],
-      } = await knex.raw(query, [user_id, request_id]);
+      } = await knex.raw(query, [user_id, request_id, status]);
        console.log(inviteNew)
       return new Invitation(inviteNew);
     } catch (err) {
