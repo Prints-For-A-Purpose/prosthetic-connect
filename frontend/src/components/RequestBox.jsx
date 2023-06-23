@@ -3,26 +3,6 @@ import { Link } from "react-router-dom";
 import ProgressBar from "./ProgressBar";
 
 export default function RequestBox({ request }) {
-  const { request_status } = request;
-
-  const progressStatus = {
-    Active: {
-      newColor: "#ff9800",
-      newProgress: 30,
-    },
-    In_progress: {
-      newColor: "#2196f3",
-      newProgress: 50,
-    },
-    Done: {
-      newColor: "#4caf50",
-      newProgress: 100,
-    },
-  };
-
-  const { newColor, newProgress } =
-    progressStatus[request_status] || progressStatus.Active;
-
   return (
     <div className="request-container">
       <div className="request-card">
@@ -38,7 +18,7 @@ export default function RequestBox({ request }) {
           <h2>Intended Usage:</h2>
           <p>{request.q4_lifestyle_usage}</p>
         </div>
-        <ProgressBar newColor={newColor} newProgress={newProgress} />
+        <ProgressBar status={request.request_status} />
       </div>
     </div>
   );

@@ -1,10 +1,11 @@
-// import { useNavigate } from "react-router-dom";
 import { moveStatusProgress } from "../adapters/request-adapter";
-import { useState, useEffect } from "react";
-import ProgressBar from "../components/ProgressBar";
+import { useState } from "react";
 
-export default function ChangeStatus({ request_status, request_id }) {
-  // const navigate = useNavigate();
+export default function ChangeStatus({
+  request_status,
+  request_id,
+  setStatus,
+}) {
   const [selectFormVisibility, setSelectFormVisibility] = useState({
     display: "none",
   });
@@ -23,37 +24,14 @@ export default function ChangeStatus({ request_status, request_id }) {
     });
   };
 
-  const progressStatus = {
-    Active: {
-      color: "#ff9800",
-      progress: 30,
-    },
-    In_progress: {
-      color: "#2196f3",
-      progress: 50,
-    },
-    Done: {
-      color: "#4caf50",
-      progress: 100,
-    },
-  };
-
-  const [newColor, setColor] = useState(progressStatus[request_status].color);
-  const [newProgress, setNewProgress] = useState(
-    progressStatus[request_status].progress
-  );
-
   const handleSelectSubmit = async (event) => {
     event.preventDefault();
     const results = await moveStatusProgress(request_id, newStatus);
-    setColor(progressStatus[newStatus].color);
-    setNewProgress(progressStatus[newStatus].progress);
-    window.location.reload(false);
+    setStatus(newStatus);
   };
 
   return (
     <>
-      <ProgressBar newColor={newColor} newProgress={newProgress} />
       <button style={selectButtonVisibility} onClick={showSelect}>
         Move Progress
       </button>
@@ -69,7 +47,9 @@ export default function ChangeStatus({ request_status, request_id }) {
           <option value="Done" name="Done">
             Done
           </option>
-          {/* <option>Archive</option> */}
+          <option value="Archived" name="Archived">
+            Archive
+          </option>
         </select>
         <input type="submit" value="Change Status"></input>
       </form>

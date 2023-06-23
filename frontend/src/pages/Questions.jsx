@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate, Navigate } from "react-router-dom";
 import { createRequests } from "../adapters/request-adapter";
 import CurrentUserContext from "../contexts/current-user-context";
@@ -9,17 +9,30 @@ export default function QuestionsPage() {
 
   if (currentUser && currentUser.is_fabricator === true)
     return <Navigate to="/" />;
-  if (currentUser === null) return <Navigate to="/sign-up" />;
 
   const [request, setRequest] = useState({
-    title: "",
-    summary: "",
     q1_disability_info: "",
     q2_functional_requirements: "",
     q3_physical_specifications: "",
     q4_lifestyle_usage: "",
     q5_additional: "",
   });
+
+  const [isDraft, setIsDraft] = useState(true);
+
+  useEffect(() => {
+    if (
+      request.q1_disability_info &&
+      request.q2_functional_requirements &&
+      request.q3_physical_specifications &&
+      request.q4_lifestyle_usage &&
+      request.q5_additional
+    ) {
+      setIsDraft(false);
+    } else {
+      setIsDraft(true);
+    }
+  }, [request]);
 
   const onChange = (event) => {
     setRequest({
@@ -29,40 +42,29 @@ export default function QuestionsPage() {
   };
 
   const handleSubmit = async (event) => {
+    if (currentUser === null) return navigate("/sign-up");
     event.preventDefault();
+    request.draft = false;
+    const newRequest = await createRequests(request);
+    navigate(`../requests/${newRequest[0].id}/`);
+  };
+
+  const handleDraft = async (event) => {
+    if (currentUser === null) return navigate("/sign-up");
+    event.preventDefault();
+    request.draft = true;
     const newRequest = await createRequests(request);
     navigate(`../requests/${newRequest[0].id}/`);
   };
 
   return (
     <div className="container">
-      <form onSubmit={handleSubmit} className="form-container">
-        <h3 className="form-heading">Card Description</h3>
-        <label htmlFor="card-title" className="form-label">
-          Title
-        </label>
-        <textarea
-          type="text"
-          id="card-title"
-          name="title"
-          onChange={onChange}
-          className="form-input"
-          required
-        />
-        <br />
-        <label htmlFor="card-summary" className="form-label">
-          Summary
-        </label>
-        <textarea
-          type="text"
-          id="card-summary"
-          name="summary"
-          onChange={onChange}
-          className="form-input"
-          required
-        />
-        <br />
-
+      <form className="form-container" onSubmit={handleSubmit}>
+        <h2>Create a Request Below</h2>
+        <h5>
+          (You can save your answers as a draft to your profile if they are not
+          ready. )
+        </h5>
         <h3 className="form-heading">Disability or Need Information:</h3>
         <label htmlFor="q1_disability_info" className="form-label">
           Can you provide a description of your specific disability, condition,
@@ -74,7 +76,6 @@ export default function QuestionsPage() {
           name="q1_disability_info"
           onChange={onChange}
           className="form-input"
-          required
         />
         <br />
 
@@ -90,7 +91,6 @@ export default function QuestionsPage() {
           name="q2_functional_requirements"
           onChange={onChange}
           className="form-input"
-          required
         />
         <br />
 
@@ -107,7 +107,6 @@ export default function QuestionsPage() {
           name="q3_physical_specifications"
           onChange={onChange}
           className="form-input"
-          required
         />
         <br />
 
@@ -122,7 +121,6 @@ export default function QuestionsPage() {
           name="q4_lifestyle_usage"
           onChange={onChange}
           className="form-input"
-          required
         />
         <br />
 
@@ -137,13 +135,16 @@ export default function QuestionsPage() {
           name="q5_additional"
           onChange={onChange}
           className="form-input"
-          required
         />
         <br />
-
-        <button type="submit" className="form-submit-button">
-          Submit
+        <button className="form-submit-button" onClick={handleDraft}>
+          Save Draft
         </button>
+        {!isDraft && (
+          <button type="submit" className="form-submit-button">
+            Submit
+          </button>
+        )}
       </form>
     </div>
   );

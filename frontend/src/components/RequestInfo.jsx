@@ -6,7 +6,7 @@ import {
 } from "../adapters/request-adapter";
 import { useState } from "react";
 
-export default function RequestInfo({ request, currentUser }) {
+export default function RequestInfo({ request, currentUser, setStatus }) {
   const navigate = useNavigate();
   const {
     q1_disability_info,
@@ -92,6 +92,7 @@ export default function RequestInfo({ request, currentUser }) {
         <ChangeStatus
           request_status={request.request_status}
           request_id={request.id}
+          setStatus={setStatus}
         ></ChangeStatus>
       )}
       <form onSubmit={handleSubmit}>

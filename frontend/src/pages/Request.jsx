@@ -22,23 +22,8 @@ export default function Request() {
   const [username, setUsername] = useState(null);
   const [comments, setComments] = useState([]);
   const [errorText, setErrorText] = useState(null);
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState("Active");
   const { id } = useParams();
-
-  // const progressStatus = {
-  //   Active: {
-  //     color: "#ff9800",
-  //     progress: 30,
-  //   },
-  //   In_progress: {
-  //     color: "#2196f3",
-  //     progress: 50,
-  //   },
-  //   Done: {
-  //     color: "#4caf50",
-  //     progress: 100,
-  //   },
-  // };
 
   useEffect(() => {
     const loadRequest = async () => {
@@ -55,8 +40,6 @@ export default function Request() {
     loadRequest();
   }, [id]);
 
-  // const { color, progress } = progressStatus[status] || progressStatus.Active;
-
   if (!request && !errorText && !username) return null;
   if (errorText) return <p>{errorText}</p>;
 
@@ -69,7 +52,12 @@ export default function Request() {
       </h2>
       <p>{formatTimestamp(request.timestamp)}</p>
       <h3>Status: {request.request_status}</h3>
-      <RequestInfo request={request} currentUser={currentUser}></RequestInfo>
+      <ProgressBar status={status}></ProgressBar>
+      <RequestInfo
+        request={request}
+        currentUser={currentUser}
+        setStatus={setStatus}
+      ></RequestInfo>
       <div>
         <h3>Comments</h3>
         {comments.map((com) => (
