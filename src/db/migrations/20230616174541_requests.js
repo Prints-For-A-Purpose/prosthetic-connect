@@ -13,6 +13,7 @@ exports.up = (knex) =>
     table.string("q4_lifestyle_usage");
     table.string("q5_additional");
     table.string("image_url");
+    table.integer("fabricators_needed");
     table.timestamps(true, true);
   });
 

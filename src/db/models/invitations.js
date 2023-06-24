@@ -27,7 +27,6 @@ class Invitation {
 
   static async rejectOrAccept(status, user_id, request_id) {
     //needs recipient authentications
-    // * maybe remove the status option since defualt is 'pending'
     try {
       const query = `UPDATE invitations SET status = ? WHERE user_id = ? AND request_id = ? RETURNING *`; //creates an invitation to a request
       const {

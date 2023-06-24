@@ -7,11 +7,12 @@ import {
 import { useState } from "react";
 
 export default function RequestInfo({
-  // status,
   request,
   currentUser,
   setStatus,
   setErrorText,
+  complete,
+  numOfActive,
 }) {
   const navigate = useNavigate();
   const {
@@ -20,6 +21,7 @@ export default function RequestInfo({
     q3_physical_specifications,
     q4_lifestyle_usage,
     q5_additional,
+    fabricators_needed,
   } = request;
 
   const [edit, setEdit] = useState({
@@ -28,14 +30,15 @@ export default function RequestInfo({
     q3_physical_specifications,
     q4_lifestyle_usage,
     q5_additional,
+    fabricators_needed,
   });
-
   const [newContent, setNewContent] = useState({
     q1_disability_info,
     q2_functional_requirements,
     q3_physical_specifications,
     q4_lifestyle_usage,
     q5_additional,
+    fabricators_needed,
   });
 
   const [formVisibility, setFormVisibility] = useState({ display: "none" });
@@ -48,7 +51,7 @@ export default function RequestInfo({
     let formData = await new FormData(event.target);
     formData = Object.fromEntries(formData.entries());
     formData.id = request.id;
-    const updatedQuestions = await updateQuestionnaire(formData);
+    await updateQuestionnaire(formData);
     setFormVisibility({ display: "none" });
     setButtonVisibility({
       display: "inline-block",
@@ -59,7 +62,7 @@ export default function RequestInfo({
   };
 
   const deleteReq = async () => {
-    const results = await deleteRequest(request.id);
+    await deleteRequest(request.id);
     return navigate(`/users/${currentUser.id}`);
   };
 
@@ -71,9 +74,19 @@ export default function RequestInfo({
   };
 
   const handleChange = (event) => {
+    if (
+      event.target.name === "fabricators_needed" &&
+      event.target.value.length > 1
+    )
+      event.target.value = event.target.value[1];
+    if (
+      (event.target.name === "fabricators_needed" && +event.target.value > 4) ||
+      +event.target.value === 0
+    )
+      event.target.value = "";
     setEdit({
-      ...edit,
-      [event.target.name]: event.target.value,
+      ...request,
+      [event.target.name]: String(event.target.value),
     });
   };
 
@@ -101,6 +114,8 @@ export default function RequestInfo({
           setStatus={setStatus}
           newContent={newContent}
           setErrorText={setErrorText}
+          complete={complete}
+          numOfActive={numOfActive}
         ></ChangeStatus>
       )}
       <form onSubmit={handleSubmit}>
@@ -173,6 +188,21 @@ export default function RequestInfo({
           name="q5_additional"
           onChange={handleChange}
         ></textarea>
+        <h4>Minimum Fabricators Needed (between 1 and 4):</h4>
+        <p>{newContent.fabricators_needed}</p>
+        {request.request_status === "Pending" ||
+          (request.request_status === "Archived" && (
+            <input
+              style={formVisibility}
+              defaultValue={fabricators_needed}
+              type="number"
+              className="form-input"
+              name="fabricators_needed"
+              min={1}
+              max={4}
+              onChange={handleChange}
+            />
+          ))}
         <button style={formVisibility}>Submit Edit</button>
       </form>
     </>

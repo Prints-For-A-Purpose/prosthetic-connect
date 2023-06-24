@@ -13,6 +13,7 @@ export const createRequests = async ({
   q3_physical_specifications,
   q4_lifestyle_usage,
   q5_additional,
+  fabricators_needed,
   draft,
 }) =>
   fetchHandler(
@@ -23,6 +24,7 @@ export const createRequests = async ({
       q3_physical_specifications,
       q4_lifestyle_usage,
       q5_additional,
+      fabricators_needed,
       draft,
     })
   );
@@ -44,6 +46,7 @@ export const updateQuestionnaire = async ({
   q3_physical_specifications,
   q4_lifestyle_usage,
   q5_additional,
+  fabricators_needed,
 }) =>
   fetchHandler(
     `${baseUrl}/${id}`,
@@ -53,6 +56,7 @@ export const updateQuestionnaire = async ({
       q3_physical_specifications,
       q4_lifestyle_usage,
       q5_additional,
+      fabricators_needed,
     })
   );
 

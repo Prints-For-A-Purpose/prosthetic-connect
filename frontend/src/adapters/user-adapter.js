@@ -26,3 +26,8 @@ export const getUserRequests = async (id) => {
   const [requests] = await fetchHandler(`${baseUrl}/${id}/requests`);
   return requests || [];
 };
+
+export const getFabRequests = async (id) => {
+  const [requests] = await fetchHandler(`${baseUrl}/${id}/requests`);
+  return requests || [];
+};

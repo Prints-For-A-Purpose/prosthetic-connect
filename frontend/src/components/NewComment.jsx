@@ -17,7 +17,7 @@ export default function NewComment({ request, setComments, id }) {
     const is_public = true;
     const request_id = request.id;
     if (!content) return setErrorText("Missing comment content.");
-    const [newComment, error] = await createComment({
+    await createComment({
       request_id,
       content,
       is_public,

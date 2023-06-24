@@ -1,5 +1,3 @@
-// const { isAuthorized } = require("../../utils/auth-utils");
-
 const updateRequestStatus = async (req, res) => {
   const {
     db: { Request },

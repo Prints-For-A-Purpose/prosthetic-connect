@@ -16,6 +16,7 @@ export default function QuestionsPage() {
     q3_physical_specifications: "",
     q4_lifestyle_usage: "",
     q5_additional: "",
+    fabricators_needed: 0,
   });
 
   const [isDraft, setIsDraft] = useState(true);
@@ -26,7 +27,8 @@ export default function QuestionsPage() {
       request.q2_functional_requirements &&
       request.q3_physical_specifications &&
       request.q4_lifestyle_usage &&
-      request.q5_additional
+      request.q5_additional &&
+      request.fabricators_needed
     ) {
       setIsDraft(false);
     } else {
@@ -35,9 +37,19 @@ export default function QuestionsPage() {
   }, [request]);
 
   const onChange = (event) => {
+    if (
+      event.target.name === "fabricators_needed" &&
+      event.target.value.length > 1
+    )
+      event.target.value = event.target.value[1];
+    if (
+      (event.target.name === "fabricators_needed" && +event.target.value > 4) ||
+      +event.target.value === 0
+    )
+      event.target.value = "";
     setRequest({
       ...request,
-      [event.target.name]: event.target.value,
+      [event.target.name]: String(event.target.value),
     });
   };
 
@@ -135,6 +147,17 @@ export default function QuestionsPage() {
           name="q5_additional"
           onChange={onChange}
           className="form-input"
+        />
+        <label className="form-label">
+          Minimum Fabricators Needed (between 1 and 4):
+        </label>
+        <input
+          type="number"
+          id="fabricators_needed"
+          name="fabricators_needed"
+          min={1}
+          max={4}
+          onChange={onChange}
         />
         <br />
         <button className="form-submit-button" onClick={handleDraft}>

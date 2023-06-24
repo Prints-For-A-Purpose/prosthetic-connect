@@ -73,7 +73,6 @@ class User {
   }
 
   update = async (username) => {
-    // dynamic queries are easier if you add more properties
     const [updatedUser] = await knex("users")
       .where({ id: this.id })
       .update({ username })

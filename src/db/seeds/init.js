@@ -28,6 +28,7 @@ exports.seed = async (knex) => {
       q3_physical_specifications: "7 inch hands",
       q4_lifestyle_usage:
         "I'd need it 3 times a day for eating and it must be safe for washing.",
+      fabricators_needed: 3,
     },
     {
       user_id: 3,
@@ -38,6 +39,7 @@ exports.seed = async (knex) => {
       q3_physical_specifications: "Must fit in a medium sized book bag.",
       q4_lifestyle_usage: "I will use to navigate myself everyday at school.",
       q5_additional: "I will need one for 2 different floors",
+      fabricators_needed: 2,
     },
     {
       user_id: 3,
@@ -47,6 +49,7 @@ exports.seed = async (knex) => {
         "I need glasses frames that can stay on my face.",
       q3_physical_specifications: "I am missing my left ear.",
       q4_lifestyle_usage: "It would be for daily use to see better.",
+      fabricators_needed: 3,
     },
     {
       user_id: 1,
@@ -56,6 +59,7 @@ exports.seed = async (knex) => {
       q3_physical_specifications: "7 inch hands",
       q4_lifestyle_usage:
         "I'd need it 3 times a day for eating and it must be safe for washing.",
+      fabricators_needed: 1,
     },
     {
       user_id: 3,
@@ -66,6 +70,7 @@ exports.seed = async (knex) => {
       q3_physical_specifications: "Must fit in a medium sized book bag.",
       q4_lifestyle_usage: "I will use to navigate myself everyday at school.",
       q5_additional: "I will need one for 2 different floors",
+      fabricators_needed: 2,
     },
     {
       user_id: 3,
@@ -75,6 +80,7 @@ exports.seed = async (knex) => {
         "I need glasses frames that can stay on my face.",
       q3_physical_specifications: "I am missing my left ear.",
       q4_lifestyle_usage: "It would be for daily use to see better.",
+      fabricators_needed: 3,
     },
     {
       user_id: 1,
@@ -84,6 +90,7 @@ exports.seed = async (knex) => {
       q3_physical_specifications: "7 inch hands",
       q4_lifestyle_usage:
         "I'd need it 3 times a day for eating and it must be safe for washing.",
+      fabricators_needed: 3,
     },
     {
       user_id: 3,
@@ -94,6 +101,7 @@ exports.seed = async (knex) => {
       q3_physical_specifications: "Must fit in a medium sized book bag.",
       q4_lifestyle_usage: "I will use to navigate myself everyday at school.",
       q5_additional: "I will need one for 2 different floors",
+      fabricators_needed: 2,
     },
     {
       user_id: 3,
@@ -103,6 +111,7 @@ exports.seed = async (knex) => {
         "I need glasses frames that can stay on my face.",
       q3_physical_specifications: "I am missing my left ear.",
       q4_lifestyle_usage: "It would be for daily use to see better.",
+      fabricators_needed: 1,
     },
     {
       user_id: 1,
@@ -112,6 +121,7 @@ exports.seed = async (knex) => {
       q3_physical_specifications: "7 inch hands",
       q4_lifestyle_usage:
         "I'd need it 3 times a day for eating and it must be safe for washing.",
+      fabricators_needed: 3,
     },
     {
       user_id: 3,
@@ -122,6 +132,7 @@ exports.seed = async (knex) => {
       q3_physical_specifications: "Must fit in a medium sized book bag.",
       q4_lifestyle_usage: "I will use to navigate myself everyday at school.",
       q5_additional: "I will need one for 2 different floors",
+      fabricators_needed: 1,
     },
     {
       user_id: 3,
@@ -131,6 +142,7 @@ exports.seed = async (knex) => {
         "I need glasses frames that can stay on my face.",
       q3_physical_specifications: "I am missing my left ear.",
       q4_lifestyle_usage: "It would be for daily use to see better.",
+      fabricators_needed: 2,
     },
     {
       user_id: 1,
@@ -140,6 +152,7 @@ exports.seed = async (knex) => {
       q3_physical_specifications: "7 inch hands",
       q4_lifestyle_usage:
         "I'd need it 3 times a day for eating and it must be safe for washing.",
+      fabricators_needed: 3,
     },
     {
       user_id: 3,
@@ -150,6 +163,7 @@ exports.seed = async (knex) => {
       q3_physical_specifications: "Must fit in a medium sized book bag.",
       q4_lifestyle_usage: "I will use to navigate myself everyday at school.",
       q5_additional: "I will need one for 2 different floors",
+      fabricators_needed: 2,
     },
     {
       user_id: 3,
@@ -159,6 +173,7 @@ exports.seed = async (knex) => {
         "I need glasses frames that can stay on my face.",
       q3_physical_specifications: "I am missing my left ear.",
       q4_lifestyle_usage: "It would be for daily use to see better.",
+      fabricators_needed: 2,
     },
   ]);
   await knex("comments").insert([

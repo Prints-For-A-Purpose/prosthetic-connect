@@ -36,11 +36,11 @@ const DonationForm = ({ id, setUserProfile, payment }) => {
         : paymentMethod === "payPalAccount"
         ? `2${payment_info}`
         : `3${payment_info}`;
-    const newPayment = await updatePayment({ id, payment_url });
+    await updatePayment({ id, payment_url });
     setDeletePayment(
       deletePayment === "Delete Payment" ? "Add Payment" : "Delete Payment"
     );
-    const [user, error] = await getUser(id);
+    const [user] = await getUser(id);
     setUserProfile(user);
     setDonationInfo("");
     setPaymentMethod("");
