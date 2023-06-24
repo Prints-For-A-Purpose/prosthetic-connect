@@ -7,7 +7,6 @@ import CurrentUserContext from "../contexts/current-user-context";
 import CommentBox from "../components/CommentBox";
 
 import { getRequest } from "../adapters/request-adapter";
-import { getUser } from "../adapters/user-adapter";
 import { getComments } from "../adapters/comments-adapter";
 import { formatTimestamp } from "../utils";
 
@@ -15,6 +14,7 @@ import NewComment from "../components/NewComment";
 import CommentPagination from "../components/CommentPagination";
 import RequestInfo from "../components/RequestInfo";
 import ProgressBar from "../components/ProgressBar";
+import PendingInvites from "../components/PendingInvites";
 
 export default function Request() {
   const { id } = useParams();
@@ -22,7 +22,7 @@ export default function Request() {
   const [request, setRequest] = useState(null);
   const [errorText, setErrorText] = useState(null);
   const [username, setUsername] = useState(null);
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState(null);
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
@@ -30,11 +30,10 @@ export default function Request() {
       const [data, error] = await getRequest(id);
       if (error) return setErrorText(error.statusText);
       setRequest(data);
+      setUsername(data.username);
+      setStatus(request.request_status);
       const allComments = await getComments(id, 1);
       setComments(allComments);
-      const user = await getUser(request.user_id);
-      setUsername(user.username);
-      setStatus(request.request_status);
     };
     loadRequest();
   }, [status]);
@@ -42,11 +41,13 @@ export default function Request() {
   if (!request && !errorText && !username) return null;
   if (errorText) return <p>{errorText}</p>;
 
+  const authorized = currentUser && +currentUser.id === +request.user_id;
+
   return (
     <>
       <h1>Request #{request.id}</h1>
       <h2>
-        Requested By:{" "}
+        Requested By:
         <NavLink to={"/users/" + request.user_id}> {username}</NavLink>
       </h2>
       <p>{formatTimestamp(request.timestamp)}</p>
@@ -55,10 +56,11 @@ export default function Request() {
       <RequestInfo
         request={request}
         currentUser={currentUser}
-        // status={status}
         setStatus={setStatus}
         setErrorText={setErrorText}
       ></RequestInfo>
+      {authorized && <PendingInvites request={request}></PendingInvites>}
+
       <div>
         <h3>Comments</h3>
         {comments.map((com) => (

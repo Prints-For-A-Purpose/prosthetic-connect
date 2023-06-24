@@ -47,8 +47,8 @@ class User {
   static async create(username, password, is_fabricator) {
     const passwordHash = await hashPassword(password);
 
-    const query = `INSERT INTO users (username, password_hash, is_fabricator)
-      VALUES (?, ?, ?) RETURNING *`;
+    const query = `INSERT INTO users (username, password_hash, is_fabricator, pfp_url)
+      VALUES (?, ?, ?, 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png') RETURNING *`;
     const {
       rows: [user],
     } = await knex.raw(query, [username, passwordHash, is_fabricator]);

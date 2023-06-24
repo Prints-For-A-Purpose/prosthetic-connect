@@ -40,11 +40,41 @@ Router.delete(
   commentsController.deletion
 );
 
-Router.get("/invite-all", inviteController.listAll);
-Router.post("/invite", inviteController.create);
-Router.get("/invite/:id/user", inviteController.showUsersInvites);
-Router.get("/invite/:id/request", inviteController.showRequestsInvite);
-Router.get("/invite/:id/request/count", inviteController.showRequestsCount);
+Router.get(
+  "/invites/pending/:id",
+  checkAuthentication,
+  inviteController.showRequestsInvite
+);
+//shows all pending invitations to Recipient on the Request, returns an array of User objects
+Router.get(
+  "/invites/can-invite/:id",
+  checkAuthentication,
+  inviteController.checkIfInviteSent
+);
+// checks whether or not an invite can be sent to this Request. Returns boolean true or false.
+Router.get("/invites/:id", inviteController.listFabricators); //list fabricators by product => also gives a count. I can make things easier by deleting the other one => sees if number matches the number of required fabricators
+Router.get(
+  "/invites/authorized/:id",
+  checkAuthentication,
+  inviteController.checksFabricatorToRequest
+);
+//Checks authorization of a fabricator to be a part of a request
+Router.post("/invites/:id", checkAuthentication, inviteController.create); //sends an invite to a request
+Router.patch(
+  "/invites/change-status/:id",
+  checkAuthentication,
+  inviteController.changeStatus
+);
+Router.delete(
+  "/invites/:id",
+  checkAuthentication,
+  inviteController.deleteAllInvitationsForYou
+); //deletes all pending and rejected requests after changing progress
+Router.delete(
+  "/invites/archive/:id",
+  checkAuthentication,
+  inviteController.archiveRequest
+); //deletes all requests after archiving
 
 Router.post("/login", userController.login);
 Router.delete("/logout", userController.logout);

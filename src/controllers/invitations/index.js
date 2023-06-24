@@ -1,13 +1,19 @@
 const create = require("./create");
-const listAll = require("./list-all");
-const showUsersInvites = require("./show-user-inv")
-const showRequestsInvite = require("./show-req-inv")
-const showRequestsCount = require("./show-req-count")
+const showRequestsInvite = require("./show-req-inv");
+const checksFabricatorToRequest = require("./checksFabricatorToRequest");
+const checkIfInviteSent = require("./checkIfInviteSent");
+const deleteAllInvitationsForYou = require("./deleteAllInvitationsPerRequest");
+const listFabricators = require("./listFabricators");
+const archiveRequest = require("./archiveRequest");
+const changeStatus = require("./acceptOrReject");
 
 module.exports = {
   create,
-  listAll,
-  showUsersInvites,
   showRequestsInvite,
-  showRequestsCount
+  checkIfInviteSent,
+  checksFabricatorToRequest,
+  deleteAllInvitationsForYou,
+  listFabricators,
+  archiveRequest,
+  changeStatus,
 };

@@ -10,6 +10,7 @@ class Request {
     q4_lifestyle_usage,
     q5_additional,
     created_at,
+    username,
   }) {
     this.id = id;
     this.user_id = user_id;
@@ -19,6 +20,7 @@ class Request {
     this.q3_physical_specifications = q3_physical_specifications;
     this.q4_lifestyle_usage = q4_lifestyle_usage;
     this.q5_additional = q5_additional;
+    this.username = username;
     this.timestamp = created_at;
   }
   static async createRequests(
@@ -53,7 +55,14 @@ class Request {
   }
   static async find(id) {
     try {
-      const query = `SELECT * FROM requests WHERE id = ?`;
+      // SELECT r.id, r.user_id, u.username, r.request_status, r.q1_disability_info, r.q2_functional_requirements, r.q3_physical_specifications, r.q4_lifestyle_usage, r.q5_additional, r.timestamp
+      // FROM requests AS r
+      // INNER JOIN users AS u ON r.user_id = u.id
+      // WHERE r.id = ?'
+      const query = `SELECT r.id, r.user_id, r.request_status, r.q1_disability_info, r.q2_functional_requirements, r.q3_physical_specifications, r.q4_lifestyle_usage, r.q5_additional, r.created_at, u.username
+      FROM requests AS r
+      INNER JOIN users AS u ON r.user_id = u.id
+      WHERE r.id = ?`;
       const {
         rows: [request],
       } = await knex.raw(query, [id]);

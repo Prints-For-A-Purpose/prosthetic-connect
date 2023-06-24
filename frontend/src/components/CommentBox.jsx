@@ -2,13 +2,11 @@ import { Link } from "react-router-dom";
 import { useContext, useState } from "react";
 import CurrentUserContext from "../contexts/current-user-context";
 import CommentDeleteEdit from "../components/CommentDeleteEdit";
-import { formatTimestamp } from "../utils"
-
+import { formatTimestamp } from "../utils";
 
 export default function CommentBox({ comment, setComments, request_id }) {
   const { currentUser } = useContext(CurrentUserContext);
   const [commentContent, setCommentContent] = useState(`${comment.content}`);
-
 
   return (
     <>
