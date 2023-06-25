@@ -1,12 +1,11 @@
 const listSkills = async (req, res) => {
   const {
-    session,
     db: { Skill },
-    params: { id },
+    params: { id }, //user_id
   } = req;
 
-  // const requests = await Request.list(id, session.is_fabricator);
-  // res.send(requests);
+  const skill = await Skill.list(id);
+  res.send(skill);
 };
 
 module.exports = listSkills;

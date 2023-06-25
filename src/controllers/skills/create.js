@@ -1,19 +1,13 @@
 const createSkills = async (req, res) => {
   const {
-    session,
     db: { Skill },
-    //   body: { request_id, content, is_public },
+    params: { id },
+    body: { skill_name },
   } = req;
 
-  // if (!session.userId) return res.sendStatus(401);
-  // const comment = await Comment.createComment(
-  //   request_id,
-  //   session.userId,
-  //   content,
-  //   is_public
-  // );
+  const skill = await Skill.createSkill(id, skill_name);
 
-  // res.send(comment);
+  res.send(skill);
 };
 
 module.exports = createSkills;

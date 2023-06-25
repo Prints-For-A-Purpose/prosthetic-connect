@@ -46,7 +46,8 @@ Router.delete(
 );
 
 Router.get("/skills/:id", skillsController.list);
-Router.post("/invites/:id", skillsController.create); //sends an invite to a request
+Router.post("/skills/:id", skillsController.create);
+Router.delete("/skills/:id", skillsController.deletion);
 
 Router.get(
   "/invites/pending/:id",

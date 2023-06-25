@@ -4,7 +4,7 @@ const list = require("./list");
 // const update = require("./update");
 // const updateStatus = require("./updateStatus");
 // const showMe = require("./show-me");
-// const deletion = require("./deletion");
+const deletion = require("./delete");
 
 module.exports = {
   list,
@@ -12,6 +12,6 @@ module.exports = {
   //   show,
   //   update,
   //   updateStatus,
-  //   deletion,
+  deletion,
   //   showMe,
 };

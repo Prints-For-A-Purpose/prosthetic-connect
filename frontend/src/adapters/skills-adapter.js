@@ -1,29 +1,15 @@
-import {
-  fetchHandler,
-  getPostOptions,
-  getPatchOptions,
-  deleteOptions,
-} from "../utils";
+import { fetchHandler, getPostOptions, deleteOptions } from "../utils";
 
 const baseUrl = "/api/skills/";
 
-// export const createComment = async ({ request_id, content, is_public }) =>
-//   fetchHandler(baseUrl, getPostOptions({ request_id, content, is_public }));
+export const createSkill = async ({ user_id, skill_name }) =>
+  fetchHandler(`${baseUrl}/${user_id}`, getPostOptions({ skill_name }));
 
-// export const getComments = async (id, page) => {
-//   const [comments] = await fetchHandler(`${baseUrl}/request/${id}/${page}`);
-//   return comments || [];
-// };
+export const getSkillsByUserID = async (id) => {
+  // user_id
+  const [comments] = await fetchHandler(`${baseUrl}/${id}`);
+  return comments || [];
+};
 
-// export const getPrivateComments = async (id, page) => {
-//   const [comments] = await fetchHandler(
-//     `${baseUrl}/private/request/${id}/${page}`
-//   );
-//   return comments || [];
-// };
-
-// export const deleteComment = async (id) =>
-//   fetchHandler(`${baseUrl}/${id}`, deleteOptions);
-
-// export const updateComment = async ({ id, user_id, content }) =>
-//   fetchHandler(`${baseUrl}/${id}`, getPatchOptions({ user_id, content }));
+export const deleteSkillById = async (id) =>
+  fetchHandler(`${baseUrl}/${id}`, deleteOptions);
