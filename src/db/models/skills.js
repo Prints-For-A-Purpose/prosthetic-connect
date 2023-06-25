@@ -1,24 +1,10 @@
 const knex = require("../knex");
 
-class Comment {
-  constructor({
-    id,
-    request_id,
-    user_id,
-    content,
-    is_public,
-    created_at,
-    username,
-    pfp_url,
-  }) {
+class Skill {
+  constructor({ id, user_id, skill_name }) {
     this.id = id;
-    this.request_id = request_id;
     this.user_id = user_id;
-    this.content = content;
-    this.is_public = is_public;
-    this.timestamp = created_at;
-    this.username = username;
-    this.pfp_url = pfp_url;
+    this.skill_name = skill_name;
   }
 
   static async list(id, page) {
@@ -91,4 +77,4 @@ class Comment {
   };
 }
 
-module.exports = Comment;
+module.exports = Skill;

@@ -9,15 +9,87 @@ exports.seed = async (knex) => {
   await knex("requests").del();
   await knex("users").del();
   await knex("users").insert([
-    { username: "cool_csat", password_hash: "123", is_fabricator: false },
-    { username: "l33ts-guy", password_hash: "123", is_fabricator: true },
-    { username: "wowow", password_hash: "dsa", is_fabricator: false },
-    { username: "cdadascat", password_hash: "sda", is_fabricator: true },
-    { username: "ldas3s3tas-guy", password_hash: "123d", is_fabricator: true },
-    { username: "sdssd", password_hash: "1as23", is_fabricator: false },
-    { username: "coodsdl_cat", password_hash: "12sa3", is_fabricator: false },
-    { username: "dssa-guy", password_hash: "12dsa3", is_fabricator: true },
-    { username: "wowdsssssow", password_hash: "12sda3", is_fabricator: false },
+    {
+      username: "cool_csat",
+      password_hash: "123",
+      is_fabricator: false,
+      pfp_url:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png",
+      bio: "bio",
+      payment_url: "1juliancastx",
+    },
+    {
+      username: "l33ts-guy",
+      password_hash: "123",
+      is_fabricator: true,
+      pfp_url:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png",
+      bio: "bio",
+      payment_url: "1juliancastx",
+    },
+    {
+      username: "wowow",
+      password_hash: "dsa",
+      is_fabricator: false,
+      pfp_url:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png",
+      bio: "bio",
+      payment_url: "1juliancastx",
+    },
+    {
+      username: "cdadascat",
+      password_hash: "sda",
+      is_fabricator: true,
+      pfp_url:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png",
+      bio: "bio",
+      payment_url: "1juliancastx",
+    },
+    {
+      username: "ldas3s3tas-guy",
+      password_hash: "123d",
+      is_fabricator: true,
+      pfp_url:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png",
+      bio: "bio",
+      payment_url: "1juliancastx",
+    },
+    {
+      username: "sdssd",
+      password_hash: "1as23",
+      is_fabricator: false,
+      pfp_url:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png",
+      bio: "bio",
+      payment_url: "1juliancastx",
+    },
+    {
+      username: "coodsdl_cat",
+      password_hash: "12sa3",
+      is_fabricator: false,
+      pfp_url:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png",
+      bio: "bio",
+      payment_url: "1juliancastx",
+    },
+    {
+      username: "dssa-guy",
+      password_hash: "12dsa3",
+      is_fabricator: true,
+      pfp_url:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png",
+      bio: "bio",
+      payment_url: "1juliancastx",
+    },
+    {
+      username: "wowdsssssow",
+      password_hash: "12sda3",
+      is_fabricator: false,
+      pfp_url:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png",
+      bio: "bio",
+      payment_url: "1juliancastx",
+    },
   ]);
   await knex("requests").insert([
     {
@@ -30,6 +102,8 @@ exports.seed = async (knex) => {
         "I'd need it 3 times a day for eating and it must be safe for washing.",
       fabricators_needed: 3,
       category: "Prosthetics",
+      image_url:
+        "https://media.npr.org/assets/img/2014/10/23/eprosthetic-edit_wide-abb057b906b5eb98857f0054a3c284075c09faee.jpg",
     },
     {
       user_id: 3,
@@ -42,6 +116,8 @@ exports.seed = async (knex) => {
       q5_additional: "I will need one for 2 different floors",
       fabricators_needed: 2,
       category: "Prosthetics",
+      image_url:
+        "https://media.npr.org/assets/img/2014/10/23/eprosthetic-edit_wide-abb057b906b5eb98857f0054a3c284075c09faee.jpg",
     },
     {
       user_id: 3,
@@ -53,6 +129,8 @@ exports.seed = async (knex) => {
       q4_lifestyle_usage: "It would be for daily use to see better.",
       fabricators_needed: 3,
       category: "Prosthetics",
+      image_url:
+        "https://media.npr.org/assets/img/2014/10/23/eprosthetic-edit_wide-abb057b906b5eb98857f0054a3c284075c09faee.jpg",
     },
     {
       user_id: 1,
@@ -64,6 +142,8 @@ exports.seed = async (knex) => {
         "I'd need it 3 times a day for eating and it must be safe for washing.",
       fabricators_needed: 1,
       category: "Prosthetics",
+      image_url:
+        "https://media.npr.org/assets/img/2014/10/23/eprosthetic-edit_wide-abb057b906b5eb98857f0054a3c284075c09faee.jpg",
     },
     {
       user_id: 3,
@@ -76,6 +156,8 @@ exports.seed = async (knex) => {
       q5_additional: "I will need one for 2 different floors",
       fabricators_needed: 2,
       category: "Prosthetics",
+      image_url:
+        "https://media.npr.org/assets/img/2014/10/23/eprosthetic-edit_wide-abb057b906b5eb98857f0054a3c284075c09faee.jpg",
     },
     {
       user_id: 3,
@@ -87,6 +169,8 @@ exports.seed = async (knex) => {
       q4_lifestyle_usage: "It would be for daily use to see better.",
       fabricators_needed: 3,
       category: "Prosthetics",
+      image_url:
+        "https://media.npr.org/assets/img/2014/10/23/eprosthetic-edit_wide-abb057b906b5eb98857f0054a3c284075c09faee.jpg",
     },
     {
       user_id: 1,
@@ -98,6 +182,8 @@ exports.seed = async (knex) => {
         "I'd need it 3 times a day for eating and it must be safe for washing.",
       fabricators_needed: 3,
       category: "Prosthetics",
+      image_url:
+        "https://media.npr.org/assets/img/2014/10/23/eprosthetic-edit_wide-abb057b906b5eb98857f0054a3c284075c09faee.jpg",
     },
     {
       user_id: 3,
@@ -110,6 +196,8 @@ exports.seed = async (knex) => {
       q5_additional: "I will need one for 2 different floors",
       fabricators_needed: 2,
       category: "Prosthetics",
+      image_url:
+        "https://media.npr.org/assets/img/2014/10/23/eprosthetic-edit_wide-abb057b906b5eb98857f0054a3c284075c09faee.jpg",
     },
     {
       user_id: 3,
@@ -121,6 +209,8 @@ exports.seed = async (knex) => {
       q4_lifestyle_usage: "It would be for daily use to see better.",
       fabricators_needed: 1,
       category: "Prosthetics",
+      image_url:
+        "https://media.npr.org/assets/img/2014/10/23/eprosthetic-edit_wide-abb057b906b5eb98857f0054a3c284075c09faee.jpg",
     },
     {
       user_id: 1,
@@ -132,6 +222,8 @@ exports.seed = async (knex) => {
         "I'd need it 3 times a day for eating and it must be safe for washing.",
       fabricators_needed: 3,
       category: "Prosthetics",
+      image_url:
+        "https://media.npr.org/assets/img/2014/10/23/eprosthetic-edit_wide-abb057b906b5eb98857f0054a3c284075c09faee.jpg",
     },
     {
       user_id: 3,
@@ -144,6 +236,8 @@ exports.seed = async (knex) => {
       q5_additional: "I will need one for 2 different floors",
       fabricators_needed: 1,
       category: "Prosthetics",
+      image_url:
+        "https://media.npr.org/assets/img/2014/10/23/eprosthetic-edit_wide-abb057b906b5eb98857f0054a3c284075c09faee.jpg",
     },
     {
       user_id: 3,
@@ -155,6 +249,8 @@ exports.seed = async (knex) => {
       q4_lifestyle_usage: "It would be for daily use to see better.",
       fabricators_needed: 2,
       category: "Prosthetics",
+      image_url:
+        "https://media.npr.org/assets/img/2014/10/23/eprosthetic-edit_wide-abb057b906b5eb98857f0054a3c284075c09faee.jpg",
     },
     {
       user_id: 1,
@@ -166,6 +262,8 @@ exports.seed = async (knex) => {
         "I'd need it 3 times a day for eating and it must be safe for washing.",
       fabricators_needed: 3,
       category: "Prosthetics",
+      image_url:
+        "https://media.npr.org/assets/img/2014/10/23/eprosthetic-edit_wide-abb057b906b5eb98857f0054a3c284075c09faee.jpg",
     },
     {
       user_id: 3,
@@ -178,6 +276,8 @@ exports.seed = async (knex) => {
       q5_additional: "I will need one for 2 different floors",
       fabricators_needed: 2,
       category: "Prosthetics",
+      image_url:
+        "https://media.npr.org/assets/img/2014/10/23/eprosthetic-edit_wide-abb057b906b5eb98857f0054a3c284075c09faee.jpg",
     },
     {
       user_id: 3,
@@ -189,6 +289,8 @@ exports.seed = async (knex) => {
       q4_lifestyle_usage: "It would be for daily use to see better.",
       fabricators_needed: 2,
       category: "Prosthetics",
+      image_url:
+        "https://media.npr.org/assets/img/2014/10/23/eprosthetic-edit_wide-abb057b906b5eb98857f0054a3c284075c09faee.jpg",
     },
   ]);
   await knex("comments").insert([

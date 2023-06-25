@@ -3,6 +3,7 @@ const userController = require("./controllers/user");
 const requestController = require("./controllers/request");
 const commentsController = require("./controllers/comments");
 const inviteController = require("./controllers/invitations");
+const skillsController = require("./controllers/skills");
 const addModels = require("./middleware/add-models");
 const checkAuthentication = require("./middleware/check-authentication");
 
@@ -43,6 +44,9 @@ Router.delete(
   checkAuthentication,
   commentsController.deletion
 );
+
+Router.get("/skills/:id", skillsController.list);
+Router.post("/invites/:id", skillsController.create); //sends an invite to a request
 
 Router.get(
   "/invites/pending/:id",

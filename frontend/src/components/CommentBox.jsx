@@ -17,6 +17,14 @@ export default function CommentBox({
     <>
       {currentUser && currentUser.id === comment.user_id ? (
         <>
+          {" "}
+          {console.log(comment)}
+          {comment.pfp_url && (
+            <img
+              src={comment.pfp_url}
+              style={{ borderRadius: "100%", maxWidth: "3%" }}
+            ></img>
+          )}
           <p>
             <Link to={`/users/${comment.user_id}`}>{comment.username}</Link>
             {` at 
