@@ -12,6 +12,15 @@ const updateRequest = async (req, res) => {
     },
   } = req;
 
+  console.log(
+    q1_disability_info,
+    q2_functional_requirements,
+    q3_physical_specifications,
+    q4_lifestyle_usage,
+    q5_additional,
+    fabricators_needed
+  );
+
   const update = await Request.updateContent(
     id,
     q1_disability_info,

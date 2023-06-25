@@ -23,7 +23,6 @@ export default function RequestInfo({
     q5_additional,
     fabricators_needed,
   } = request;
-
   const [edit, setEdit] = useState({
     q1_disability_info,
     q2_functional_requirements,
@@ -45,21 +44,6 @@ export default function RequestInfo({
   const [buttonVisibility, setButtonVisibility] = useState({
     display: "inline-block",
   });
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    let formData = await new FormData(event.target);
-    formData = Object.fromEntries(formData.entries());
-    formData.id = request.id;
-    await updateQuestionnaire(formData);
-    setFormVisibility({ display: "none" });
-    setButtonVisibility({
-      display: "inline-block",
-    });
-    setNewContent({
-      ...edit,
-    });
-  };
 
   const deleteReq = async () => {
     await deleteRequest(request.id);
@@ -85,8 +69,25 @@ export default function RequestInfo({
     )
       event.target.value = "";
     setEdit({
-      ...request,
-      [event.target.name]: String(event.target.value),
+      ...edit,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    let formData = await new FormData(event.target);
+    formData = Object.fromEntries(formData.entries());
+    formData.id = request.id;
+    if (formData.fabricators_needed === undefined)
+      formData.fabricators_needed = fabricators_needed;
+    await updateQuestionnaire(formData);
+    setFormVisibility({ display: "none" });
+    setButtonVisibility({
+      display: "inline-block",
+    });
+    setNewContent({
+      ...edit,
     });
   };
 
@@ -94,6 +95,17 @@ export default function RequestInfo({
 
   return (
     <>
+      {authorized && (
+        <ChangeStatus
+          request={request}
+          request_id={request.id}
+          setStatus={setStatus}
+          newContent={newContent}
+          setErrorText={setErrorText}
+          complete={complete}
+          numOfActive={numOfActive}
+        ></ChangeStatus>
+      )}
       {authorized && (
         <button onClick={deleteReq} style={buttonVisibility}>
           Delete
@@ -106,17 +118,6 @@ export default function RequestInfo({
           </button>
           <br></br>
         </>
-      )}
-      {authorized && (
-        <ChangeStatus
-          request={request}
-          request_id={request.id}
-          setStatus={setStatus}
-          newContent={newContent}
-          setErrorText={setErrorText}
-          complete={complete}
-          numOfActive={numOfActive}
-        ></ChangeStatus>
       )}
       <form onSubmit={handleSubmit}>
         <h4>
@@ -131,7 +132,7 @@ export default function RequestInfo({
           className="form-input"
           name="q1_disability_info"
           onChange={handleChange}
-          required
+          required={request.request_status !== "Archived"}
         ></textarea>
         <h4>
           What are the desired functionalities or features you would like the
@@ -145,7 +146,7 @@ export default function RequestInfo({
           className="form-input"
           name="q2_functional_requirements"
           onChange={handleChange}
-          required
+          required={request.request_status !== "Archived"}
         ></textarea>
         <h4>
           What measurements or specifications are needed to ensure a comfortable
@@ -159,7 +160,7 @@ export default function RequestInfo({
           className="form-input"
           name="q3_physical_specifications"
           onChange={handleChange}
-          required
+          required={request.request_status !== "Archived"}
         ></textarea>
         <h4>
           Could you provide relevant details about your daily routine,
@@ -173,7 +174,7 @@ export default function RequestInfo({
           className="form-input"
           name="q4_lifestyle_usage"
           onChange={handleChange}
-          required
+          required={request.request_status !== "Archived"}
         ></textarea>
         <h4>
           Do you have any other specific requests, concerns, or preferences that
@@ -190,19 +191,17 @@ export default function RequestInfo({
         ></textarea>
         <h4>Minimum Fabricators Needed (between 1 and 4):</h4>
         <p>{newContent.fabricators_needed}</p>
-        {request.request_status === "Pending" ||
-          (request.request_status === "Archived" && (
-            <input
-              style={formVisibility}
-              defaultValue={fabricators_needed}
-              type="number"
-              className="form-input"
-              name="fabricators_needed"
-              min={1}
-              max={4}
-              onChange={handleChange}
-            />
-          ))}
+        <input
+          style={formVisibility}
+          defaultValue={fabricators_needed}
+          type="number"
+          className="form-input"
+          name="fabricators_needed"
+          min={1}
+          max={4}
+          onChange={handleChange}
+          disabled={request.request_status !== "Archived"}
+        />
         <button style={formVisibility}>Submit Edit</button>
       </form>
     </>

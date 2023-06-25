@@ -33,7 +33,6 @@ export default function UserPage() {
     loadUser();
   }, [id]);
 
-  console.log();
   useEffect(() => {
     const loadRequest = async () => {
       const profRequests =

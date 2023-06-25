@@ -11,7 +11,6 @@ const showMe = async (req, res) => {
   const requests = is_fabricator
     ? await Request.findFabProjects(id)
     : await Request.findByUserId(id);
-  console.log(requests);
   res.send(requests);
 };
 
