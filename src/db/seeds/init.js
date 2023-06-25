@@ -339,4 +339,134 @@ exports.seed = async (knex) => {
       status: "pending",
     },
   ]);
+  await knex("comments").insert([
+    {
+      request_id: 1,
+      user_id: 1,
+      content: "my ndasdasame is jeff",
+      is_public: true,
+    },
+    {
+      request_id: 2,
+      user_id: 2,
+      content: "jjkj",
+      is_public: true,
+    },
+    {
+      request_id: 3,
+      user_id: 3,
+      content: "mi nodasdambre is jeff",
+      is_public: false,
+    },
+    {
+      request_id: 3,
+      user_id: 3,
+      content: "mi nomdasdabre is jeff",
+      is_public: false,
+    },
+    {
+      request_id: 3,
+      user_id: 3,
+      content: "mi nomadasdbre is jeff",
+      is_public: false,
+    },
+    {
+      request_id: 3,
+      user_id: 3,
+      content: "mi nombre is jeff",
+      is_public: false,
+    },
+    {
+      request_id: 3,
+      user_id: 3,
+      content: "mi nombre is jeff",
+      is_public: false,
+    },
+    {
+      request_id: 3,
+      user_id: 3,
+      content: "mi nombre is jeff",
+      is_public: false,
+    },
+    {
+      request_id: 3,
+      user_id: 3,
+      content: "mi nocdasdambre is jeff",
+      is_public: false,
+    },
+  ]);
+  await knex("skills").insert([
+    {
+      user_id: 1,
+      skill_name: "3D Printing",
+    },
+    {
+      user_id: 2,
+      skill_name: "Design and CAD",
+    },
+    {
+      user_id: 3,
+      skill_name: "Material Knowledge",
+    },
+    {
+      user_id: 1,
+      skill_name: "Prototyping",
+    },
+    {
+      user_id: 2,
+      skill_name: "CNC Machining",
+    },
+    {
+      user_id: 3,
+      skill_name: "Robotics",
+    },
+    {
+      user_id: 2,
+      skill_name: "3D Printing",
+    },
+    {
+      user_id: 2,
+      skill_name: "Design and CAD",
+    },
+    {
+      user_id: 3,
+      skill_name: "Laser Cutting",
+    },
+    {
+      user_id: 1,
+      skill_name: "Prototyping",
+    },
+    {
+      user_id: 2,
+      skill_name: "3D Printing",
+    },
+    {
+      user_id: 3,
+      skill_name: "Design and CAD",
+    },
+    {
+      user_id: 1,
+      skill_name: "CNC Machining",
+    },
+    {
+      user_id: 2,
+      skill_name: "Material Knowledge",
+    },
+    {
+      user_id: 3,
+      skill_name: "Prototyping",
+    },
+    {
+      user_id: 1,
+      skill_name: "3D Printing",
+    },
+    {
+      user_id: 2,
+      skill_name: "Programming",
+    },
+    {
+      user_id: 3,
+      skill_name: "Material Knowledge",
+    },
+  ]);
 };

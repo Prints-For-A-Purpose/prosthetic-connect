@@ -3,6 +3,8 @@ import { useNavigate, Navigate, Link } from "react-router-dom";
 import CurrentUserContext from "../contexts/current-user-context";
 import { createUser } from "../adapters/user-adapter";
 
+import ChooseYourSkills from "../components/ChooseYourSkills";
+
 export default function SignUpPage() {
   const navigate = useNavigate();
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
@@ -10,6 +12,7 @@ export default function SignUpPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
+  const [selectedOptions, setSelectedOptions] = useState([]);
 
   if (currentUser) return <Navigate to="/" />;
 
@@ -37,6 +40,7 @@ export default function SignUpPage() {
     if (name === "username") setUsername(value);
     if (name === "password") setPassword(value);
     if (name === "role") setRole(value);
+    console.log(role);
   };
 
   return (
@@ -87,6 +91,11 @@ export default function SignUpPage() {
             onChange={handleChange}
           />
         </label>
+        <ChooseYourSkills
+          role={role}
+          selectedOptions={selectedOptions}
+          setSelectedOptions={setSelectedOptions}
+        ></ChooseYourSkills>
         <button>Sign Up Now!</button>
         <p>
           Already have an account with us? <Link to="/login">Log in!</Link>

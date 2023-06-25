@@ -24,7 +24,7 @@ export default function App() {
   useEffect(() => {
     checkForLoggedInUser().then(setCurrentUser);
   }, [setCurrentUser]);
-  const themeClass = isDarkMode ? "dark" : "light";
+  const themeClass = isDarkMode ? "light" : "dark";
   return (
     <>
       <div className={`site-heading-and-nav ${themeClass}`}>
