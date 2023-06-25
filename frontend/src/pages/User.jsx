@@ -30,6 +30,7 @@ export default function UserPage() {
   const [rem, setRem] = useState(null);
   const [count, setCount] = useState(0);
   const [modal, setModal] = useState(false);
+  const [pfp, setPFP] = useState(false);
   const { id } = useParams();
   const isCurrentUserProfile = currentUser && currentUser.id === Number(id);
 
@@ -177,12 +178,16 @@ export default function UserPage() {
           setCurrentUser={setCurrentUser}
         />
       )}
-      {!!isCurrentUserProfile && <UploadFile></UploadFile>}
+      {!!isCurrentUserProfile && (
+        <UploadFile imagesOnly={true} crop={true}></UploadFile>
+      )}
       {!!isCurrentUserProfile && role === "Fabricator" && (
         <DonationForm
           id={id}
           setUserProfile={setUserProfile}
           payment={userProfile.payment_url ? true : false}
+          count={count}
+          setCount={setCount}
         ></DonationForm>
       )}
       {userProfile.is_fabricator && userProfile.payment_url && (

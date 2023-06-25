@@ -68,6 +68,32 @@ class User {
     }
   }
 
+  static async updatePFP(id, pfp_url) {
+    try {
+      const query = `UPDATE users
+        SET pfp_url = ?
+        WHERE id = ?`;
+      const { rowCount: count } = await knex.raw(query, [payment_url, id]);
+      return count ? count : null;
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
+  }
+
+  static async updateBio(id, bio) {
+    try {
+      const query = `UPDATE users
+        SET bio = ?
+        WHERE id = ?`;
+      const { rowCount: count } = await knex.raw(query, [payment_url, id]);
+      return count ? count : null;
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
+  }
+
   static async deleteAll() {
     return knex.raw("TRUNCATE users;");
   }
