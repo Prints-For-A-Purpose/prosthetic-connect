@@ -86,6 +86,8 @@ export default function ChangeStatus({
     q2_functional_requirements,
     q3_physical_specifications,
     q4_lifestyle_usage,
+    fabricators_needed,
+    category,
   } = newContent;
 
   const handleChange = (event) => {
@@ -111,16 +113,12 @@ export default function ChangeStatus({
       q1_disability_info === "" ||
       q2_functional_requirements === "" ||
       q3_physical_specifications === "" ||
-      q4_lifestyle_usage === ""
+      q4_lifestyle_usage === "" ||
+      category === "" ||
+      fabricators_needed === ""
     ) {
       setErrorText(
         "Please finish your questions before unarchiving this request."
-      );
-      console.log(
-        q1_disability_info,
-        q2_functional_requirements,
-        q3_physical_specifications,
-        q4_lifestyle_usage
       );
     } else {
       await moveStatusProgress(request_id, newStatus);
@@ -167,7 +165,9 @@ export default function ChangeStatus({
               q1_disability_info === "" ||
               q2_functional_requirements === "" ||
               q3_physical_specifications === "" ||
-              q4_lifestyle_usage === ""
+              q4_lifestyle_usage === "" ||
+              category === "" ||
+              fabricators_needed === ""
             }
           >
             Pending - 5%
@@ -305,7 +305,9 @@ export default function ChangeStatus({
               (q1_disability_info === "" ||
                 q2_functional_requirements === "" ||
                 q3_physical_specifications === "" ||
-                q4_lifestyle_usage === "") && (
+                q4_lifestyle_usage === "" ||
+                category === "" ||
+                fabricators_needed === "") && (
                 <p>
                   You've made excellent progress so far to your questionnaire.
                   When you are ready and have submitted all your answers then
@@ -319,7 +321,9 @@ export default function ChangeStatus({
                 q1_disability_info === "" ||
                 q2_functional_requirements === "" ||
                 q3_physical_specifications === "" ||
-                q4_lifestyle_usage === ""
+                q4_lifestyle_usage === "" ||
+                category === "" ||
+                fabricators_needed === ""
               ) && (
                 <p>
                   Great job on finishing your questionnaire. When you are ready
@@ -381,6 +385,7 @@ export default function ChangeStatus({
               )}
 
             {request_status !== "Pending" &&
+              request_status !== "Archived" &&
               request_status !== "Deployment" &&
               request_status !== "Documentation" &&
               newStatus === request_status &&
@@ -392,6 +397,7 @@ export default function ChangeStatus({
               )}
 
             {request_status !== "Deployment" &&
+              request_status !== "Archived" &&
               newStatus === request_status &&
               complete && (
                 <p>

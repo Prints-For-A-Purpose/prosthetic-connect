@@ -20,6 +20,43 @@ export default function QuestionsPage() {
     category: "",
   });
 
+  const categoryDescriptions = {
+    Prosthetics: "Prosthetic for various body parts.",
+    "Assistive Devices":
+      "Adaptive Tools that aid those with disabilities in their daily activities.",
+    "Accessibility Modifications":
+      "Improving and modifying existing objects or environments.",
+    Orthotics: "Orthotic devices to support and protect body parts.",
+    "Mobility Aids":
+      "Enhance mobility such as wheelchair accessories or walking aids.",
+    "Sensory Enhancements":
+      "Enhance sensory experiences such as tactical maps, braille materials, or tools for those with visual or hearing impairments.",
+    "Educational Resources":
+      "3D-printed educational tools, models, or resources to support learning for individuals who need them.",
+    "Customization and Personalization":
+      "Personalized and custom solutions, including aesthetic modifications.",
+    "Wearable Technology and Accessories":
+      "Wearable smart accessories that regulate and guide those who need assistance.",
+    "Medical Tools": "Instruments and tools used in healthcare settings",
+    "Rehabilitation Aids":
+      "Devices or tools used in physical therapy or rehabilitation programs. ",
+    "Animal Prosthetics":
+      "Prosthetics designed for animals, such as pets or wildlife. ",
+    "Craniofacial Optics":
+      "Glasses and other devices to support craniofacial deformities or conditions affecting the head and face. ",
+    Miscellaneous:
+      "For unique or less common requirements, also includes those unsure of which category their need falls into. ",
+  };
+
+  const difficultyTags = {
+    1: "Beginner: Simple and suitable for beginners.",
+    2: "Intermediate: Moderate complexity requires more prior knowledge and experience.",
+    3: "Advanced: Intricate and challenging, for those with advanced skills and expertise.",
+    4: "Expert: Highly complex and intricate designs, needing specialized techniques, materials and technology.",
+  };
+
+  const [explanation, setExplanation] = useState("");
+  const [difficulty, setDifficulty] = useState("");
   const [isDraft, setIsDraft] = useState(true);
 
   useEffect(() => {
@@ -53,6 +90,11 @@ export default function QuestionsPage() {
       ...request,
       [event.target.name]: String(event.target.value),
     });
+    if (event.target.name === "category") {
+      setExplanation(categoryDescriptions[event.target.value]);
+    } else if (event.target.name === "fabricators_needed") {
+      setDifficulty(difficultyTags[event.target.value]);
+    }
   };
 
   const handleSubmit = async (event) => {
@@ -69,42 +111,6 @@ export default function QuestionsPage() {
     request.draft = true;
     const newRequest = await createRequests(request);
     navigate(`../requests/${newRequest[0].id}/`);
-  };
-
-  const categoryDescriptions = {
-    Prosthetics: "Prosthetic for various body parts.",
-    "Assistive Devices":
-      "Adaptive Tools that aid those with disabilities in their daily activities.",
-    "Accessibility Modifications":
-      "Improving and modifying existing objects or environments.",
-    Orthotics: "Orthotic devices to support and protect body parts.",
-    "Mobility Aids":
-      "Enhance mobility such as wheelchair accessories or walking aids.",
-    "Sensory Enhancements":
-      "Enhance sensory experiences such as tactical maps, braille materials, or tools for those with visual or hearing impairments.",
-    "Educational Resources":
-      "3D-printed educational tools, models, or resources to support learning for individuals who need them.",
-    "Wearable Technology and Accessories":
-      "Personalized and custom solutions, including aesthetic modifications.",
-    "Medical Tools": "Instruments and tools used in healthcare settings",
-    "Rehabilitation Aids":
-      "Devices or tools used in physical therapy or rehabilitation programs. ",
-    "Animal Prosthetics":
-      "Prosthetics designed for animals, such as pets or wildlife. ",
-    "Craniofacial Optics":
-      "Glasses and other devices to support craniofacial deformities or conditions affecting the head and face. ",
-    Miscellaneous:
-      "For unique or less common requirements, also includes those unsure of which category their need falls into. ",
-  };
-
-  const difficultyTags = {
-    Beginner: "Simple and suitable for beginners.",
-    Intermediate:
-      "Moderate complexity requires more prior knowledge and experience.",
-    Advanced:
-      "Intricate and challenging, for those with advanced skills and expertise.",
-    Expert:
-      "Highly complex and intricate designs, needing specialized techniques, materials and technology.",
   };
 
   return (
@@ -244,7 +250,7 @@ export default function QuestionsPage() {
             Miscellaneous / Other
           </option>
         </select>
-        <p>category explanation</p>
+        <p>{explanation}</p>
         <br></br>
         <label className="form-label">
           Minimum Fabricators Needed (between 1 and 4):
@@ -257,7 +263,7 @@ export default function QuestionsPage() {
           max={4}
           onChange={onChange}
         />
-        <p>difficulty explanation</p>
+        <p>{difficulty}</p>
         <br />
         <button className="form-submit-button" onClick={handleDraft}>
           Save Draft

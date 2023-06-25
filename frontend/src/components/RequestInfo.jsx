@@ -48,6 +48,48 @@ export default function RequestInfo({
     display: "inline-block",
   });
 
+  const categoryDescriptions = {
+    Prosthetics: "Prosthetic for various body parts.",
+    "Assistive Devices":
+      "Adaptive Tools that aid those with disabilities in their daily activities.",
+    "Accessibility Modifications":
+      "Improving and modifying existing objects or environments.",
+    Orthotics: "Orthotic devices to support and protect body parts.",
+    "Mobility Aids":
+      "Enhance mobility such as wheelchair accessories or walking aids.",
+    "Sensory Enhancements":
+      "Enhance sensory experiences such as tactical maps, braille materials, or tools for those with visual or hearing impairments.",
+    "Educational Resources":
+      "3D-printed educational tools, models, or resources to support learning for individuals who need them.",
+    "Customization and Personalization":
+      "Personalized and custom solutions, including aesthetic modifications.",
+    "Wearable Technology and Accessories":
+      "Wearable smart accessories that regulate and guide those who need assistance.",
+    "Medical Tools": "Instruments and tools used in healthcare settings",
+    "Rehabilitation Aids":
+      "Devices or tools used in physical therapy or rehabilitation programs. ",
+    "Animal Prosthetics":
+      "Prosthetics designed for animals, such as pets or wildlife. ",
+    "Craniofacial Optics":
+      "Glasses and other devices to support craniofacial deformities or conditions affecting the head and face. ",
+    Miscellaneous:
+      "For unique or less common requirements, also includes those unsure of which category their need falls into. ",
+  };
+
+  const difficultyTags = {
+    1: "Beginner: Simple and suitable for beginners.",
+    2: "Intermediate: Moderate complexity requires more prior knowledge and experience.",
+    3: "Advanced: Intricate and challenging, for those with advanced skills and expertise.",
+    4: "Expert: Highly complex and intricate designs, needing specialized techniques, materials and technology.",
+  };
+
+  const [explanation, setExplanation] = useState(
+    categoryDescriptions[category]
+  );
+  const [difficulty, setDifficulty] = useState(
+    difficultyTags[fabricators_needed]
+  );
+
   const deleteReq = async () => {
     await deleteRequest(request.id);
     return navigate(`/users/${currentUser.id}`);
@@ -75,6 +117,11 @@ export default function RequestInfo({
       ...edit,
       [event.target.name]: event.target.value,
     });
+    if (event.target.name === "category") {
+      setExplanation(categoryDescriptions[event.target.value]);
+    } else if (event.target.name === "fabricators_needed") {
+      setDifficulty(difficultyTags[event.target.value]);
+    }
   };
 
   const handleSubmit = async (event) => {
@@ -202,7 +249,7 @@ export default function RequestInfo({
           id="category"
           name="category"
           onChange={handleChange}
-          defaultValue={newContent.category}
+          defaultValue={category}
           style={formVisibility}
         >
           <option disabled value="none"></option>
@@ -252,6 +299,7 @@ export default function RequestInfo({
             Miscellaneous / Other
           </option>
         </select>
+        <p>{explanation}</p>
         <h4>Minimum Fabricators Needed (between 1 and 4):</h4>
         <p>{newContent.fabricators_needed}</p>
         <input
@@ -265,6 +313,7 @@ export default function RequestInfo({
           onChange={handleChange}
           disabled={request.request_status !== "Archived"}
         />
+        <p>{difficulty}</p>
         <button style={formVisibility}>Submit Edit</button>
       </form>
     </>
