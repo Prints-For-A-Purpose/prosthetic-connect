@@ -9,6 +9,7 @@ const updateRequest = async (req, res) => {
       q4_lifestyle_usage,
       q5_additional,
       fabricators_needed,
+      category,
     },
   } = req;
 
@@ -18,7 +19,8 @@ const updateRequest = async (req, res) => {
     q3_physical_specifications,
     q4_lifestyle_usage,
     q5_additional,
-    fabricators_needed
+    fabricators_needed,
+    category
   );
 
   const update = await Request.updateContent(
@@ -28,7 +30,8 @@ const updateRequest = async (req, res) => {
     q3_physical_specifications,
     q4_lifestyle_usage,
     q5_additional,
-    fabricators_needed
+    fabricators_needed,
+    category
   );
   if (!update) return res.sendStatus(404);
 

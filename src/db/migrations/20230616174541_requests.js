@@ -14,6 +14,7 @@ exports.up = (knex) =>
     table.string("q5_additional");
     table.string("image_url");
     table.integer("fabricators_needed");
+    table.string("category");
     table.timestamps(true, true);
   });
 

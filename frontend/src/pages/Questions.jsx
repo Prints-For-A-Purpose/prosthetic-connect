@@ -17,6 +17,7 @@ export default function QuestionsPage() {
     q4_lifestyle_usage: "",
     q5_additional: "",
     fabricators_needed: 0,
+    category: "",
   });
 
   const [isDraft, setIsDraft] = useState(true);
@@ -28,7 +29,8 @@ export default function QuestionsPage() {
       request.q3_physical_specifications &&
       request.q4_lifestyle_usage &&
       request.q5_additional &&
-      request.fabricators_needed
+      request.fabricators_needed &&
+      request.category
     ) {
       setIsDraft(false);
     } else {
@@ -67,6 +69,42 @@ export default function QuestionsPage() {
     request.draft = true;
     const newRequest = await createRequests(request);
     navigate(`../requests/${newRequest[0].id}/`);
+  };
+
+  const categoryDescriptions = {
+    Prosthetics: "Prosthetic for various body parts.",
+    "Assistive Devices":
+      "Adaptive Tools that aid those with disabilities in their daily activities.",
+    "Accessibility Modifications":
+      "Improving and modifying existing objects or environments.",
+    Orthotics: "Orthotic devices to support and protect body parts.",
+    "Mobility Aids":
+      "Enhance mobility such as wheelchair accessories or walking aids.",
+    "Sensory Enhancements":
+      "Enhance sensory experiences such as tactical maps, braille materials, or tools for those with visual or hearing impairments.",
+    "Educational Resources":
+      "3D-printed educational tools, models, or resources to support learning for individuals who need them.",
+    "Wearable Technology and Accessories":
+      "Personalized and custom solutions, including aesthetic modifications.",
+    "Medical Tools": "Instruments and tools used in healthcare settings",
+    "Rehabilitation Aids":
+      "Devices or tools used in physical therapy or rehabilitation programs. ",
+    "Animal Prosthetics":
+      "Prosthetics designed for animals, such as pets or wildlife. ",
+    "Craniofacial Optics":
+      "Glasses and other devices to support craniofacial deformities or conditions affecting the head and face. ",
+    Miscellaneous:
+      "For unique or less common requirements, also includes those unsure of which category their need falls into. ",
+  };
+
+  const difficultyTags = {
+    Beginner: "Simple and suitable for beginners.",
+    Intermediate:
+      "Moderate complexity requires more prior knowledge and experience.",
+    Advanced:
+      "Intricate and challenging, for those with advanced skills and expertise.",
+    Expert:
+      "Highly complex and intricate designs, needing specialized techniques, materials and technology.",
   };
 
   return (
@@ -148,6 +186,66 @@ export default function QuestionsPage() {
           onChange={onChange}
           className="form-input"
         />
+        <br></br>
+        <label htmlFor="category" className="form-label">
+          What is the category of item you need? If your not sure select
+          miscellaneous/other.
+        </label>
+        <select
+          id="category"
+          name="category"
+          onChange={onChange}
+          defaultValue={"none"}
+        >
+          <option disabled value="none"></option>
+          <option value="Prosthetics" name="Prosthetics">
+            Prosthetics
+          </option>
+          <option value="Assistive Devices" name="Assistive Devices">
+            Assistive Devices
+          </option>
+          <option
+            value="Accessibility Modifications"
+            name="Accessibility Modifications"
+          >
+            Accessibility Modifications
+          </option>
+          <option value="Orthotics" name="Orthotics">
+            Orthotics
+          </option>
+          <option value="Mobility Aids" name="Mobility Aids">
+            Mobility Aids
+          </option>
+          <option
+            value="Wearable Technology and Accessories"
+            name="Wearable Technology and Accessories"
+          >
+            Wearable Technology and Accessories
+          </option>
+          <option
+            value="Customization and Personalization"
+            name="Customization and Personalization"
+          >
+            Customization and Personalization
+          </option>
+          <option value="Medical Tools" name="Medical Tools">
+            Medical Tools
+          </option>
+          <option value="Rehabilitation Aids" name="Rehabilitation Aids">
+            Rehabilitation Aids
+          </option>
+          <option value="Animal Prosthetics" name="Animal Prosthetics">
+            Animal Prosthetics
+          </option>
+          <option value="Craniofacial Optics" name="Craniofacial Optics">
+            Craniofacial Optics
+          </option>
+          <option value="Miscellaneous" name="Miscellaneous">
+            Miscellaneous / Other
+          </option>
+        </select>
+        <p>category explanation</p>
+        <br></br>
         <label className="form-label">
           Minimum Fabricators Needed (between 1 and 4):
         </label>
@@ -159,6 +257,7 @@ export default function QuestionsPage() {
           max={4}
           onChange={onChange}
         />
+        <p>difficulty explanation</p>
         <br />
         <button className="form-submit-button" onClick={handleDraft}>
           Save Draft

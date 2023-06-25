@@ -12,6 +12,7 @@ class Request {
     created_at,
     username,
     fabricators_needed,
+    category,
   }) {
     this.id = id;
     this.user_id = user_id;
@@ -24,6 +25,7 @@ class Request {
     this.username = username;
     this.timestamp = created_at;
     this.fabricators_needed = fabricators_needed;
+    this.category = category;
   }
   static async createRequests(
     user_id,
@@ -33,11 +35,12 @@ class Request {
     q3_physical_specifications,
     q4_lifestyle_usage,
     q5_additional,
-    fabricators_needed
+    fabricators_needed,
+    category
   ) {
     try {
-      const query = `INSERT INTO requests (user_id, request_status, q1_disability_info, q2_functional_requirements, q3_physical_specifications, q4_lifestyle_usage, q5_additional, fabricators_needed)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?) 
+      const query = `INSERT INTO requests (user_id, request_status, q1_disability_info, q2_functional_requirements, q3_physical_specifications, q4_lifestyle_usage, q5_additional, fabricators_needed, category)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) 
         RETURNING *`;
       const {
         rows: [request],
@@ -50,6 +53,7 @@ class Request {
         q4_lifestyle_usage,
         q5_additional,
         fabricators_needed,
+        category,
       ]);
       return new Request(request);
     } catch (err) {
@@ -59,7 +63,7 @@ class Request {
   }
   static async find(id) {
     try {
-      const query = `SELECT r.id, r.user_id, r.request_status, r.q1_disability_info, r.q2_functional_requirements, r.q3_physical_specifications, r.q4_lifestyle_usage, r.q5_additional, r.fabricators_needed, r.created_at, u.username
+      const query = `SELECT r.id, r.user_id, r.request_status, r.q1_disability_info, r.q2_functional_requirements, r.q3_physical_specifications, r.q4_lifestyle_usage, r.q5_additional, r.fabricators_needed, r.created_at, r.category, u.username
       FROM requests AS r
       INNER JOIN users AS u ON r.user_id = u.id
       WHERE r.id = ?`;
@@ -137,10 +141,10 @@ class Request {
     }
   }
 
-  static async updateContent(id, q1, q2, q3, q4, q5, num) {
+  static async updateContent(id, q1, q2, q3, q4, q5, num, cat) {
     try {
       const query = `UPDATE requests
-        SET q1_disability_info = ?, q2_functional_requirements = ?, q3_physical_specifications = ?, q4_lifestyle_usage = ?, q5_additional = ?, fabricators_needed = ?
+        SET q1_disability_info = ?, q2_functional_requirements = ?, q3_physical_specifications = ?, q4_lifestyle_usage = ?, q5_additional = ?, fabricators_needed = ?, category = ?
         WHERE id = ?`;
       const { rowCount: count } = await knex.raw(query, [
         q1,
@@ -149,6 +153,7 @@ class Request {
         q4,
         q5,
         num,
+        cat,
         id,
       ]);
       return count ? count : null;

@@ -88,8 +88,6 @@ export default function ChangeStatus({
     q4_lifestyle_usage,
   } = newContent;
 
-  const [full, setFull] = useState(false);
-
   const handleChange = (event) => {
     setNewStatus(event.target.value);
     setExplanation(statusDescriptions[event.target.value].description);

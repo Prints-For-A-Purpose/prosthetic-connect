@@ -14,6 +14,7 @@ export const createRequests = async ({
   q4_lifestyle_usage,
   q5_additional,
   fabricators_needed,
+  category,
   draft,
 }) =>
   fetchHandler(
@@ -25,6 +26,7 @@ export const createRequests = async ({
       q4_lifestyle_usage,
       q5_additional,
       fabricators_needed,
+      category,
       draft,
     })
   );
@@ -47,6 +49,7 @@ export const updateQuestionnaire = async ({
   q4_lifestyle_usage,
   q5_additional,
   fabricators_needed,
+  category,
 }) =>
   fetchHandler(
     `${baseUrl}/${id}`,
@@ -57,6 +60,7 @@ export const updateQuestionnaire = async ({
       q4_lifestyle_usage,
       q5_additional,
       fabricators_needed,
+      category,
     })
   );
 

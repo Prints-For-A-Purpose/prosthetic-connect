@@ -29,6 +29,7 @@ exports.seed = async (knex) => {
       q4_lifestyle_usage:
         "I'd need it 3 times a day for eating and it must be safe for washing.",
       fabricators_needed: 3,
+      category: "Prosthetics",
     },
     {
       user_id: 3,
@@ -40,6 +41,7 @@ exports.seed = async (knex) => {
       q4_lifestyle_usage: "I will use to navigate myself everyday at school.",
       q5_additional: "I will need one for 2 different floors",
       fabricators_needed: 2,
+      category: "Prosthetics",
     },
     {
       user_id: 3,
@@ -50,6 +52,7 @@ exports.seed = async (knex) => {
       q3_physical_specifications: "I am missing my left ear.",
       q4_lifestyle_usage: "It would be for daily use to see better.",
       fabricators_needed: 3,
+      category: "Prosthetics",
     },
     {
       user_id: 1,
@@ -60,6 +63,7 @@ exports.seed = async (knex) => {
       q4_lifestyle_usage:
         "I'd need it 3 times a day for eating and it must be safe for washing.",
       fabricators_needed: 1,
+      category: "Prosthetics",
     },
     {
       user_id: 3,
@@ -71,6 +75,7 @@ exports.seed = async (knex) => {
       q4_lifestyle_usage: "I will use to navigate myself everyday at school.",
       q5_additional: "I will need one for 2 different floors",
       fabricators_needed: 2,
+      category: "Prosthetics",
     },
     {
       user_id: 3,
@@ -81,6 +86,7 @@ exports.seed = async (knex) => {
       q3_physical_specifications: "I am missing my left ear.",
       q4_lifestyle_usage: "It would be for daily use to see better.",
       fabricators_needed: 3,
+      category: "Prosthetics",
     },
     {
       user_id: 1,
@@ -91,6 +97,7 @@ exports.seed = async (knex) => {
       q4_lifestyle_usage:
         "I'd need it 3 times a day for eating and it must be safe for washing.",
       fabricators_needed: 3,
+      category: "Prosthetics",
     },
     {
       user_id: 3,
@@ -102,6 +109,7 @@ exports.seed = async (knex) => {
       q4_lifestyle_usage: "I will use to navigate myself everyday at school.",
       q5_additional: "I will need one for 2 different floors",
       fabricators_needed: 2,
+      category: "Prosthetics",
     },
     {
       user_id: 3,
@@ -112,6 +120,7 @@ exports.seed = async (knex) => {
       q3_physical_specifications: "I am missing my left ear.",
       q4_lifestyle_usage: "It would be for daily use to see better.",
       fabricators_needed: 1,
+      category: "Prosthetics",
     },
     {
       user_id: 1,
@@ -122,6 +131,7 @@ exports.seed = async (knex) => {
       q4_lifestyle_usage:
         "I'd need it 3 times a day for eating and it must be safe for washing.",
       fabricators_needed: 3,
+      category: "Prosthetics",
     },
     {
       user_id: 3,
@@ -133,6 +143,7 @@ exports.seed = async (knex) => {
       q4_lifestyle_usage: "I will use to navigate myself everyday at school.",
       q5_additional: "I will need one for 2 different floors",
       fabricators_needed: 1,
+      category: "Prosthetics",
     },
     {
       user_id: 3,
@@ -143,6 +154,7 @@ exports.seed = async (knex) => {
       q3_physical_specifications: "I am missing my left ear.",
       q4_lifestyle_usage: "It would be for daily use to see better.",
       fabricators_needed: 2,
+      category: "Prosthetics",
     },
     {
       user_id: 1,
@@ -153,6 +165,7 @@ exports.seed = async (knex) => {
       q4_lifestyle_usage:
         "I'd need it 3 times a day for eating and it must be safe for washing.",
       fabricators_needed: 3,
+      category: "Prosthetics",
     },
     {
       user_id: 3,
@@ -164,6 +177,7 @@ exports.seed = async (knex) => {
       q4_lifestyle_usage: "I will use to navigate myself everyday at school.",
       q5_additional: "I will need one for 2 different floors",
       fabricators_needed: 2,
+      category: "Prosthetics",
     },
     {
       user_id: 3,
@@ -174,6 +188,7 @@ exports.seed = async (knex) => {
       q3_physical_specifications: "I am missing my left ear.",
       q4_lifestyle_usage: "It would be for daily use to see better.",
       fabricators_needed: 2,
+      category: "Prosthetics",
     },
   ]);
   await knex("comments").insert([

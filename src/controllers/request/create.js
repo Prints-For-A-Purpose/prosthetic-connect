@@ -11,6 +11,7 @@ const createRequest = async (req, res) => {
       q4_lifestyle_usage,
       q5_additional,
       fabricators_needed,
+      category,
       draft,
     },
   } = req;
@@ -35,7 +36,8 @@ const createRequest = async (req, res) => {
     q3_physical_specifications,
     q4_lifestyle_usage,
     q5_additional,
-    fabricators_needed
+    fabricators_needed,
+    category
   );
 
   res.send(newRequest);
