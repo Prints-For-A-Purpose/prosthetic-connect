@@ -6,7 +6,11 @@ const showMe = async (req, res) => {
 
   if (!Number.isInteger(+id) || +id === 0) return res.sendStatus(404);
 
-  const { is_fabricator } = await User.find(id);
+  const user = await User.find(id);
+
+  if (!user) return res.sendStatus(404);
+
+  const { is_fabricator } = user;
 
   const requests = is_fabricator
     ? await Request.findFabProjects(id)

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const ChooseYourSkills = ({ role, selectedOptions, setSelectedOptions }) => {
+const ChooseYourSkills = ({ role, selectedSkills, setSkills }) => {
   const [visible, setVisible] = useState(null);
   const [rec, setRec] = useState(null);
   const [exp, setExp] = useState(null);
@@ -43,12 +43,12 @@ const ChooseYourSkills = ({ role, selectedOptions, setSelectedOptions }) => {
     const selectedValues = options
       .filter((option) => option.selected)
       .map((option) => option.value);
-    const s = new Set(selectedOptions);
+    const s = new Set(selectedSkills);
     if (s.has(selectedValues[0])) {
       s.delete(selectedValues[0]);
-      setSelectedOptions(Array.from(s));
+      setSkills(Array.from(s));
     } else {
-      setSelectedOptions([...selectedOptions, selectedValues[0]]);
+      setSkills([...selectedSkills, selectedValues[0]]);
     }
     setExp(explanations[selectedValues[0]]);
   };
@@ -60,7 +60,7 @@ const ChooseYourSkills = ({ role, selectedOptions, setSelectedOptions }) => {
           <h4>Please select at least one skill to sign up!</h4>
           <select
             multiple
-            value={selectedOptions}
+            value={selectedSkills}
             onChange={handleSelectChange}
             style={{ width: "100%" }}
           >
@@ -79,7 +79,7 @@ const ChooseYourSkills = ({ role, selectedOptions, setSelectedOptions }) => {
             <option value="Robotics">Robotics</option>
           </select>
           <p>{exp}</p>
-          <p>Selected Options: {selectedOptions.join(", ")}</p>
+          <p>Selected Options: {selectedSkills.join(", ")}</p>
           <p>
             Welcome, fabricators! By joining our community, you become an
             essential part of our mission to make a positive impact through 3D

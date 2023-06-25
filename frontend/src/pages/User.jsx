@@ -8,6 +8,11 @@ import {
 } from "../adapters/user-adapter";
 import { homePagination } from "../adapters/request-adapter";
 import { logUserOut } from "../adapters/auth-adapter";
+import {
+  getSkillsByUserID,
+  deleteSkillById,
+  createSkill,
+} from "../adapters/skills-adapter";
 import UpdateUsernameForm from "../components/UpdateUsernameForm";
 import RequestBox from "../components/RequestBox";
 import DonationForm from "../components/DonationForm";
@@ -21,17 +26,44 @@ export default function UserPage() {
   const [userRequests, setUserRequests] = useState([]);
   const [payment, setPayment] = useState("");
   const [errorText, setErrorText] = useState(null);
+  const [skills, setSkills] = useState(null);
+  const [rem, setRem] = useState(null);
+  const [count, setCount] = useState(0);
+  const [modal, setModal] = useState(false);
   const { id } = useParams();
   const isCurrentUserProfile = currentUser && currentUser.id === Number(id);
+
+  const otherSkills = [
+    "3D Printing ",
+    "Design and CAD",
+    "Material Knowledge",
+    "Prototyping",
+    "Customization",
+    "Project Management",
+    "CNC Machining",
+    "Laser Cutting",
+    "Electronics",
+    "3D Modeling",
+    "Welding",
+    "Programming",
+    "Robotics",
+  ];
+
   useEffect(() => {
     const loadUser = async () => {
       const [user, error] = await getUser(id);
       if (error) return setErrorText(error.statusText);
       setUserProfile(user);
       setPayment(user.payment_url);
+      if (user && user.is_fabricator) {
+        const listOfSkills = await getSkillsByUserID(user.id);
+        setSkills(listOfSkills);
+        let res = listOfSkills.map((x) => Object.values(x)[2]);
+        setRem(otherSkills.filter((x) => !res.includes(x)));
+      }
     };
     loadUser();
-  }, [id]);
+  }, [id, count]);
 
   useEffect(() => {
     const loadRequest = async () => {
@@ -52,6 +84,26 @@ export default function UserPage() {
     return navigate("/");
   };
 
+  const deleteSkill = async (event) => {
+    const { value } = event.target;
+    await deleteSkillById(value);
+    setCount(count + 1);
+  };
+
+  const addSkill = async (event) => {
+    const { value } = event.target;
+    await createSkill(id, value);
+    setCount(count + 1);
+  };
+
+  const showOther = async (event) => {
+    if (modal) {
+      setModal(false);
+    } else {
+      setModal(true);
+    }
+  };
+
   if (!userProfile && !errorText) return null;
   if (errorText) return <p>{errorText}</p>;
 
@@ -67,13 +119,58 @@ export default function UserPage() {
 
   return (
     <>
+      {userProfile && userProfile.pfp_url && (
+        <img src={userProfile.pfp_url} style={{ maxWidth: "5rem" }}></img>
+      )}
+      {userProfile && userProfile.bio && <p>{userProfile.bio}</p>}
       <h4>Role: {role}</h4>
       <h1>{profileUsername}</h1>
+      {skills && (
+        <>
+          <h3>Skills</h3>
+          <div>
+            {skills.map((s) => (
+              <button
+                className="button-33"
+                key={s.id}
+                value={s.id}
+                onClick={isCurrentUserProfile && deleteSkill}
+              >
+                {isCurrentUserProfile && "X "}
+                {s.skill_name}
+              </button>
+            ))}
+            <br></br>
+            <br></br>
+
+            {isCurrentUserProfile && (
+              <button className="button-33" onClick={showOther}>
+                +
+              </button>
+            )}
+          </div>
+          <br></br>
+          <br></br>
+          {isCurrentUserProfile && modal && (
+            <div>
+              {rem.map((s, i) => (
+                <button
+                  className="button-33"
+                  key={i}
+                  value={s}
+                  onClick={addSkill}
+                >
+                  + {s}
+                </button>
+              ))}
+            </div>
+          )}
+        </>
+      )}
+
       {!!isCurrentUserProfile && (
         <button onClick={handleLogout}>Log Out</button>
       )}
-      <p>If the user had any data, here it would be</p>
-      <p>Fake Bio or something</p>
       {!!isCurrentUserProfile && (
         <UpdateUsernameForm
           currentUser={currentUser}

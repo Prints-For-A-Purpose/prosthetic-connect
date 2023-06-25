@@ -2,8 +2,25 @@ import { useContext, useState } from "react";
 import { useNavigate, Navigate, Link } from "react-router-dom";
 import CurrentUserContext from "../contexts/current-user-context";
 import { createUser } from "../adapters/user-adapter";
+import { createSkill } from "../adapters/skills-adapter";
 
 import ChooseYourSkills from "../components/ChooseYourSkills";
+
+const sendSkills = async (user_id, skill_name) => {
+  try {
+    const [response] = await createSkill(user_id, skill_name);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const sendAllSkills = async (user_id, array) => {
+  const promises = array.map((e) => sendSkills(user_id, e));
+  try {
+    await Promise.all(promises);
+  } catch (error) {}
+};
 
 export default function SignUpPage() {
   const navigate = useNavigate();
@@ -12,7 +29,7 @@ export default function SignUpPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
-  const [selectedOptions, setSelectedOptions] = useState([]);
+  const [selectedSkills, setSkills] = useState([]);
 
   if (currentUser) return <Navigate to="/" />;
 
@@ -21,16 +38,22 @@ export default function SignUpPage() {
     setErrorText("");
     if (!username || !password || !role)
       return setErrorText("Missing username, password, or role");
-
     const is_fabricator = role === "fabricator" ? true : false;
+    if (is_fabricator && selectedSkills.length === 0) {
+      return setErrorText("Missing at least one fabricator skill.");
+    }
 
     const [user, error] = await createUser({
       username,
       password,
       is_fabricator,
     });
-    if (error) return setErrorText(error.statusText);
+    const user_id = user.id;
 
+    if (is_fabricator && user_id && selectedSkills) {
+      sendAllSkills(user_id, selectedSkills);
+    }
+    if (error) return setErrorText(error.statusText);
     setCurrentUser(user);
     navigate("/");
   };
@@ -40,7 +63,6 @@ export default function SignUpPage() {
     if (name === "username") setUsername(value);
     if (name === "password") setPassword(value);
     if (name === "role") setRole(value);
-    console.log(role);
   };
 
   return (
@@ -93,8 +115,8 @@ export default function SignUpPage() {
         </label>
         <ChooseYourSkills
           role={role}
-          selectedOptions={selectedOptions}
-          setSelectedOptions={setSelectedOptions}
+          selectedSkills={selectedSkills}
+          setSkills={setSkills}
         ></ChooseYourSkills>
         <button>Sign Up Now!</button>
         <p>
