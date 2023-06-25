@@ -21,14 +21,28 @@ class Comment {
 
   static async list(id, page) {
     page = (Number(page) - 1) * 7;
-    const query = `SELECT c.id, c.request_id, c.user_id, c.content, c.is_public, c.created_at, u.username
+    const query = `SELECT c.id, c.request_id, c.user_id, c.content, c.is_public, c.created_at, c.is_public, u.username
     FROM comments AS c
     INNER JOIN users AS u ON c.user_id = u.id
-    WHERE c.request_id = ?
+    WHERE c.request_id = ? AND c.is_public = TRUE
     ORDER BY 
     c.created_at DESC
     OFFSET ?
-    ROWS lIMIT 7;`;
+    ROWS lIMIT 15;`;
+    const { rows } = await knex.raw(query, [id, page]);
+    return rows.map((comments) => new Comment(comments));
+  }
+
+  static async listPrivate(id, page) {
+    page = (Number(page) - 1) * 7;
+    const query = `SELECT c.id, c.request_id, c.user_id, c.content, c.is_public, c.created_at, c.is_public, u.username
+    FROM comments AS c
+    INNER JOIN users AS u ON c.user_id = u.id
+    WHERE c.request_id = ? AND c.is_public = FALSE
+    ORDER BY 
+    c.created_at DESC
+    OFFSET ?
+    ROWS lIMIT 15;`;
     const { rows } = await knex.raw(query, [id, page]);
     return rows.map((comments) => new Comment(comments));
   }

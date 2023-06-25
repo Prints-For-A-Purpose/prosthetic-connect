@@ -15,6 +15,13 @@ export const getComments = async (id, page) => {
   return comments || [];
 };
 
+export const getPrivateComments = async (id, page) => {
+  const [comments] = await fetchHandler(
+    `${baseUrl}/private/request/${id}/${page}`
+  );
+  return comments || [];
+};
+
 export const deleteComment = async (id) =>
   fetchHandler(`${baseUrl}/${id}`, deleteOptions);
 

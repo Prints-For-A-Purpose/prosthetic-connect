@@ -4,7 +4,12 @@ import CurrentUserContext from "../contexts/current-user-context";
 import CommentDeleteEdit from "../components/CommentDeleteEdit";
 import { formatTimestamp } from "../utils";
 
-export default function CommentBox({ comment, setComments, request_id }) {
+export default function CommentBox({
+  comment,
+  setComments,
+  request_id,
+  is_public,
+}) {
   const { currentUser } = useContext(CurrentUserContext);
   const [commentContent, setCommentContent] = useState(`${comment.content}`);
 
@@ -23,6 +28,7 @@ export default function CommentBox({ comment, setComments, request_id }) {
             setCommentContent={setCommentContent}
             setComments={setComments}
             request_id={request_id}
+            is_public={is_public}
           ></CommentDeleteEdit>
         </>
       ) : (

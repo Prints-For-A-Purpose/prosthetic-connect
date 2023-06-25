@@ -46,6 +46,7 @@ export default function UserPage() {
 
   const handleLogout = async () => {
     logUserOut();
+    localStorage.clear();
     setCurrentUser(null);
     await homePagination(1);
     return navigate("/");

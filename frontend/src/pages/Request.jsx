@@ -6,8 +6,8 @@ import CurrentUserContext from "../contexts/current-user-context";
 
 import CommentBox from "../components/CommentBox";
 
-import { getRequest, moveStatusProgress } from "../adapters/request-adapter";
-import { getComments } from "../adapters/comments-adapter";
+import { getRequest } from "../adapters/request-adapter";
+import { getComments, getPrivateComments } from "../adapters/comments-adapter";
 import {
   isAnActiveFabricator,
   getActiveFabricators,
@@ -28,10 +28,47 @@ export default function Request() {
   const [errorText, setErrorText] = useState(null);
   const [username, setUsername] = useState(null);
   const [status, setStatus] = useState(null);
-  const [active, setActive] = useState(null);
+  const [active, setActive] = useState(false);
   const [complete, setComplete] = useState(null);
   const [numOfActive, setNumOfActive] = useState(null);
   const [comments, setComments] = useState([]);
+
+  const [is_public, setIs_Public] = useState(null);
+
+  useEffect(() => {
+    const isPublic =
+      localStorage.getItem(`isPublic${id}`) === null
+        ? true
+        : localStorage.getItem(`isPublic${id}`) === "false"
+        ? false
+        : true;
+
+    const fetchComments = async () => {
+      if (isPublic === true) {
+        setIs_Public(true);
+        const allComments = await getComments(id, 1);
+        setComments(allComments);
+      } else {
+        setIs_Public(false);
+        const allComments = await getPrivateComments(id, 1);
+        setComments(allComments);
+      }
+    };
+    fetchComments();
+  }, []);
+
+  const handleToggle = async () => {
+    const updatedCondition = !is_public;
+    setIs_Public(updatedCondition);
+    localStorage.setItem(`isPublic${id}`, updatedCondition.toString());
+    if (updatedCondition === true) {
+      const allComments = await getComments(id, 1);
+      setComments(allComments);
+    } else {
+      const allComments = await getPrivateComments(id, 1);
+      setComments(allComments);
+    }
+  };
 
   useEffect(() => {
     const loadRequest = async () => {
@@ -40,8 +77,6 @@ export default function Request() {
       setRequest(data);
       setUsername(data.username);
       setStatus(request.request_status);
-      const allComments = await getComments(id, 1);
-      setComments(allComments);
     };
     loadRequest();
   }, [status, numOfActive]);
@@ -63,6 +98,7 @@ export default function Request() {
   if (errorText) return <p>{errorText}</p>;
 
   const authorized = currentUser && +currentUser.id === +request.user_id;
+
   const canInvite =
     currentUser &&
     !active &&
@@ -72,6 +108,12 @@ export default function Request() {
       : false;
   return (
     <>
+      {currentUser && (authorized || active) && (
+        <label className="switch">
+          <input type="checkbox" onChange={handleToggle} checked={!is_public} />
+          <span className="slider round" />
+        </label>
+      )}
       <h1>Request #{request.id}</h1>
       <h2>
         Requested By:
@@ -105,6 +147,7 @@ export default function Request() {
               comment={com}
               setComments={setComments}
               request_id={request.id}
+              is_public={is_public}
             />
           </div>
         ))}
@@ -112,9 +155,15 @@ export default function Request() {
           id={id}
           setComments={setComments}
           request_id={request.id}
+          is_public={is_public}
         />
         {currentUser && (
-          <NewComment request={request} setComments={setComments} id={id} />
+          <NewComment
+            request={request}
+            setComments={setComments}
+            id={id}
+            is_public={is_public}
+          />
         )}
       </div>
     </>

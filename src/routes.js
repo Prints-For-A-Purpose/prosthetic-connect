@@ -32,6 +32,10 @@ Router.patch(
 );
 
 Router.get("/comments/request/:id/:page", commentsController.list);
+Router.get(
+  "/comments/private/request/:id/:page",
+  commentsController.listPrivate
+);
 Router.post("/comments", checkAuthentication, commentsController.create);
 Router.patch("/comments/:id", checkAuthentication, commentsController.update);
 Router.delete(
