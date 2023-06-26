@@ -4,11 +4,22 @@ const { hashPassword, isValidPassword } = require("../../utils/auth-utils");
 class User {
   #passwordHash = null;
 
-  constructor({ id, username, password_hash, is_fabricator }) {
+  constructor({
+    id,
+    username,
+    password_hash,
+    is_fabricator,
+    bio,
+    payment_url,
+    pfp_url,
+  }) {
     this.id = id;
     this.username = username;
     this.is_fabricator = is_fabricator;
     this.#passwordHash = password_hash;
+    this.bio = bio;
+    this.payment_url = payment_url;
+    this.pfp_url = pfp_url;
   }
 
   static async list() {
@@ -36,12 +47,51 @@ class User {
   static async create(username, password, is_fabricator) {
     const passwordHash = await hashPassword(password);
 
-    const query = `INSERT INTO users (username, password_hash, is_fabricator)
-      VALUES (?, ?, ?) RETURNING *`;
+    const query = `INSERT INTO users (username, password_hash, is_fabricator, pfp_url)
+      VALUES (?, ?, ?, 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png') RETURNING *`;
     const {
       rows: [user],
     } = await knex.raw(query, [username, passwordHash, is_fabricator]);
     return new User(user);
+  }
+
+  static async updatePayment(id, payment_url) {
+    try {
+      const query = `UPDATE users
+        SET payment_url = ?
+        WHERE id = ?`;
+      const { rowCount: count } = await knex.raw(query, [payment_url, id]);
+      return count ? count : null;
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
+  }
+
+  static async updatePFP(id, pfp_url) {
+    try {
+      const query = `UPDATE users
+        SET pfp_url = ?
+        WHERE id = ?`;
+      const { rowCount: count } = await knex.raw(query, [pfp_url, id]);
+      return count ? count : null;
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
+  }
+
+  static async updateBio(id, bio) {
+    try {
+      const query = `UPDATE users
+        SET bio = ?
+        WHERE id = ?`;
+      const { rowCount: count } = await knex.raw(query, [bio, id]);
+      return count ? count : null;
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
   }
 
   static async deleteAll() {
@@ -49,7 +99,7 @@ class User {
   }
 
   update = async (username) => {
-    // dynamic queries are easier if you add more properties
+    // make this so it applies to username, pfp, and bio.
     const [updatedUser] = await knex("users")
       .where({ id: this.id })
       .update({ username })

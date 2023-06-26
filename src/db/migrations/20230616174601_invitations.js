@@ -6,6 +6,7 @@ exports.up = (knex) => knex.schema.createTable('invitations', (table) => {
     table.increments();
     table.integer('request_id').references("id").inTable('requests');
     table.integer('user_id').references("id").inTable('users');
+    table.string('status')
     table.timestamps(true, true);
   });
   

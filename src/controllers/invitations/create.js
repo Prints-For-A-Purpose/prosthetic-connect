@@ -2,14 +2,11 @@ const createInv = async (req, res) => {
   const {
     session,
     db: { Invite },
-    body: { user_id, request_id },
+    params: { id }, //request id
   } = req;
-  // if (!session.userId) {
-  //   res.send(401);
-  //   return;
-  // }
-  const invitation = await Invite.createInvite(user_id, request_id);
-
+  if (!session.is_fabricator) return res.sendStatus(401);
+  const invitation = await Invite.createInvite(session.userId, id);
+  //sends an invite to a request only if logged in and is a fabricator
   res.send(invitation);
 };
 

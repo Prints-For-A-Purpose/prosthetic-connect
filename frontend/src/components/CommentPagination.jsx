@@ -1,15 +1,20 @@
 import { useState, useEffect } from "react";
-import { getComments } from "../adapters/comments-adapter";
+import { getComments, getPrivateComments } from "../adapters/comments-adapter";
 
-export default function CommentPagination({ id, setComments }) {
+export default function CommentPagination({ id, setComments, is_public }) {
   const [n, setN] = useState(1);
 
   let l = Math.floor(n / 7) * 7 + 1;
 
   useEffect(() => {
     const loadRequest = async () => {
-      const newComments = await getComments(id, Number(n));
-      setComments(newComments);
+      if (is_public === true) {
+        const newComments = await getComments(id, 1);
+        setComments(newComments);
+      } else {
+        const newComments = await getPrivateComments(id, 1);
+        setComments(newComments);
+      }
     };
     loadRequest();
   }, [n]);

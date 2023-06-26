@@ -46,7 +46,7 @@ nav a {
   padding: 5rem;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 20rem;
+  width: 40rem;
   margin: 2rem auto;
   border: 10px solid blue;
   /* background-color: #F8F8F8; */
@@ -174,7 +174,7 @@ nav a {
   align-items: stretch;
   font-size: larger;
   margin: 2rem;
-  max-width: 500px;
+  max-width: 40rem;
   padding: 20px;
   border: 10px solid blue;
   /* background-color: #F4F4F4; */
@@ -417,14 +417,152 @@ button:hover {
   font-style: italic;
 }
 
+.bmc-btn svg {
+  height: 32px !important;
+  margin-bottom: 0px !important;
+  box-shadow: none !important;
+  border: none !important;
+  vertical-align: middle !important;
+  transform: scale(0.9);
+  flex-shrink: 0;
+}
 
+.bmc-btn {
+  min-width: 210px;
+  color: #ffffff;
+  background-color: #002f85 !important;
+  height: 60px;
+  border-radius: 12px;
+  font-size: 24px;
+  font-weight: Bold;
+  border: none;
+  padding: 0px 24px;
+  line-height: 27px;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  align-items: center;
+  font-family: 'Lato', cursive !important;
+  -webkit-box-sizing: border-box !important;
+  box-sizing: border-box !important;
+}
 
+.bmc-btn:hover,
+.bmc-btn:active,
+.bmc-btn:focus {
+  text-decoration: none !important;
+  cursor: pointer;
+}
 
+.bmc-btn-text {
+  margin-left: 8px;
+  display: inline-block;
+  line-height: 0;
+  width: 100%;
+  flex-shrink: 0;
+  font-family: [FONT] !important;
+}
 
+.logo-outline {
+  fill: #ffffff;
+}
 
+.logo-coffee {
+  fill: #FFDD00;}
 
+.gradient-canvas {
+  width:100%;
+  height:100%;
+}
 
+a {
+  color:red;
+}
 
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
 
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
 
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
 
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.button-33 {
+  background-color: #c2fbd7;
+  border-radius: 100px;
+  box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px;
+  color: green;
+  cursor: pointer;
+  display: inline-block;
+  font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
+  padding: 7px 20px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 250ms;
+  border: 0;
+  font-size: 16px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-33:hover {
+  box-shadow: rgba(44,187,99,.35) 0 -25px 18px -14px inset,rgba(44,187,99,.25) 0 1px 2px,rgba(44,187,99,.25) 0 2px 4px,rgba(44,187,99,.25) 0 4px 8px,rgba(44,187,99,.25) 0 8px 16px,rgba(44,187,99,.25) 0 16px 32px;
+  transform: scale(1.05) rotate(-1deg);
+  background-color: #c2fbd7;
+  color: green;
+}

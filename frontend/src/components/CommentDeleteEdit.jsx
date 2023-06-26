@@ -3,6 +3,7 @@ import {
   updateComment,
   deleteComment,
   getComments,
+  getPrivateComments,
 } from "../adapters/comments-adapter";
 
 export default function CommentDeleteEdit({
@@ -11,6 +12,7 @@ export default function CommentDeleteEdit({
   setCommentContent,
   setComments,
   request_id,
+  is_public,
 }) {
   const [edit, setEdit] = useState(`${comment.content}`);
   const [formVisibility, setFormVisibility] = useState({ display: "none" });
@@ -29,8 +31,13 @@ export default function CommentDeleteEdit({
 
   const deleteCurrentComment = async () => {
     deleteComment(comment.id);
-    const allComments = await getComments(request_id, 1);
-    setComments(allComments);
+    if (is_public === true) {
+      const allComments = await getComments(request_id, 1);
+      setComments(allComments);
+    } else {
+      const allComments = await getPrivateComments(request_id, 1);
+      setComments(allComments);
+    }
   };
 
   const handleSubmit = async (event) => {

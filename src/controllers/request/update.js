@@ -1,8 +1,5 @@
-// const { isAuthorized } = require("../../utils/auth-utils");
-
 const updateRequest = async (req, res) => {
   const {
-    // session,
     db: { Request },
     params: { id },
     body: {
@@ -11,10 +8,20 @@ const updateRequest = async (req, res) => {
       q3_physical_specifications,
       q4_lifestyle_usage,
       q5_additional,
+      fabricators_needed,
+      category,
     },
   } = req;
 
-  //   if (!isAuthorized(id, session)) return res.sendStatus(403);
+  console.log(
+    q1_disability_info,
+    q2_functional_requirements,
+    q3_physical_specifications,
+    q4_lifestyle_usage,
+    q5_additional,
+    fabricators_needed,
+    category
+  );
 
   const update = await Request.updateContent(
     id,
@@ -22,7 +29,9 @@ const updateRequest = async (req, res) => {
     q2_functional_requirements,
     q3_physical_specifications,
     q4_lifestyle_usage,
-    q5_additional
+    q5_additional,
+    fabricators_needed,
+    category
   );
   if (!update) return res.sendStatus(404);
 

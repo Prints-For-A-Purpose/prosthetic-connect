@@ -10,6 +10,9 @@ const createRequest = async (req, res) => {
       q3_physical_specifications,
       q4_lifestyle_usage,
       q5_additional,
+      fabricators_needed,
+      category,
+      draft,
     },
   } = req;
 
@@ -22,7 +25,7 @@ const createRequest = async (req, res) => {
     return res.sendStatus(401);
   }
 
-  const request_status = "Active";
+  const request_status = draft ? "Archived" : "Pending";
   const user_id = session.userId;
 
   const newRequest = await Request.createRequests(
@@ -32,7 +35,9 @@ const createRequest = async (req, res) => {
     q2_functional_requirements,
     q3_physical_specifications,
     q4_lifestyle_usage,
-    q5_additional
+    q5_additional,
+    fabricators_needed,
+    category
   );
 
   res.send(newRequest);

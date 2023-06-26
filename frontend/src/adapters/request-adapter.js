@@ -13,6 +13,9 @@ export const createRequests = async ({
   q3_physical_specifications,
   q4_lifestyle_usage,
   q5_additional,
+  fabricators_needed,
+  category,
+  draft,
 }) =>
   fetchHandler(
     baseUrl,
@@ -22,6 +25,9 @@ export const createRequests = async ({
       q3_physical_specifications,
       q4_lifestyle_usage,
       q5_additional,
+      fabricators_needed,
+      category,
+      draft,
     })
   );
 
@@ -42,6 +48,8 @@ export const updateQuestionnaire = async ({
   q3_physical_specifications,
   q4_lifestyle_usage,
   q5_additional,
+  fabricators_needed,
+  category,
 }) =>
   fetchHandler(
     `${baseUrl}/${id}`,
@@ -51,5 +59,11 @@ export const updateQuestionnaire = async ({
       q3_physical_specifications,
       q4_lifestyle_usage,
       q5_additional,
+      fabricators_needed,
+      category,
     })
   );
+
+export const moveStatusProgress = async (id, request_status) => {
+  fetchHandler(`${baseUrl}/edit/${id}`, getPatchOptions({ request_status }));
+};

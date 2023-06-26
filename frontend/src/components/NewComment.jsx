@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { createComment } from "../adapters/comments-adapter";
-import { getComments } from "../adapters/comments-adapter";
+import { getComments, getPrivateComments } from "../adapters/comments-adapter";
 
-export default function NewComment({ request, setComments, id }) {
+export default function NewComment({ request, setComments, id, is_public }) {
   const [content, setContent] = useState("");
   const [errorText, setErrorText] = useState(null);
 
@@ -14,18 +14,22 @@ export default function NewComment({ request, setComments, id }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setErrorText("");
-    const is_public = true;
     const request_id = request.id;
     if (!content) return setErrorText("Missing comment content.");
-    const [newComment, error] = await createComment({
+    await createComment({
       request_id,
       content,
       is_public,
     });
-    if (error) return setErrorText(error.statusText);
-    const allComments = await getComments(id, 1);
+    if (is_public === true) {
+      const allComments = await getComments(id, 1);
+      setComments(allComments);
+    } else {
+      const allComments = await getPrivateComments(id, 1);
+      setComments(allComments);
+    }
+
     setContent("");
-    setComments(allComments);
   };
 
   return (

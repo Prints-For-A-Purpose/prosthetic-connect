@@ -16,7 +16,18 @@ export const getUser = async (id) => fetchHandler(`${baseUrl}/${id}`);
 export const updateUsername = async ({ id, username }) =>
   fetchHandler(`${baseUrl}/${id}`, getPatchOptions({ id, username }));
 
+export const updatePayment = async ({ id, payment_url }) =>
+  fetchHandler(
+    `${baseUrl}/payment/${id}`,
+    getPatchOptions({ id, payment_url })
+  );
+
 export const getUserRequests = async (id) => {
+  const [requests] = await fetchHandler(`${baseUrl}/${id}/requests`);
+  return requests || [];
+};
+
+export const getFabRequests = async (id) => {
   const [requests] = await fetchHandler(`${baseUrl}/${id}/requests`);
   return requests || [];
 };

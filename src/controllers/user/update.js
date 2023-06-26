@@ -1,4 +1,4 @@
-const { isAuthorized } = require('../../utils/auth-utils');
+const { isAuthorized } = require("../../utils/auth-utils");
 
 const updateUser = async (req, res) => {
   const {
@@ -12,6 +12,8 @@ const updateUser = async (req, res) => {
 
   const user = await User.find(id);
   if (!user) return res.sendStatus(404);
+
+  // make this so it applies to username, pfp, and bio.
 
   const updatedUser = await user.update(username);
   res.send(updatedUser);

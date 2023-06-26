@@ -10,6 +10,9 @@ class Request {
     q4_lifestyle_usage,
     q5_additional,
     created_at,
+    username,
+    fabricators_needed,
+    category,
   }) {
     this.id = id;
     this.user_id = user_id;
@@ -19,7 +22,10 @@ class Request {
     this.q3_physical_specifications = q3_physical_specifications;
     this.q4_lifestyle_usage = q4_lifestyle_usage;
     this.q5_additional = q5_additional;
+    this.username = username;
     this.timestamp = created_at;
+    this.fabricators_needed = fabricators_needed;
+    this.category = category;
   }
   static async createRequests(
     user_id,
@@ -28,11 +34,13 @@ class Request {
     q2_functional_requirements,
     q3_physical_specifications,
     q4_lifestyle_usage,
-    q5_additional
+    q5_additional,
+    fabricators_needed,
+    category
   ) {
     try {
-      const query = `INSERT INTO requests (user_id, request_status, q1_disability_info, q2_functional_requirements, q3_physical_specifications, q4_lifestyle_usage, q5_additional)
-        VALUES (?, ?, ?, ?, ?, ?, ?) 
+      const query = `INSERT INTO requests (user_id, request_status, q1_disability_info, q2_functional_requirements, q3_physical_specifications, q4_lifestyle_usage, q5_additional, fabricators_needed, category)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) 
         RETURNING *`;
       const {
         rows: [request],
@@ -44,6 +52,8 @@ class Request {
         q3_physical_specifications,
         q4_lifestyle_usage,
         q5_additional,
+        fabricators_needed,
+        category,
       ]);
       return new Request(request);
     } catch (err) {
@@ -53,7 +63,11 @@ class Request {
   }
   static async find(id) {
     try {
-      const query = `SELECT * FROM requests WHERE id = ?`;
+      const query = `SELECT r.id, r.user_id, r.request_status, r.q1_disability_info, r.q2_functional_requirements, r.q3_physical_specifications, r.q4_lifestyle_usage, r.q5_additional, r.fabricators_needed, r.created_at, r.category, u.username
+      FROM requests AS r
+      INNER JOIN users AS u ON r.user_id = u.id
+      WHERE r.id = ?`;
+      //SELECT request_id FROM invitations WHERE user_id = 1 AND status = 'accepted';
       const {
         rows: [request],
       } = await knex.raw(query, [id]);
@@ -71,7 +85,7 @@ class Request {
         typeof is_fabricator === "boolean" && is_fabricator === true
           ? `SELECT * 
       FROM requests
-      WHERE request_status = 'Active'
+      WHERE request_status = 'Pending'
       ORDER BY 
       created_at DESC
       OFFSET ? 
@@ -79,13 +93,14 @@ class Request {
           : typeof is_fabricator === "boolean" && is_fabricator === false
           ? `SELECT * 
           FROM requests 
+          WHERE NOT request_status = 'Archived'
           ORDER BY 
           created_at DESC
           OFFSET ? 
           ROWS LIMIT 4`
           : `SELECT * 
           FROM requests
-          WHERE request_status = 'Done' 
+          WHERE request_status = 'Deployment' 
           ORDER BY 
           created_at DESC
           OFFSET ? 
@@ -104,26 +119,20 @@ class Request {
     return rows.map((request) => new Request(request));
   }
 
-  updateStatus = async (request_status) => {
-    try {
-      const [updatedRequest] = await knex("requests")
-        .where({ id: this.id })
-        .update({ request_status })
-        .returning("*");
-      return updatedRequest ? new Request(updatedRequest) : null;
-    } catch (err) {
-      console.error(err);
-      return null;
-    }
-  };
+  static async findFabProjects(id) {
+    const query = `SELECT r.id, r.q1_disability_info, r.q2_functional_requirements, r.q3_physical_specifications, r.q4_lifestyle_usage, r.q5_additional, r.request_status FROM (SELECT request_id FROM invitations WHERE user_id = ? AND status = 'accepted') AS i
+    LEFT JOIN requests AS r ON r.id = i.request_id`;
+    const { rows } = await knex.raw(query, [id]);
+    return rows.map((request) => new Request(request));
+  }
 
   static async deleteRequest(request_id) {
     try {
       const query1 = `DELETE FROM invitations WHERE request_id = ?;`;
       const query2 = `DELETE FROM comments WHERE request_id = ?`;
       const query3 = `DELETE FROM requests WHERE id = ?`;
-      const deletedInvitations = await knex.raw(query1, [request_id]);
-      const deletedComments = await knex.raw(query2, [request_id]);
+      await knex.raw(query1, [request_id]);
+      await knex.raw(query2, [request_id]);
       const { rowCount: count } = await knex.raw(query3, [request_id]);
       return count;
     } catch (err) {
@@ -132,10 +141,10 @@ class Request {
     }
   }
 
-  static async updateContent(id, q1, q2, q3, q4, q5) {
+  static async updateContent(id, q1, q2, q3, q4, q5, num, cat) {
     try {
       const query = `UPDATE requests
-        SET q1_disability_info = ?, q2_functional_requirements = ?, q3_physical_specifications = ?, q4_lifestyle_usage = ?, q5_additional = ?
+        SET q1_disability_info = ?, q2_functional_requirements = ?, q3_physical_specifications = ?, q4_lifestyle_usage = ?, q5_additional = ?, fabricators_needed = ?, category = ?
         WHERE id = ?`;
       const { rowCount: count } = await knex.raw(query, [
         q1,
@@ -143,8 +152,23 @@ class Request {
         q3,
         q4,
         q5,
+        num,
+        cat,
         id,
       ]);
+      return count ? count : null;
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
+  }
+
+  static async updateStatus(id, request_status) {
+    try {
+      const query = `UPDATE requests
+        SET request_status = ?
+        WHERE id = ?`;
+      const { rowCount: count } = await knex.raw(query, [request_status, id]);
       return count ? count : null;
     } catch (err) {
       console.error(err);

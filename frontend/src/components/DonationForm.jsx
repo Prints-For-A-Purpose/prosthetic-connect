@@ -1,130 +1,141 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { updatePayment } from "../adapters/user-adapter";
+import { getUser } from "../adapters/user-adapter";
 
-const DonationForm = () => {
-  const [donationAmount, setDonationAmount] = useState("");
+const DonationForm = ({ id, setUserProfile, payment }) => {
   const [paymentMethod, setPaymentMethod] = useState("");
-  const [cardNumber, setCardNumber] = useState("");
-  const [cardExpiration, setCardExpiration] = useState("");
-  const [cardCVV, setCardCVV] = useState("");
-  const [cardZipCode, setCardZipCode] = useState("");
+  const [payment_info, setDonationInfo] = useState("");
+  const [deletePayment, setDeletePayment] = useState(
+    payment ? "Delete Payment" : "Add Payment"
+  );
 
-  const handleDonationSubmit = (e) => {
-    e.preventDefault();
-    // Logic to handle the donation submission
-    console.log("Donation submitted");
-    // Clear the form after submission
-    setDonationAmount("");
-    setPaymentMethod("");
-    setCardNumber("");
-    setCardExpiration("");
-    setCardCVV("");
-    setCardZipCode("");
+  const onChange = (e) => {
+    setDonationInfo(e.target.value);
   };
 
-  const handlePayPalRedirect = () => {
-    // Logic to redirect the user to PayPal
-    console.log("Redirecting to PayPal");
-    // Clear the form after redirection
-    setDonationAmount("");
+  useEffect(() => {
+    if (payment_info === "" && payment) {
+      setDeletePayment("Delete Payment");
+    } else if (payment_info === "" && !payment) {
+      setDeletePayment("Add Payment");
+    } else if (payment_info && payment) {
+      setDeletePayment("Update Payment");
+    } else if (payment_info && !payment) {
+      setDeletePayment("Add Payment");
+    }
+  }, [payment_info, payment]);
+
+  const handleDonationSubmit = async (e) => {
+    e.preventDefault();
+    let payment_url =
+      payment_info === ""
+        ? ""
+        : paymentMethod === "coffee"
+        ? `1${payment_info}`
+        : paymentMethod === "payPalAccount"
+        ? `2${payment_info}`
+        : `3${payment_info}`;
+    await updatePayment({ id, payment_url });
+    setDeletePayment(
+      deletePayment === "Delete Payment" ? "Add Payment" : "Delete Payment"
+    );
+    const [user] = await getUser(id);
+    setUserProfile(user);
+    setDonationInfo("");
     setPaymentMethod("");
-    setCardNumber("");
-    setCardExpiration("");
-    setCardCVV("");
-    setCardZipCode("");
+    if (payment_info === "" && !payment) {
+      setDeletePayment("Add Payment");
+    }
   };
 
   const renderPaymentFields = () => {
-    if (paymentMethod === "creditCard" || paymentMethod === "debitCard") {
+    if (paymentMethod === "coffee") {
       return (
         <div>
-          <label htmlFor="cardNumber">Card Number:</label>
+          <label htmlFor="coffee">coffee Number:</label>
           <input
             type="text"
-            id="cardNumber"
-            value={cardNumber}
-            onChange={(e) => setCardNumber(e.target.value)}
-            maxLength="16"
-            required
+            id="coffee"
+            value={payment_info}
+            onChange={onChange}
+            placeholder="Buy Me a Coffee Username Here:"
           />
-
-          <label htmlFor="cardExpiration">Expiration Date:</label>
-          <input
-            type="text"
-            id="cardExpiration"
-            value={cardExpiration}
-            onChange={(e) => setCardExpiration(e.target.value)}
-            required
-          />
-
-          <label htmlFor="cardCVV">CVV:</label>
-          <input
-            type="text"
-            id="cardCVV"
-            value={cardCVV}
-            onChange={(e) => setCardCVV(e.target.value)}
-            maxLength="3"
-            required
-          />
-
-          <label htmlFor="cardZipCode">ZIP Code:</label>
-          <input
-            type="text"
-            id="cardZipCode"
-            value={cardZipCode}
-            onChange={(e) => setCardZipCode(e.target.value)}
-            maxLength="5"
-            required
-          />
+          <p>
+            Input your{" "}
+            <a href="https://www.buymeacoffee.com/" target="_blank">
+              Buy Me A Coffee
+            </a>{" "}
+            account username above to connect your account.
+          </p>
         </div>
       );
-    } else if (paymentMethod === "paypal") {
+    } else if (paymentMethod === "payPalAccount") {
       return (
         <div>
-          <p>Click the button below to donate via PayPal:</p>
+          <label htmlFor="payPalAccount">payPalAccount Number:</label>
+          <input
+            type="text"
+            id="payPalAccount"
+            value={payment_info}
+            onChange={onChange}
+            placeholder="PayPal Username Here:"
+          />
+          <p>
+            Input your
+            <a href="https://www.paypal.com/us/home" target="_blank">
+              PayPal
+            </a>
+            account username above to connect your account.
+          </p>
+        </div>
+      );
+    } else if (paymentMethod === "payPalDonate") {
+      return (
+        <div>
+          <label htmlFor="payPalDonate">payPalDonate Number:</label>
+          <input
+            type="text"
+            id="payPalDonate"
+            value={payment_info}
+            onChange={onChange}
+            placeholder="PayPal Donation Link Here:"
+          />
+          <p>
+            Create a donation page through the
+            <a href="https://www.paypal.com/donate/buttons" target="_blank">
+              PayPal Donation Creator
+            </a>
+            and make sure you copy the entire link to connect your account.
+          </p>
         </div>
       );
     } else {
       return null;
     }
   };
-
   return (
-    <form onSubmit={handleDonationSubmit}>
-      <label htmlFor="donationAmount">Donation Amount:</label>
-      <input
-        type="number"
-        id="donationAmount"
-        value={donationAmount}
-        onChange={(e) => setDonationAmount(e.target.value)}
-        min="1"
-        required
-      />
-
-      <label htmlFor="paymentMethod">Payment Method:</label>
-      <select
-        id="paymentMethod"
-        value={paymentMethod}
-        onChange={(e) => setPaymentMethod(e.target.value)}
-        required
-      >
-        <option value="">Select Payment Method</option>
-        <option value="creditCard">Credit Card</option>
-        <option value="debitCard">Debit Card</option>
-        <option value="paypal">PayPal</option>
-      </select>
-
-      {renderPaymentFields()}
-
-      <div>
-        <button type="submit">Donate</button>
-        {paymentMethod === "paypal" && (
-          <button type="button" onClick={handlePayPalRedirect}>
-            Redirect to PayPal
-          </button>
-        )}
-      </div>
-    </form>
+    <>
+      <br></br>
+      <form onSubmit={handleDonationSubmit}>
+        <label htmlFor="paymentMethod">Payment Method:</label>
+        <select
+          id="paymentMethod"
+          value={paymentMethod}
+          onChange={(e) => {
+            setPaymentMethod(e.target.value);
+            setDonationInfo("");
+          }}
+        >
+          <option value="">Select Payment Method</option>
+          <option value="coffee">Buy Me A Coffee</option>
+          <option value="payPalAccount">PayPal Profile</option>
+          <option value="payPalDonate">PayPal Donation Page</option>
+        </select>
+        {renderPaymentFields()}
+        <button type="submit">{deletePayment}</button>
+      </form>
+      <br></br>
+    </>
   );
 };
-
 export default DonationForm;
