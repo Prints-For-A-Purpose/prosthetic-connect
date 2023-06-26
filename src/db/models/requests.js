@@ -12,6 +12,7 @@ class Request {
     created_at,
     username,
     fabricators_needed,
+    image_url,
     category,
   }) {
     this.id = id;
@@ -26,6 +27,7 @@ class Request {
     this.timestamp = created_at;
     this.fabricators_needed = fabricators_needed;
     this.category = category;
+    this.image_url = image_url;
   }
   static async createRequests(
     user_id,
@@ -89,7 +91,7 @@ class Request {
       ORDER BY 
       created_at DESC
       OFFSET ? 
-      ROWS LIMIT 4`
+      ROWS LIMIT 40`
           : typeof is_fabricator === "boolean" && is_fabricator === false
           ? `SELECT * 
           FROM requests 
@@ -97,14 +99,14 @@ class Request {
           ORDER BY 
           created_at DESC
           OFFSET ? 
-          ROWS LIMIT 4`
+          ROWS LIMIT 40`
           : `SELECT * 
           FROM requests
           WHERE request_status = 'Deployment' 
           ORDER BY 
           created_at DESC
           OFFSET ? 
-          ROWS LIMIT 4`;
+          ROWS LIMIT 40`;
       const { rows } = await knex.raw(query, [page]);
       return rows.map((request) => new Request(request));
     } catch (err) {

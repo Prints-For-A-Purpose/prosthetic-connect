@@ -62,7 +62,7 @@ export default function HomePage() {
           <RequestBox key={request.id} request={request} />
         ))}
       </div>
-      <Pagination></Pagination>
+      {/* <Pagination></Pagination> */}
     </>
   );
 }
