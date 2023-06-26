@@ -73,7 +73,7 @@ class User {
       const query = `UPDATE users
         SET pfp_url = ?
         WHERE id = ?`;
-      const { rowCount: count } = await knex.raw(query, [payment_url, id]);
+      const { rowCount: count } = await knex.raw(query, [pfp_url, id]);
       return count ? count : null;
     } catch (err) {
       console.error(err);
@@ -86,7 +86,7 @@ class User {
       const query = `UPDATE users
         SET bio = ?
         WHERE id = ?`;
-      const { rowCount: count } = await knex.raw(query, [payment_url, id]);
+      const { rowCount: count } = await knex.raw(query, [bio, id]);
       return count ? count : null;
     } catch (err) {
       console.error(err);
@@ -99,6 +99,7 @@ class User {
   }
 
   update = async (username) => {
+    // make this so it applies to username, pfp, and bio.
     const [updatedUser] = await knex("users")
       .where({ id: this.id })
       .update({ username })
