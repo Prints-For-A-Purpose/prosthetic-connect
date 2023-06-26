@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { homePagination } from "../adapters/request-adapter";
 import NewRequestBox from "../components/NewRequestBox";
-import { Input, Grid, Text, Spacer } from "@nextui-org/react";
+import NewPagination from "../components/NewPagination";
+import { Input, Grid, Text, Pagination } from "@nextui-org/react";
 
 export default function HomePage() {
   let { id } = useParams();
-  let page = id ? Number(id) : 1;
+  id = id ? Number(id) : 1;
 
   const [requests, setRequests] = useState([]);
   const [filteredRequests, setFilteredRequests] = useState([]);
@@ -14,11 +15,11 @@ export default function HomePage() {
 
   useEffect(() => {
     const loadRequest = async () => {
-      const newFeed = await homePagination(page);
+      const newFeed = await homePagination(id);
       setRequests(newFeed);
     };
     loadRequest();
-  }, [page]);
+  }, [id]);
 
   useEffect(() => {
     if (searchKeyword) {
@@ -56,6 +57,7 @@ export default function HomePage() {
         type="text"
         value={searchKeyword}
         clearable
+        css={{ display: "block", margin: "3rem" }}
         contentRight={
           <svg
             viewBox="0 -0.5 21 21"
@@ -99,13 +101,27 @@ export default function HomePage() {
         }
         onChange={(e) => setSearchKeyword(e.target.value)}
       />
-      <div className="homediv" css={{ margin: "3rem" }}>
-        <Grid.Container gap={2} justify="flex-start">
-          {filteredRequests.map((request) => (
-            <NewRequestBox request={request} key={request.id} />
-          ))}
-        </Grid.Container>
-      </div>
+      <Grid.Container
+        gap={2}
+        justify="flex-start"
+        css={{ padding: "50px !important" }}
+      >
+        {filteredRequests.map((request) => (
+          <NewRequestBox request={request} key={request.id} />
+        ))}
+      </Grid.Container>
+      <Pagination
+        total={20}
+        initialPage={id ? Number(id) : 1}
+        color="secondary"
+        size="xl"
+        shadow
+        onChange={async (page) => {
+          const newFeed = await homePagination(page);
+          setRequests(newFeed);
+        }}
+        siblings={2}
+      />
     </>
   );
 }

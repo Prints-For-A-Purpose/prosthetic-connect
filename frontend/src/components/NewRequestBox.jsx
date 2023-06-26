@@ -28,7 +28,7 @@ export default function NewRequestBox({ request }) {
               : "Beginner"}
           </Badge>
         </Card.Header>
-        <a href={`/requests/${request.id}/`} target="_blank">
+        <a href={`/requests/${request.id}/`}>
           <Card.Body css={{ p: 0 }}>
             <Card.Image
               src={request.image_url}

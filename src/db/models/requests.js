@@ -82,7 +82,7 @@ class Request {
 
   static async list(page, is_fabricator) {
     try {
-      page = (Number(page) - 1) * 3;
+      page = (Number(page) - 1) * 9;
       const query =
         typeof is_fabricator === "boolean" && is_fabricator === true
           ? `SELECT * 
@@ -91,7 +91,7 @@ class Request {
       ORDER BY 
       created_at DESC
       OFFSET ? 
-      ROWS LIMIT 40`
+      ROWS LIMIT 9`
           : typeof is_fabricator === "boolean" && is_fabricator === false
           ? `SELECT * 
           FROM requests 
@@ -99,14 +99,14 @@ class Request {
           ORDER BY 
           created_at DESC
           OFFSET ? 
-          ROWS LIMIT 40`
+          ROWS LIMIT 9`
           : `SELECT * 
           FROM requests
           WHERE request_status = 'Deployment' 
           ORDER BY 
           created_at DESC
           OFFSET ? 
-          ROWS LIMIT 40`;
+          ROWS LIMIT 9`;
       const { rows } = await knex.raw(query, [page]);
       return rows.map((request) => new Request(request));
     } catch (err) {
