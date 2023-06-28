@@ -1,10 +1,6 @@
 require('dotenv').config();
 const path = require('path');
 
-const migrationsDirectory = path.join(__dirname, 'src', 'db', 'migrations');
-const migrationsStub = path.join(__dirname, 'migration-stub.js');
-const seedsDirectory = path.join(__dirname, 'src', 'db', 'seeds');
-
 module.exports = {
   development: {
     client: 'pg',
@@ -13,14 +9,14 @@ module.exports = {
       port: process.env.PG_PORT || 5432,
       user: process.env.PG_USER || 'postgres',
       password: process.env.PG_PASS || 'postgres',
-      database: process.env.PG_DB || 'react_auth_example',
+      database: process.env.PG_DB || 'prostheticconnect',
     },
     migrations: {
-      directory: migrationsDirectory,
-      stub: migrationsStub,
+      directory: path.join(__dirname, 'src', 'db', 'migrations'),
+      stub: path.join(__dirname, 'migration-stub.js'),
     },
     seeds: {
-      directory: seedsDirectory,
+      directory: path.join(__dirname, 'src', 'db', 'seeds'),
     },
   },
   test: {
@@ -45,3 +41,4 @@ module.exports = {
     },
   },
 };
+
