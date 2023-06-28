@@ -29,22 +29,21 @@ export default function SiteHeadingAndNav() {
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
   const navigate = useNavigate();
   const { pathname } = useLocation();
-
   const is_active = pathname.split("/")[1];
-
-  console.log(is_active);
-
   const [s, setS] = useState([]);
 
   useEffect(() => {
     const load = async () => {
-      if ([s][0].currentKey === "logout") {
+      if ([s][0].currentKey === "logout" || [s][0].anchorKey === "logout") {
         logUserOut();
         localStorage.clear();
         setCurrentUser(null);
         await homePagination(1);
         return navigate("/");
-      } else if ([s][0].currentKey !== undefined) {
+      } else if (
+        [s][0].currentKey !== undefined ||
+        [s][0].anchorKey !== undefined
+      ) {
         return navigate(`${[s][0].anchorKey}`);
       }
     };
@@ -52,7 +51,7 @@ export default function SiteHeadingAndNav() {
   }, [s]);
 
   return (
-    <Navbar isBordered variant="floating" NavbarMaxWidth="xl">
+    <Navbar isBordered variant="floating">
       <Navbar.Brand css={{ mr: "$4" }}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -84,7 +83,7 @@ export default function SiteHeadingAndNav() {
           }}
           hideIn="xs"
         >
-          <a href="/About-Us">Prints For A Purpose</a>
+          <a href="/">Prints For A Purpose</a>
         </Text>
         <Navbar.Content
           hideIn="xs"
@@ -95,19 +94,18 @@ export default function SiteHeadingAndNav() {
           <Navbar.Link
             href="/"
             isActive={
-              is_active.toLowerCase() === "" || Number.isInteger(+is_active)
+              is_active.toLowerCase() === "" ||
+              Number.isInteger(+is_active) ||
+              is_active.toLowerCase() === "requests"
             }
           >
             Home
           </Navbar.Link>
           <Navbar.Link
             href="/About-Us"
-            isActive={
-              is_active.toLowerCase() === "about-us" ||
-              is_active.toLowerCase() === "requests"
-            }
+            isActive={is_active.toLowerCase() === "about-us"}
           >
-            Feed
+            About Us
           </Navbar.Link>
           <Navbar.Link
             href="/users"
@@ -194,7 +192,12 @@ export default function SiteHeadingAndNav() {
               >
                 My Profile
               </Dropdown.Item>
-              <Dropdown.Item key="logout" withDivider onAction={setS}>
+              <Dropdown.Item
+                key="logout"
+                withDivider
+                onAction={setS}
+                color="error"
+              >
                 Log Out
               </Dropdown.Item>
             </Dropdown.Menu>
@@ -202,11 +205,11 @@ export default function SiteHeadingAndNav() {
         )}
         {!currentUser && (
           <>
-            <Navbar.Link color="inherit" href="/login">
+            <Navbar.Link color="secondary" href="/login">
               Login
             </Navbar.Link>
             <Navbar.Item>
-              <Button auto flat as={Link} href="/sign-up">
+              <Button auto flat color="secondary" as={Link} href="/sign-up">
                 Sign Up
               </Button>
             </Navbar.Item>

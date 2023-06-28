@@ -1,10 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import ProgressBar from "./ProgressBar";
-// import ProgressBar from "./ProgressBar";
 import { useEffect, useState, useContext } from "react";
 
-import { getUser } from "../adapters/user-adapter.js";
+import { getRequest } from "../adapters/request-adapter.js";
 
 import { Badge, Card, Grid, Text, Spacer, Avatar } from "@nextui-org/react";
 
@@ -13,7 +12,7 @@ export default function RequestBox({ request }) {
 
   useEffect(() => {
     const loadRequest = async () => {
-      const [{ pfp_url }] = await getUser(request.user_id);
+      const [{ pfp_url }] = await getRequest(request.id);
       setPfp(pfp_url);
     };
     loadRequest();

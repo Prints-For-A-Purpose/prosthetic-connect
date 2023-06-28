@@ -52,7 +52,7 @@ export default function NewComment({
               onChange={handleChange}
               value={content}
               required
-              labelPlaceholder="New Comment"
+              labelPlaceholder="New Comment ..."
               aria-label="submit"
               status="secondary"
               fullWidth="true"

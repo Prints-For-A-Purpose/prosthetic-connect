@@ -16,6 +16,7 @@ import {
   Text,
   Grid,
   Avatar,
+  Modal,
 } from "@nextui-org/react";
 
 export default function RequestInfo({
@@ -57,10 +58,14 @@ export default function RequestInfo({
 
   const [exp, setExp] = useState(false);
 
-  const [formVisibility, setFormVisibility] = useState({ display: "none" });
-  const [buttonVisibility, setButtonVisibility] = useState({
-    display: "inline-block",
-  });
+  const [visible, setVisible] = useState(false);
+  const handler = () => setVisible(true);
+  const closeHandler = () => {
+    setVisible(false);
+  };
+
+  const [formVisibility, setFormVisibility] = useState(false);
+  const [buttonVisibility, setButtonVisibility] = useState(true);
 
   const categoryDescriptions = {
     Prosthetics: "Prosthetic for various body parts.",
@@ -115,10 +120,8 @@ export default function RequestInfo({
 
   const showForm = () => {
     setExp(true);
-    setFormVisibility({ display: "block" });
-    setButtonVisibility({
-      display: "none",
-    });
+    setFormVisibility(true);
+    setButtonVisibility(false);
   };
 
   const handleChange = (event) => {
@@ -150,10 +153,8 @@ export default function RequestInfo({
     if (formData.fabricators_needed === undefined)
       formData.fabricators_needed = fabricators_needed;
     await updateQuestionnaire(formData);
-    setFormVisibility({ display: "none" });
-    setButtonVisibility({
-      display: "inline-block",
-    });
+    setFormVisibility(false);
+    setButtonVisibility(true);
     setNewContent({
       ...edit,
     });
@@ -176,6 +177,32 @@ export default function RequestInfo({
           ></ChangeStatus>
         )}
       </Row>
+      <div>
+        <Modal
+          closeButton
+          blur
+          aria-labelledby="modal-title"
+          open={visible}
+          onClose={closeHandler}
+        >
+          <Modal.Header>
+            <Text id="modal-title" size={18}>
+              Are you sure you want to delete{" "}
+              <Text b size={18}>
+                this request?
+              </Text>
+            </Text>
+          </Modal.Header>
+          <Modal.Footer>
+            <Button auto flat color="error" onPress={closeHandler}>
+              Cancel
+            </Button>
+            <Button auto flat color="secondary" onPress={deleteReq}>
+              Delete
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
       <Row css={{ justifyContent: "center" }}>
         <form onSubmit={handleSubmit} aria-label="form">
           <Grid.Container gap={2}>
@@ -223,25 +250,27 @@ export default function RequestInfo({
                     </svg>
                   }
                 >
-                  <Text style={buttonVisibility}>
-                    {newContent.q1_disability_info}
-                  </Text>
-                  <div style={formVisibility}>
-                    <Textarea
-                      css={{ mw: "80%" }}
-                      type="text"
-                      maxLength="1000"
-                      fullWidth="true"
-                      className="form-input"
-                      name="q1_disability_info"
-                      initialValue={q1_disability_info}
-                      onChange={handleChange}
-                      required={request.request_status !== "Archived"}
-                      status="secondary"
-                      label={newContent.q1_disability_info}
-                      aria-label="q1_disability_info"
-                    />
-                  </div>
+                  {buttonVisibility && (
+                    <Text>{newContent.q1_disability_info}</Text>
+                  )}
+                  {formVisibility && (
+                    <div>
+                      <Textarea
+                        css={{ mw: "80%" }}
+                        type="text"
+                        maxLength="1000"
+                        fullWidth="true"
+                        className="form-input"
+                        name="q1_disability_info"
+                        initialValue={q1_disability_info}
+                        onChange={handleChange}
+                        required={request.request_status !== "Archived"}
+                        status="secondary"
+                        label={newContent.q1_disability_info}
+                        aria-label="q1_disability_info"
+                      />
+                    </div>
+                  )}
                 </Collapse>
                 <Collapse
                   expanded={exp}
@@ -283,25 +312,27 @@ export default function RequestInfo({
                     </svg>
                   }
                 >
-                  <Text style={buttonVisibility}>
-                    {newContent.q2_functional_requirements}
-                  </Text>
-                  <div style={formVisibility}>
-                    <Textarea
-                      css={{ mw: "80%" }}
-                      type="text"
-                      maxLength="1000"
-                      fullWidth="true"
-                      className="form-input"
-                      name="q2_functional_requirements"
-                      initialValue={q2_functional_requirements}
-                      onChange={handleChange}
-                      required={request.request_status !== "Archived"}
-                      status="secondary"
-                      label={newContent.q2_functional_requirements}
-                      aria-label="q2_functional_requirements"
-                    />
-                  </div>
+                  {buttonVisibility && (
+                    <Text>{newContent.q2_functional_requirements}</Text>
+                  )}
+                  {formVisibility && (
+                    <div>
+                      <Textarea
+                        css={{ mw: "80%" }}
+                        type="text"
+                        maxLength="1000"
+                        fullWidth="true"
+                        className="form-input"
+                        name="q2_functional_requirements"
+                        initialValue={q2_functional_requirements}
+                        onChange={handleChange}
+                        required={request.request_status !== "Archived"}
+                        status="secondary"
+                        label={newContent.q2_functional_requirements}
+                        aria-label="q2_functional_requirements"
+                      />
+                    </div>
+                  )}
                 </Collapse>
                 <Collapse
                   expanded={exp}
@@ -350,25 +381,27 @@ export default function RequestInfo({
                     </svg>
                   }
                 >
-                  <Text style={buttonVisibility}>
-                    {newContent.q3_physical_specifications}
-                  </Text>
-                  <div style={formVisibility}>
-                    <Textarea
-                      css={{ mw: "80%" }}
-                      type="text"
-                      maxLength="1000"
-                      fullWidth="true"
-                      className="form-input"
-                      name="q3_physical_specifications"
-                      initialValue={q3_physical_specifications}
-                      onChange={handleChange}
-                      required={request.request_status !== "Archived"}
-                      status="secondary"
-                      label={newContent.q3_physical_specifications}
-                      aria-label="q3_physical_specifications"
-                    />
-                  </div>
+                  {buttonVisibility && (
+                    <Text>{newContent.q3_physical_specifications}</Text>
+                  )}
+                  {formVisibility && (
+                    <div>
+                      <Textarea
+                        css={{ mw: "80%" }}
+                        type="text"
+                        maxLength="1000"
+                        fullWidth="true"
+                        className="form-input"
+                        name="q3_physical_specifications"
+                        initialValue={q3_physical_specifications}
+                        onChange={handleChange}
+                        required={request.request_status !== "Archived"}
+                        status="secondary"
+                        label={newContent.q3_physical_specifications}
+                        aria-label="q3_physical_specifications"
+                      />
+                    </div>
+                  )}
                 </Collapse>
                 <Collapse
                   expanded={exp}
@@ -409,25 +442,27 @@ export default function RequestInfo({
                     </svg>
                   }
                 >
-                  <Text style={buttonVisibility}>
-                    {newContent.q4_lifestyle_usage}
-                  </Text>
-                  <div style={formVisibility}>
-                    <Textarea
-                      css={{ mw: "80%" }}
-                      type="text"
-                      maxLength="1000"
-                      className="form-input"
-                      fullWidth="true"
-                      name="q4_lifestyle_usage"
-                      initialValue={q4_lifestyle_usage}
-                      onChange={handleChange}
-                      required={request.request_status !== "Archived"}
-                      status="secondary"
-                      label={newContent.q4_lifestyle_usage}
-                      aria-label="q4_lifestyle_usage"
-                    />
-                  </div>
+                  {buttonVisibility && (
+                    <Text>{newContent.q4_lifestyle_usage}</Text>
+                  )}
+                  {formVisibility && (
+                    <div>
+                      <Textarea
+                        css={{ mw: "80%" }}
+                        type="text"
+                        maxLength="1000"
+                        className="form-input"
+                        fullWidth="true"
+                        name="q4_lifestyle_usage"
+                        initialValue={q4_lifestyle_usage}
+                        onChange={handleChange}
+                        required={request.request_status !== "Archived"}
+                        status="secondary"
+                        label={newContent.q4_lifestyle_usage}
+                        aria-label="q4_lifestyle_usage"
+                      />
+                    </div>
+                  )}
                 </Collapse>
                 <Collapse
                   expanded={exp}
@@ -485,24 +520,24 @@ export default function RequestInfo({
                     />
                   }
                 >
-                  <Text style={buttonVisibility}>
-                    {newContent.q5_additional}
-                  </Text>
-                  <div style={formVisibility}>
-                    <Textarea
-                      css={{ mw: "80%" }}
-                      type="text"
-                      maxLength="1000"
-                      className="form-input"
-                      fullWidth="true"
-                      name="q5_additional"
-                      initialValue={q5_additional}
-                      onChange={handleChange}
-                      status="secondary"
-                      label={newContent.q5_additional}
-                      aria-label="q5_additional"
-                    />
-                  </div>
+                  {buttonVisibility && <Text>{newContent.q5_additional}</Text>}
+                  {formVisibility && (
+                    <div x>
+                      <Textarea
+                        css={{ mw: "80%" }}
+                        type="text"
+                        maxLength="1000"
+                        className="form-input"
+                        fullWidth="true"
+                        name="q5_additional"
+                        initialValue={q5_additional}
+                        onChange={handleChange}
+                        status="secondary"
+                        label={newContent.q5_additional}
+                        aria-label="q5_additional"
+                      />
+                    </div>
+                  )}
                 </Collapse>
                 <Collapse
                   expanded={exp}
@@ -608,130 +643,132 @@ export default function RequestInfo({
                     <b>{Array.from(s)[0]}:</b>{" "}
                     {categoryDescriptions[Array.from(s)[0]]}
                   </Text>
-                  <div style={formVisibility}>
-                    <Dropdown>
-                      <Dropdown.Button
-                        flat
-                        color="secondary"
-                        css={{ tt: "capitalize" }}
-                      >
-                        {selectedValue}
-                      </Dropdown.Button>
-                      <Dropdown.Menu
-                        aria-label="Single selection actions"
-                        color="secondary"
-                        disallowEmptySelection
-                        selectionMode="single"
-                        selectedKeys={s}
-                        onSelectionChange={setS}
-                      >
-                        <Dropdown.Item
-                          key="Prosthetics"
-                          value="Prosthetics"
-                          name="Prosthetics"
-                          description={categoryDescriptions["Prosthetics"]}
+                  {formVisibility && (
+                    <div>
+                      <Dropdown>
+                        <Dropdown.Button
+                          flat
+                          color="secondary"
+                          css={{ tt: "capitalize" }}
                         >
-                          Prosthetics
-                        </Dropdown.Item>
-                        <Dropdown.Item
-                          key="Assistive Devices"
-                          value="Assistive Devices"
-                          name="Assistive Devices"
-                          description={
-                            categoryDescriptions["Assistive Devices"]
-                          }
+                          {selectedValue}
+                        </Dropdown.Button>
+                        <Dropdown.Menu
+                          aria-label="Single selection actions"
+                          color="secondary"
+                          disallowEmptySelection
+                          selectionMode="single"
+                          selectedKeys={s}
+                          onSelectionChange={setS}
                         >
-                          Assistive Devices
-                        </Dropdown.Item>
-                        <Dropdown.Item
-                          key="Orthotics"
-                          value="Orthotics"
-                          name="Orthotics"
-                          description={categoryDescriptions["Orthotics"]}
-                        >
-                          Orthotics
-                        </Dropdown.Item>
-                        <Dropdown.Item
-                          key="Mobility Aids"
-                          value="Mobility Aids"
-                          name="Mobility Aids"
-                          description={categoryDescriptions["Mobility Aids"]}
-                        >
-                          Mobility Aids
-                        </Dropdown.Item>
-                        <Dropdown.Item
-                          key="Wearable Technology and Accessories"
-                          value="Wearable Technology and Accessories"
-                          name="Wearable Technology and Accessories"
-                          description={
-                            categoryDescriptions[
-                              "Wearable Technology and Accessories"
-                            ]
-                          }
-                        >
-                          Wearable Technology and Accessories
-                        </Dropdown.Item>
-                        <Dropdown.Item
-                          key="Customization and Personalization"
-                          value="Customization and Personalization"
-                          name="Customization and Personalization"
-                          description={
-                            categoryDescriptions[
-                              "Customization and Personalization"
-                            ]
-                          }
-                        >
-                          Customization and Personalization
-                        </Dropdown.Item>
-                        <Dropdown.Item
-                          key="Medical Tools"
-                          value="Medical Tools"
-                          name="Medical Tools"
-                          description={categoryDescriptions["Medical Tools"]}
-                        >
-                          Medical Tools
-                        </Dropdown.Item>
-                        <Dropdown.Item
-                          key="Rehabilitation Aids"
-                          value="Rehabilitation Aids"
-                          name="Rehabilitation Aids"
-                          description={
-                            categoryDescriptions["Rehabilitation Aids"]
-                          }
-                        >
-                          Rehabilitation Aids
-                        </Dropdown.Item>
-                        <Dropdown.Item
-                          key="Animal Prosthetics"
-                          value="Animal Prosthetics"
-                          name="Animal Prosthetics"
-                          description={
-                            categoryDescriptions["Animal Prosthetics"]
-                          }
-                        >
-                          Animal Prosthetics
-                        </Dropdown.Item>
-                        <Dropdown.Item
-                          key="Craniofacial Optics"
-                          value="Craniofacial Optics"
-                          name="Craniofacial Optics"
-                          description={
-                            categoryDescriptions["Craniofacial Optics"]
-                          }
-                        >
-                          Craniofacial Optics
-                        </Dropdown.Item>
-                        <Dropdown.Item
-                          key="Miscellaneous"
-                          value="Miscellaneous"
-                          name="Miscellaneous"
-                          description={categoryDescriptions["Miscellaneous"]}
-                        >
-                          Miscellaneous / Other
-                        </Dropdown.Item>
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </div>
+                          <Dropdown.Item
+                            key="Prosthetics"
+                            value="Prosthetics"
+                            name="Prosthetics"
+                            description={categoryDescriptions["Prosthetics"]}
+                          >
+                            Prosthetics
+                          </Dropdown.Item>
+                          <Dropdown.Item
+                            key="Assistive Devices"
+                            value="Assistive Devices"
+                            name="Assistive Devices"
+                            description={
+                              categoryDescriptions["Assistive Devices"]
+                            }
+                          >
+                            Assistive Devices
+                          </Dropdown.Item>
+                          <Dropdown.Item
+                            key="Orthotics"
+                            value="Orthotics"
+                            name="Orthotics"
+                            description={categoryDescriptions["Orthotics"]}
+                          >
+                            Orthotics
+                          </Dropdown.Item>
+                          <Dropdown.Item
+                            key="Mobility Aids"
+                            value="Mobility Aids"
+                            name="Mobility Aids"
+                            description={categoryDescriptions["Mobility Aids"]}
+                          >
+                            Mobility Aids
+                          </Dropdown.Item>
+                          <Dropdown.Item
+                            key="Wearable Technology and Accessories"
+                            value="Wearable Technology and Accessories"
+                            name="Wearable Technology and Accessories"
+                            description={
+                              categoryDescriptions[
+                                "Wearable Technology and Accessories"
+                              ]
+                            }
+                          >
+                            Wearable Technology and Accessories
+                          </Dropdown.Item>
+                          <Dropdown.Item
+                            key="Customization and Personalization"
+                            value="Customization and Personalization"
+                            name="Customization and Personalization"
+                            description={
+                              categoryDescriptions[
+                                "Customization and Personalization"
+                              ]
+                            }
+                          >
+                            Customization and Personalization
+                          </Dropdown.Item>
+                          <Dropdown.Item
+                            key="Medical Tools"
+                            value="Medical Tools"
+                            name="Medical Tools"
+                            description={categoryDescriptions["Medical Tools"]}
+                          >
+                            Medical Tools
+                          </Dropdown.Item>
+                          <Dropdown.Item
+                            key="Rehabilitation Aids"
+                            value="Rehabilitation Aids"
+                            name="Rehabilitation Aids"
+                            description={
+                              categoryDescriptions["Rehabilitation Aids"]
+                            }
+                          >
+                            Rehabilitation Aids
+                          </Dropdown.Item>
+                          <Dropdown.Item
+                            key="Animal Prosthetics"
+                            value="Animal Prosthetics"
+                            name="Animal Prosthetics"
+                            description={
+                              categoryDescriptions["Animal Prosthetics"]
+                            }
+                          >
+                            Animal Prosthetics
+                          </Dropdown.Item>
+                          <Dropdown.Item
+                            key="Craniofacial Optics"
+                            value="Craniofacial Optics"
+                            name="Craniofacial Optics"
+                            description={
+                              categoryDescriptions["Craniofacial Optics"]
+                            }
+                          >
+                            Craniofacial Optics
+                          </Dropdown.Item>
+                          <Dropdown.Item
+                            key="Miscellaneous"
+                            value="Miscellaneous"
+                            name="Miscellaneous"
+                            description={categoryDescriptions["Miscellaneous"]}
+                          >
+                            Miscellaneous / Other
+                          </Dropdown.Item>
+                        </Dropdown.Menu>
+                      </Dropdown>
+                    </div>
+                  )}
                 </Collapse>
                 <Collapse
                   expanded={exp}
@@ -744,7 +781,6 @@ export default function RequestInfo({
                     <Text h5>
                       How many Fabricators do you think you
                       need?ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ
-                      {/* need?ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ */}
                     </Text>
                   }
                   contentLeft={
@@ -770,26 +806,31 @@ export default function RequestInfo({
                     </svg>
                   }
                 >
-                  <Text style={buttonVisibility}>
-                    <b>
-                      {newContent.fabricators_needed} or More Fabricators Needed
-                    </b>
-                  </Text>
-                  <div style={formVisibility}>
-                    <Input
-                      label={newContent.fabricators_needed}
-                      type="number"
-                      status="secondary"
-                      className="form-input"
-                      name="fabricators_needed"
-                      min={1}
-                      max={4}
-                      onChange={handleChange}
-                      disabled={request.request_status !== "Archived"}
-                      defaultValue={fabricators_needed}
-                      aria-label="fabricators_needed"
-                    />
-                  </div>
+                  {buttonVisibility && (
+                    <Text>
+                      <b>
+                        {newContent.fabricators_needed} or More Fabricators
+                        Needed
+                      </b>
+                    </Text>
+                  )}
+                  {formVisibility && (
+                    <div>
+                      <Input
+                        label={newContent.fabricators_needed}
+                        type="number"
+                        status="secondary"
+                        className="form-input"
+                        name="fabricators_needed"
+                        min={1}
+                        max={4}
+                        onChange={handleChange}
+                        disabled={request.request_status !== "Archived"}
+                        defaultValue={fabricators_needed}
+                        aria-label="fabricators_needed"
+                      />
+                    </div>
+                  )}
                   <Text>{difficulty}</Text>
                 </Collapse>
                 {authorized && (
@@ -825,78 +866,67 @@ export default function RequestInfo({
                       </svg>
                     }
                   >
-                    <Button
-                      style={formVisibility}
-                      color="secondary"
-                      flat
-                      type="submit"
-                    >
-                      Submit Edit
-                    </Button>
-                    <Spacer y={1}></Spacer>
-                    <Row css={{ justifyContent: "space-between" }}>
-                      {authorized && (
-                        <>
-                          <Spacer x={1}></Spacer>
-                          <Button
-                            color="secondary"
-                            flat
-                            auto
-                            shadow
-                            style={buttonVisibility}
-                            onPress={showForm}
-                            aria-label="Show"
-                            iconRight={
-                              <svg
-                                width={30}
-                                height={30}
-                                viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                              >
-                                <path
-                                  fill="#000"
-                                  fillRule="evenodd"
-                                  d="M15.198 3.52a1.612 1.612 0 012.223 2.336L6.346 16.421l-2.854.375 1.17-3.272L15.197 3.521zm3.725-1.322a3.612 3.612 0 00-5.102-.128L3.11 12.238a1 1 0 00-.253.388l-1.8 5.037a1 1 0 001.072 1.328l4.8-.63a1 1 0 00.56-.267L18.8 7.304a3.612 3.612 0 00.122-5.106zM12 17a1 1 0 100 2h6a1 1 0 100-2h-6z"
-                                />
-                              </svg>
-                            }
-                          ></Button>
-
-                          <Spacer x={1}></Spacer>
-                        </>
+                    <Spacer y={0.5}></Spacer>
+                    <Row css={{ justifyContent: "space-around" }}>
+                      {formVisibility && (
+                        <Button color="secondary" flat type="submit">
+                          Submit Edit
+                        </Button>
                       )}
-                      {authorized && (
-                        <>
-                          <Button
-                            auto
-                            color="secondary"
-                            flat
-                            shadow
-                            onClick={deleteReq}
-                            style={buttonVisibility}
-                            aria-label="Delete"
-                            icon={
-                              <svg
-                                width={30}
-                                height={30}
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M8 6h11a1 1 0 011 1v10a1 1 0 01-1 1H8l-6-6 3-3m11 0l-3 3m0 0l-3 3m3-3l-3-3m3 3l3 3"
-                                  stroke="#000"
-                                  strokeWidth={1.5}
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                              </svg>
-                            }
-                          ></Button>
-                          <Spacer x={1}></Spacer>
-                        </>
+                      {buttonVisibility && (
+                        <Button
+                          auto
+                          color="secondary"
+                          flat
+                          shadow
+                          onPress={showForm}
+                          css={{ zIndex: "0" }}
+                          icon={
+                            <svg
+                              width={24}
+                              height={24}
+                              viewBox="0 0 20 20"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                            >
+                              <path
+                                fill="#000"
+                                fillRule="evenodd"
+                                d="M15.198 3.52a1.612 1.612 0 012.223 2.336L6.346 16.421l-2.854.375 1.17-3.272L15.197 3.521zm3.725-1.322a3.612 3.612 0 00-5.102-.128L3.11 12.238a1 1 0 00-.253.388l-1.8 5.037a1 1 0 001.072 1.328l4.8-.63a1 1 0 00.56-.267L18.8 7.304a3.612 3.612 0 00.122-5.106zM12 17a1 1 0 100 2h6a1 1 0 100-2h-6z"
+                              />
+                            </svg>
+                          }
+                        >
+                          Edit Request
+                        </Button>
                       )}
+                      <Button
+                        auto
+                        color="secondary"
+                        flat
+                        shadow
+                        css={{ zIndex: "0" }}
+                        onPress={handler}
+                        icon={
+                          <svg
+                            width={32}
+                            height={32}
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M8 6h11a1 1 0 011 1v10a1 1 0 01-1 1H8l-6-6 3-3m11 0l-3 3m0 0l-3 3m3-3l-3-3m3 3l3 3"
+                              stroke="#000"
+                              strokeWidth={1.8}
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        }
+                      >
+                        Delete Request
+                      </Button>
                     </Row>
                     <Spacer y={1}></Spacer>
                   </Collapse>

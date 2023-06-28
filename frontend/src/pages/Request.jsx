@@ -177,7 +177,6 @@ export default function Request() {
               </Col>
             </Card.Header>
             <Card.Body css={{ p: 0 }}>
-              {console.log(request)}
               <Card.Image
                 src={request.image_url}
                 objectFit="cover"

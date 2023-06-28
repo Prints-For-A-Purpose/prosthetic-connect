@@ -129,7 +129,14 @@ export default function ChangeStatus({
   return (
     <>
       <div>
-        <Button auto flat color="secondary" shadow onPress={handler}>
+        <Button
+          auto
+          flat
+          color="secondary"
+          shadow
+          onPress={handler}
+          css={{ zIndex: "0" }}
+        >
           Change Status
         </Button>
         <Modal

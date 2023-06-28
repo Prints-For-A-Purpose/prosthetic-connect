@@ -106,7 +106,7 @@ class Request {
   }
 
   static async findFabProjects(id) {
-    const query = `SELECT r.id, r.q1_disability_info, r.q2_functional_requirements, r.q3_physical_specifications, r.q4_lifestyle_usage, r.q5_additional, r.request_status FROM (SELECT request_id FROM invitations WHERE user_id = ? AND status = 'accepted') AS i
+    const query = `SELECT r.id, r.q1_disability_info, r.q2_functional_requirements, r.q3_physical_specifications, r.q4_lifestyle_usage, r.q5_additional, r.request_status, r.image_url, r.fabricators_needed, r.category FROM (SELECT request_id FROM invitations WHERE user_id = ? AND status = 'accepted') AS i
     LEFT JOIN requests AS r ON r.id = i.request_id`;
     const { rows } = await knex.raw(query, [id]);
     return rows.map((request) => new Request(request));
@@ -128,35 +128,39 @@ class Request {
   }
 
   static async updateContent(id, q1, q2, q3, q4, q5, num, cat) {
-    try {
-      const query1 = `SELECT r.id, r.user_id, r.request_status, r.q1_disability_info, r.q2_functional_requirements, r.q3_physical_specifications, r.q4_lifestyle_usage, r.q5_additional, r.fabricators_needed, r.created_at, r.category, u.username
-      FROM requests AS r
-      INNER JOIN users AS u ON r.user_id = u.id
-      WHERE r.id = ?`;
-      const {
-        rows: [request],
-      } = await knex.raw(query1, [id]);
-      if (request.fabricators_needed === 0 && num === "") {
-        num = 0;
-      }
-      const query = `UPDATE requests
-        SET q1_disability_info = ?, q2_functional_requirements = ?, q3_physical_specifications = ?, q4_lifestyle_usage = ?, q5_additional = ?, fabricators_needed = ?, category = ?
-        WHERE id = ?`;
-      const { rowCount: count } = await knex.raw(query, [
-        q1,
-        q2,
-        q3,
-        q4,
-        q5,
-        num,
-        cat,
-        id,
-      ]);
-      return count ? count : null;
-    } catch (err) {
-      console.error(err);
-      return null;
+    const query1 = `SELECT r.id, r.user_id, r.request_status, r.q1_disability_info, r.q2_functional_requirements, r.q3_physical_specifications, r.q4_lifestyle_usage, r.q5_additional, r.fabricators_needed, r.created_at, r.category, r.image_url, u.username, u.pfp_url
+        FROM requests AS r
+        INNER JOIN users AS u ON r.user_id = u.id
+        WHERE r.id = ?`;
+    const {
+      rows: [request],
+    } = await knex.raw(query1, [id]);
+    if (
+      (request.fabricators_needed === 0 ||
+        request.fabricators_needed === undefined ||
+        request.fabricators_needed === null ||
+        request.fabricators_needed === "") &&
+      (num === "" || num === undefined || num === 0 || num === null)
+    ) {
+      num = 1;
+      num = 1;
+    } else if (num === "" || num === undefined || num === 0 || num === null) {
+      num = request.fabricators_needed;
     }
+    const query = `UPDATE requests
+      SET q1_disability_info = ?, q2_functional_requirements = ?, q3_physical_specifications = ?, q4_lifestyle_usage = ?, q5_additional = ?, fabricators_needed = ?, category = ?
+      WHERE id = ?`;
+    const { rowCount: count } = await knex.raw(query, [
+      q1,
+      q2,
+      q3,
+      q4,
+      q5,
+      num,
+      cat,
+      id,
+    ]);
+    return count ? count : null;
   }
 
   static async updateStatus(id, request_status) {
