@@ -13,7 +13,7 @@ export default function UploadOptions(){
             id='file' 
             name='file'
         />
-        </p>
+        </p>,.
         onFileSelect={(file) => {
         console.log('File changed: ', file)
 
