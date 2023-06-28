@@ -33,11 +33,11 @@ module.exports = {
     client: 'pg',
     connection: process.env.PG_CONNECTION_STRING,
     migrations: {
-      directory: migrationsDirectory,
-      stub: migrationsStub,
+      directory: path.join(__dirname, 'src', 'db', 'migrations'),
+      stub: path.join(__dirname, 'migration-stub.js'),
     },
     seeds: {
-      directory: seedsDirectory,
+      directory: path.join(__dirname, 'src', 'db', 'seeds'),
     },
   },
 };
