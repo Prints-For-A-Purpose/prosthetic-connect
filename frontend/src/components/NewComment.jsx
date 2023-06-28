@@ -1,8 +1,15 @@
 import { useState } from "react";
 import { createComment } from "../adapters/comments-adapter";
 import { getComments, getPrivateComments } from "../adapters/comments-adapter";
+import { Card, Textarea, Spacer, Button, Grid, Row } from "@nextui-org/react";
 
-export default function NewComment({ request, setComments, id, is_public }) {
+export default function NewComment({
+  request,
+  setComments,
+  id,
+  is_public,
+  setN,
+}) {
   const [content, setContent] = useState("");
   const [errorText, setErrorText] = useState(null);
 
@@ -28,23 +35,43 @@ export default function NewComment({ request, setComments, id, is_public }) {
       const allComments = await getPrivateComments(id, 1);
       setComments(allComments);
     }
-
     setContent("");
+    setN(1);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="content">New Comment</label>
-      <textarea
-        type="text"
-        autoComplete="off"
-        id="content"
-        name="content"
-        onChange={handleChange}
-        value={content}
-        required
-      ></textarea>
-      <button>Submit Comment</button>
-    </form>
+    <>
+      <Card>
+        <form onSubmit={handleSubmit} aria-label="form">
+          <Row>
+            <Textarea
+              type="text"
+              autoComplete="off"
+              id="content"
+              name="content"
+              onChange={handleChange}
+              value={content}
+              required
+              labelPlaceholder="New Comment ..."
+              aria-label="submit"
+              status="secondary"
+              fullWidth="true"
+              maxLength="255"
+            ></Textarea>
+            <Button
+              type="submit"
+              shadow
+              color="secondary"
+              size="lg"
+              css={{ height: "5rem" }}
+              auto
+              aria-label="Submit"
+            >
+              Submit Comment
+            </Button>
+          </Row>
+        </form>
+      </Card>
+    </>
   );
 }

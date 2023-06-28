@@ -10,6 +10,7 @@ class Comment {
     created_at,
     username,
     pfp_url,
+    is_fabricator,
   }) {
     this.id = id;
     this.request_id = request_id;
@@ -19,18 +20,19 @@ class Comment {
     this.timestamp = created_at;
     this.username = username;
     this.pfp_url = pfp_url;
+    this.is_fabricator = is_fabricator;
   }
 
   static async list(id, page) {
     page = (Number(page) - 1) * 7;
-    const query = `SELECT c.id, c.request_id, c.user_id, c.content, c.is_public, c.created_at, c.is_public, u.username, u.pfp_url
+    const query = `SELECT c.id, c.request_id, c.user_id, c.content, c.is_public, c.created_at, c.is_public, u.username, u.pfp_url, u.is_fabricator
     FROM comments AS c
     INNER JOIN users AS u ON c.user_id = u.id
     WHERE c.request_id = ? AND c.is_public = TRUE
     ORDER BY 
     c.created_at DESC
     OFFSET ?
-    ROWS lIMIT 15;`;
+    ROWS lIMIT 7;`;
     const { rows } = await knex.raw(query, [id, page]);
     return rows.map((comments) => new Comment(comments));
   }
@@ -44,7 +46,7 @@ class Comment {
     ORDER BY 
     c.created_at DESC
     OFFSET ?
-    ROWS lIMIT 15;`;
+    ROWS lIMIT 7;`;
     const { rows } = await knex.raw(query, [id, page]);
     return rows.map((comments) => new Comment(comments));
   }

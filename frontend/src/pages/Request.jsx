@@ -1,11 +1,24 @@
 import { useEffect, useState, useContext } from "react";
-import { useParams } from "react-router-dom";
-import { NavLink } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+
+import {
+  User,
+  Switch,
+  Pagination,
+  Card,
+  Spacer,
+  Row,
+  Badge,
+  Grid,
+  Col,
+  Text,
+} from "@nextui-org/react";
 
 import CurrentUserContext from "../contexts/current-user-context";
 
 import CommentBox from "../components/CommentBox";
 
+import { getUser } from "../adapters/user-adapter";
 import { getRequest } from "../adapters/request-adapter";
 import { getComments, getPrivateComments } from "../adapters/comments-adapter";
 import {
@@ -15,7 +28,6 @@ import {
 import { formatTimestamp } from "../utils";
 
 import NewComment from "../components/NewComment";
-import CommentPagination from "../components/CommentPagination";
 import RequestInfo from "../components/RequestInfo";
 import ProgressBar from "../components/ProgressBar";
 import PendingInvites from "../components/PendingInvites";
@@ -23,6 +35,7 @@ import JoinRequest from "../components/JoinRequest";
 
 export default function Request() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { currentUser } = useContext(CurrentUserContext);
   const [request, setRequest] = useState(null);
   const [errorText, setErrorText] = useState(null);
@@ -30,8 +43,11 @@ export default function Request() {
   const [status, setStatus] = useState(null);
   const [active, setActive] = useState(false);
   const [complete, setComplete] = useState(null);
+  const [userProfile, setUserProfile] = useState(1);
   const [numOfActive, setNumOfActive] = useState(null);
   const [comments, setComments] = useState([]);
+  const [n, setN] = useState(1);
+  const [c, setC] = useState(1);
 
   const [is_public, setIs_Public] = useState(null);
 
@@ -76,14 +92,16 @@ export default function Request() {
       if (error) return setErrorText(error.statusText);
       setRequest(data);
       setUsername(data.username);
-      setStatus(request.request_status);
+      setStatus(data.request_status);
+      const [user] = await getUser(data.user_id);
+      setUserProfile(user);
     };
     loadRequest();
-  }, [status, numOfActive]);
+  }, [id, status, numOfActive]);
 
   useEffect(() => {
     const loadRequest = async () => {
-      const [auth] = await isAnActiveFabricator(request.id);
+      const [auth] = await isAnActiveFabricator(id);
       setActive(auth);
       const [counts] = await getActiveFabricators(id);
       setNumOfActive(counts.length);
@@ -92,7 +110,20 @@ export default function Request() {
       } else setComplete(false);
     };
     loadRequest();
-  }, [request]);
+  }, [request, c]);
+
+  const percentages = {
+    Archived: 0,
+    Pending: 5,
+    Planning: 10,
+    Design: 30,
+    Development: 50,
+    Testing: 70,
+    Review: 80,
+    Iteration: 90,
+    Documentation: 95,
+    Deployment: 100,
+  };
 
   if (!request && !errorText && !username) return null;
   if (errorText) return <p>{errorText}</p>;
@@ -108,20 +139,82 @@ export default function Request() {
       : false;
   return (
     <>
-      {currentUser && (authorized || active) && (
-        <label className="switch">
-          <input type="checkbox" onChange={handleToggle} checked={!is_public} />
-          <span className="slider round" />
-        </label>
-      )}
-      <h1>Request #{request.id}</h1>
-      <h2>
-        Requested By:
-        <NavLink to={"/users/" + request.user_id}> {username}</NavLink>
-      </h2>
-      <p>{formatTimestamp(request.timestamp)}</p>
-      <h3>Status: {request.request_status}</h3>
-      <ProgressBar request={request}></ProgressBar>
+      <Spacer y={1}></Spacer>
+      <Grid.Container gap={2} justify="center">
+        <Grid xs={12} sm={10}>
+          <Card
+            css={{ w: "100%", h: "700px" }}
+            isHoverable
+            isPressable
+            onPress={() => navigate("/users/" + request.user_id)}
+          >
+            <Card.Header css={{ position: "absolute", zIndex: 1, top: 5 }}>
+              <Col>
+                <Badge variant="flat" color="secondary" enableShadow>
+                  Requested {formatTimestamp(request.timestamp)}
+                </Badge>
+                <Text
+                  size={30}
+                  weight="bold"
+                  transform="uppercase"
+                  color="Black"
+                >
+                  {percentages[request.request_status]}% Complete
+                </Text>
+                <Text h1 color="white">
+                  {request.request_status}
+                  {request.request_status === "Archived" ||
+                  request.request_status === "Pending"
+                    ? ""
+                    : request.request_status === "Design"
+                    ? "ing Phase"
+                    : request.request_status === "Review"
+                    ? "al Phase"
+                    : request.request_status === "Deployment"
+                    ? "!"
+                    : " Phase"}
+                </Text>
+              </Col>
+            </Card.Header>
+            <Card.Body css={{ p: 0 }}>
+              <Card.Image
+                src={request.image_url}
+                objectFit="cover"
+                width="100%"
+                height="100%"
+                alt="Default Per Category"
+              />
+            </Card.Body>
+            <Card.Footer
+              isBlurred
+              css={{
+                position: "absolute",
+                bgBlur: "#ffffff66", // bgBlur: "#0f111466",
+                borderTop:
+                  "$borderWeights$light solid rgba(255, 255, 255, 0.2)", // borderTop: "$borderWeights$light solid $gray800",
+                bottom: 0,
+                zIndex: 1,
+              }}
+            >
+              <User
+                name="Recipient"
+                src={userProfile.pfp_url}
+                size="xl"
+                color="gradient"
+                bordered
+              >
+                <User.Link href={"/users/" + request.user_id}>
+                  @{username}
+                </User.Link>
+              </User>
+              {/* <Spacer y={3}></Spacer> */}
+              <ProgressBar request={request} size={"xl"} />
+              {/* <Spacer y={3}></Spacer> */}
+            </Card.Footer>
+          </Card>
+        </Grid>
+      </Grid.Container>
+      <Spacer y={2} />
       <RequestInfo
         request={request}
         currentUser={currentUser}
@@ -130,42 +223,94 @@ export default function Request() {
         complete={complete}
         numOfActive={numOfActive}
       ></RequestInfo>
-      <PendingInvites
-        setNumOfActive={setNumOfActive}
-        numOfActive={numOfActive}
-        active={active}
-        request={request}
-        authorized={authorized}
-      ></PendingInvites>
-      {canInvite && <JoinRequest request={request}></JoinRequest>}
-
-      <div>
-        <h3>Comments</h3>
-        {comments.map((com) => (
-          <div key={com.id} style={{ borderStyle: "dotted" }}>
-            <CommentBox
-              comment={com}
-              setComments={setComments}
-              request_id={request.id}
-              is_public={is_public}
+      <Spacer y={2} />
+      <Row>
+        <Spacer x={4} />
+        <PendingInvites
+          setNumOfActive={setNumOfActive}
+          numOfActive={numOfActive}
+          active={active}
+          request={request}
+          authorized={authorized}
+        ></PendingInvites>
+        <Spacer x={4} />
+      </Row>
+      <Row>{canInvite && <JoinRequest request={request}></JoinRequest>}</Row>
+      <Spacer y={2} />
+      <Row>
+        <Spacer x={4} />
+        <Card>
+          <Spacer y={2} />
+          <Row css={{ justifyContent: "center" }}>
+            {!(authorized || active) ? (
+              <h3>Comments</h3>
+            ) : currentUser && (authorized || active) && is_public === true ? (
+              <h3>Public Comments</h3>
+            ) : (
+              <h3>Private Comments</h3>
+            )}
+            <Spacer x={1} />
+            {currentUser && (authorized || active) && (
+              <Switch
+                bordered
+                size="xl"
+                color="secondary"
+                onChange={handleToggle}
+                checked={!is_public}
+              ></Switch>
+            )}
+          </Row>
+          <Spacer y={2} />
+          <Row css={{ justifyContent: "center" }}>
+            {currentUser && (
+              <NewComment
+                request={request}
+                setComments={setComments}
+                id={id}
+                is_public={is_public}
+                setN={setN}
+              />
+            )}
+          </Row>
+          <Spacer y={2} />
+          {comments.map((com) => (
+            <Row>
+              <CommentBox
+                user_id={request.user_id}
+                key={com.id}
+                comment={com}
+                setComments={setComments}
+                request_id={request.id}
+                is_public={is_public}
+              />
+            </Row>
+          ))}
+          <Spacer y={2} />
+          <Row css={{ justifyContent: "center" }}>
+            <Pagination
+              total={20}
+              initialPage={n}
+              color="secondary"
+              size="xl"
+              shadow
+              onChange={async (page) => {
+                if (is_public === true) {
+                  const newComments = await getComments(id, page);
+                  setComments(newComments);
+                } else {
+                  const newComments = await getPrivateComments(id, page);
+                  setComments(newComments);
+                }
+                setN(n + 1);
+              }}
+              siblings={2}
             />
-          </div>
-        ))}
-        <CommentPagination
-          id={id}
-          setComments={setComments}
-          request_id={request.id}
-          is_public={is_public}
-        />
-        {currentUser && (
-          <NewComment
-            request={request}
-            setComments={setComments}
-            id={id}
-            is_public={is_public}
-          />
-        )}
-      </div>
+          </Row>
+          <Spacer y={2} />
+        </Card>
+        <Spacer x={4} />
+      </Row>
+      <Spacer y={4} />
     </>
   );
 }

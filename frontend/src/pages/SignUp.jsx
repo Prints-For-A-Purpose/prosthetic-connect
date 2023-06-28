@@ -71,6 +71,7 @@ export default function SignUpPage() {
         className="signup-form"
         onSubmit={handleSubmit}
         onChange={handleChange}
+        aria-label="form"
       >
         <h1>Sign Up</h1>
         <label htmlFor="username">Username</label>

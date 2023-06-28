@@ -17,7 +17,6 @@ class Invitation {
       const {
         rows: [inviteNew],
       } = await knex.raw(query, [user_id, request_id]);
-      console.log(inviteNew);
       return new Invitation(inviteNew);
     } catch (err) {
       console.error(err);

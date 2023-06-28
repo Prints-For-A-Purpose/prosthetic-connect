@@ -16,23 +16,14 @@ import Donations from "./pages/Donations";
 
 export default function App() {
   const { setCurrentUser } = useContext(UserContext);
-  const [isDarkMode, setIsDarkMode] = useState(true);
-
-  const toggleTheme = () => {
-    setIsDarkMode((prevMode) => !prevMode);
-  };
 
   useEffect(() => {
     checkForLoggedInUser().then(setCurrentUser);
   }, [setCurrentUser]);
-  const themeClass = isDarkMode ? "light" : "dark";
   return (
     <>
-      <div className={`site-heading-and-nav ${themeClass}`}>
-        <SiteHeadingAndNav />
-      </div>
-      <main className={`app ${themeClass}`}>
-        <button onClick={toggleTheme}>dark/light Mode</button>
+      <SiteHeadingAndNav></SiteHeadingAndNav>
+      <main>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/:id" element={<Home />} />
