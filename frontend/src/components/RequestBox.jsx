@@ -7,10 +7,10 @@ export default function RequestBox({ request }) {
     <div className="request-container">
       <div className="request-card">
         <Link to={`/requests/${request.id}/`} className="request-link">
-          I Have {request.q1_disability_info}
+          I Have: {request.q1_disability_info}
         </Link>
         <div>
-          status {request.request_status}
+          Status - {request.request_status}
           <h2>Functional Requirements:</h2>
           <p>{request.q2_functional_requirements}</p>
         </div>

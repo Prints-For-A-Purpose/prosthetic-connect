@@ -14,6 +14,37 @@ export default function HomePage() {
   const [filteredRequests, setFilteredRequests] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState("");
 
+  const searchBy = ['Users','Requests'];
+
+  const userSkills = ["3D Printing ", "Design and CAD", "Material Knowledge", 
+  "Prototyping", "Customization", "Project Management", "CNC Machining",
+   "Laser Cutting", "Electronics", "3D Modeling", "Welding", 
+   "Programming", "Robotics"];
+
+  const requestCats  = ["Prosthetics", "Assistive Devices", "Accessibility Modifications", 
+  "Orthotics", "Mobility Aids", "Sensory Enhancements", "Educational Resources", "Wearable Technology and Accessories",
+   "Customization and Personalization", "Medical Tools", "Rehabilitation Aids", "Animal Prosthetics", "Craniofacial Optics", "Miscellaneous"]
+
+  const requestComplexity =  ["Beginner", "Intermediate", "Advanced", "Expert"];
+
+  const requestStatus = ["Pending", "Planning", "Design", "Development", "Testing", "Review", "Iteration", "Documentation", "Deployment"]
+
+  const reqOpts = ['Complexity','Status','Categories']
+  
+  const [activeChoice1, setActiveChoice1] = useState(null);
+  const [showButtons, setShowButtons] = useState(false);
+  const [showUsers, setShowUsers] = useState(false)
+
+  const handleButtonClick = (button) => {
+    setActiveChoice1(button);
+  };
+
+  const toggleButtons = () => {
+    setShowButtons(!showButtons);
+  };
+
+  const nameSearch = [];
+
   useEffect(() => {
     const loadRequest = async () => {
       const newFeed = await homePagination(page);
@@ -23,7 +54,7 @@ export default function HomePage() {
   }, [page]);
 
   useEffect(() => {
-    if (searchKeyword) {
+    if (searchKeyword && (!activeChoice1 || activeChoice1 === "Requests")) {
       const filtered = requests.filter((request) =>
         Object.values(request).some(
           (value) =>
@@ -31,8 +62,9 @@ export default function HomePage() {
             value.toLowerCase().includes(searchKeyword.toLowerCase())
         )
       );
+      console.log(filtered,activeChoice1)
       setFilteredRequests(filtered);
-    } else {
+    } else{
       setFilteredRequests(requests);
     }
   }, [searchKeyword, requests]);
@@ -51,12 +83,32 @@ export default function HomePage() {
       </h1>
       <div className="search-bar">
         <input
+          style={{color:"black"}}
           type="text"
           value={searchKeyword}
           onChange={(e) => setSearchKeyword(e.target.value)}
           placeholder="Search..."
         />
       </div>
+      
+      <button onClick={toggleButtons}>
+        {showButtons ? 'Hide Options' : 'More Options'}
+      </button>
+
+      {showButtons && (
+        <div>
+          {searchBy.map((opt, idx) => (
+            <button key={idx} onClick={() => {
+              handleButtonClick(opt)
+            }}
+            style={{ color: activeChoice1 === opt ? 'red' : 'inherit' }}
+            >
+              {opt}
+            </button>
+          ))}
+        </div>
+      )}
+
       <div className="homediv">
         {filteredRequests.map((request) => (
           <RequestBox key={request.id} request={request} />
