@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { canInviteThyself, sendInvite } from "../adapters/invites-adapter";
+import { User, Switch, Button, Card, Spacer, Row } from "@nextui-org/react";
 
 export default function JoinRequest({ request }) {
   const { id } = request;
@@ -24,9 +25,15 @@ export default function JoinRequest({ request }) {
 
   return (
     <>
-      <h1>Request to Join</h1>
-      <button onClick={onClick}>Send Invite</button>
-      <p>{canInvite}</p>
+      <Card isHoverable>
+        <h3>Request to Join</h3>
+        <div>
+          <Button onPress={onClick} shadow color="secondary" aria-label="Send">
+            Send Invite
+          </Button>
+        </div>
+        <p>{canInvite}</p>
+      </Card>
     </>
   );
 }

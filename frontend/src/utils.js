@@ -43,14 +43,14 @@ export const formatTimestamp = (timestamp) => {
 
   const minutes = Math.floor(timeDiff / (1000 * 60));
   if (minutes < 60) {
-    return `${minutes} minutes ago`;
+    return `${minutes} minute${minutes !== 1 ? "s" : ""} ago`;
   }
 
   const hours = Math.floor(timeDiff / (1000 * 60 * 60));
   if (hours < 24) {
-    return `${hours} hours ago`;
+    return `${hours} hour${hours !== 1 ? "s" : ""} ago`;
   }
 
   const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-  return `${days} days ago`;
+  return `${days} day${days !== 1 ? "s" : ""} ago`;
 };

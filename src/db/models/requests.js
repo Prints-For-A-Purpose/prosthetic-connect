@@ -67,11 +67,10 @@ class Request {
   }
   static async find(id) {
     try {
-      const query = `SELECT r.id, r.user_id, r.request_status, r.q1_disability_info, r.q2_functional_requirements, r.q3_physical_specifications, r.q4_lifestyle_usage, r.q5_additional, r.fabricators_needed, r.created_at, r.category, u.username, u.pfp_url
+      const query = `SELECT r.id, r.user_id, r.request_status, r.q1_disability_info, r.q2_functional_requirements, r.q3_physical_specifications, r.q4_lifestyle_usage, r.q5_additional, r.fabricators_needed, r.created_at, r.category, r.image_url, u.username, u.pfp_url
       FROM requests AS r
       INNER JOIN users AS u ON r.user_id = u.id
       WHERE r.id = ?`;
-      //SELECT request_id FROM invitations WHERE user_id = 1 AND status = 'accepted';
       const {
         rows: [request],
       } = await knex.raw(query, [id]);
@@ -85,26 +84,9 @@ class Request {
   static async list(page, is_fabricator) {
     try {
       page = (Number(page) - 1) * 9;
-      const query =
-        typeof is_fabricator === "boolean" && is_fabricator === true
-          ? `SELECT * 
-      FROM requests
-      WHERE request_status = 'Pending'
-      ORDER BY 
-      created_at DESC
-      OFFSET ? 
-      ROWS LIMIT 9`
-          : typeof is_fabricator === "boolean" && is_fabricator === false
-          ? `SELECT * 
+      const query = `SELECT * 
           FROM requests 
           WHERE NOT request_status = 'Archived'
-          ORDER BY 
-          created_at DESC
-          OFFSET ? 
-          ROWS LIMIT 9`
-          : `SELECT * 
-          FROM requests
-          WHERE request_status = 'Deployment' 
           ORDER BY 
           created_at DESC
           OFFSET ? 
