@@ -170,7 +170,7 @@ export default function RequestInfo({
           <br></br>
         </>
       )}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} aria-label="form">
         <h4>
           Can you provide a description of your specific disability, condition,
           or need for which the 3D-printed item is required?
@@ -228,14 +228,15 @@ export default function RequestInfo({
           required={request.request_status !== "Archived"}
         ></textarea>
         <h4>
-          Do you have any other specific requests, concerns, or preferences that
-          would help us create a tailored and suitable 3D-printed item for you?
+          Do you have any specific requests, concerns, or preferences that would
+          help us create a tailored and suitable 3D-printed item for you?
         </h4>
-        <p>{newContent.q5_additional || "N/A"}</p>
+        <p>{newContent.q5_additional}</p>
         <textarea
           style={formVisibility}
           defaultValue={q5_additional}
           type="text"
+          fullWidth="true"
           className="form-input"
           name="q5_additional"
           onChange={handleChange}

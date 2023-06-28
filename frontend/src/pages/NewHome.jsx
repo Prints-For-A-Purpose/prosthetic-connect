@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { homePagination } from "../adapters/request-adapter";
 import NewRequestBox from "../components/NewRequestBox";
 import NewPagination from "../components/NewPagination";
-import { Input, Grid, Text, Pagination } from "@nextui-org/react";
+import { Input, Grid, Text, Pagination, Row, Spacer } from "@nextui-org/react";
 
 export default function HomePage() {
   let { id } = useParams();
@@ -53,6 +53,7 @@ export default function HomePage() {
       </Text>
       <Input
         labelPlaceholder="Search"
+        aria-label="Search"
         status="secondary"
         type="text"
         value={searchKeyword}
@@ -101,27 +102,31 @@ export default function HomePage() {
         }
         onChange={(e) => setSearchKeyword(e.target.value)}
       />
-      <Grid.Container
-        gap={2}
-        justify="flex-start"
-        css={{ padding: "50px !important" }}
-      >
-        {filteredRequests.map((request) => (
-          <NewRequestBox request={request} key={request.id} />
-        ))}
-      </Grid.Container>
-      <Pagination
-        total={20}
-        initialPage={id ? Number(id) : 1}
-        color="secondary"
-        size="xl"
-        shadow
-        onChange={async (page) => {
-          const newFeed = await homePagination(page);
-          setRequests(newFeed);
-        }}
-        siblings={2}
-      />
+      <Row>
+        <Spacer x={2}></Spacer>
+        <Grid.Container gap={2} justify="flex-start">
+          {filteredRequests.map((request) => (
+            <NewRequestBox request={request} key={request.id} />
+          ))}
+        </Grid.Container>
+        <Spacer x={2}></Spacer>
+      </Row>
+      <Spacer y={2}></Spacer>
+      <Row css={{ justifyContent: "center" }}>
+        <Pagination
+          total={20}
+          initialPage={id ? Number(id) : 1}
+          color="secondary"
+          size="xl"
+          shadow
+          onChange={async (page) => {
+            const newFeed = await homePagination(page);
+            setRequests(newFeed);
+          }}
+          siblings={2}
+        />
+      </Row>
+      <Spacer y={2}></Spacer>
     </>
   );
 }

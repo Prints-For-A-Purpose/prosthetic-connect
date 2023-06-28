@@ -24,7 +24,7 @@ export default function LoginPage() {
 
   return (
     <>
-      <form className="login-form" onSubmit={handleSubmit}>
+      <form className="login-form" onSubmit={handleSubmit} aria-label="form">
         <h1>Login</h1>
         <label htmlFor="username">Username</label>
         <input

@@ -12,6 +12,7 @@ import UsersPage from "./pages/Users";
 import UserPage from "./pages/User";
 import QuestionsPage from "./pages/Questions";
 import Request from "./pages/Request";
+import NewRequest from "./pages/NewRequest";
 import AboutUs from "./pages/Aboutus";
 
 export default function App() {
@@ -33,6 +34,7 @@ export default function App() {
           <Route path="/new-home/:id" element={<NewHome />} />
           <Route path="/new-question" element={<QuestionsPage />} />
           <Route path="/requests/:id" element={<Request />} />
+          <Route path="/new-requests/:id" element={<NewRequest />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/sign-up" element={<SignUpPage />} />
           <Route path="/About-us" element={<AboutUs />} />

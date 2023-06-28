@@ -17,8 +17,6 @@ export default function CommentBox({
     <>
       {currentUser && currentUser.id === comment.user_id ? (
         <>
-          {" "}
-          {console.log(comment)}
           {comment.pfp_url && (
             <img
               src={comment.pfp_url}

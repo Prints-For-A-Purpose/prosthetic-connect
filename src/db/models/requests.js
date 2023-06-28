@@ -14,6 +14,7 @@ class Request {
     fabricators_needed,
     image_url,
     category,
+    pfp_url,
   }) {
     this.id = id;
     this.user_id = user_id;
@@ -28,6 +29,7 @@ class Request {
     this.fabricators_needed = fabricators_needed;
     this.category = category;
     this.image_url = image_url;
+    this.pfp_url = pfp_url;
   }
   static async createRequests(
     user_id,
@@ -65,7 +67,7 @@ class Request {
   }
   static async find(id) {
     try {
-      const query = `SELECT r.id, r.user_id, r.request_status, r.q1_disability_info, r.q2_functional_requirements, r.q3_physical_specifications, r.q4_lifestyle_usage, r.q5_additional, r.fabricators_needed, r.created_at, r.category, u.username
+      const query = `SELECT r.id, r.user_id, r.request_status, r.q1_disability_info, r.q2_functional_requirements, r.q3_physical_specifications, r.q4_lifestyle_usage, r.q5_additional, r.fabricators_needed, r.created_at, r.category, u.username, u.pfp_url
       FROM requests AS r
       INNER JOIN users AS u ON r.user_id = u.id
       WHERE r.id = ?`;
@@ -145,6 +147,16 @@ class Request {
 
   static async updateContent(id, q1, q2, q3, q4, q5, num, cat) {
     try {
+      const query1 = `SELECT r.id, r.user_id, r.request_status, r.q1_disability_info, r.q2_functional_requirements, r.q3_physical_specifications, r.q4_lifestyle_usage, r.q5_additional, r.fabricators_needed, r.created_at, r.category, u.username
+      FROM requests AS r
+      INNER JOIN users AS u ON r.user_id = u.id
+      WHERE r.id = ?`;
+      const {
+        rows: [request],
+      } = await knex.raw(query1, [id]);
+      if (request.fabricators_needed === 0 && num === "") {
+        num = 0;
+      }
       const query = `UPDATE requests
         SET q1_disability_info = ?, q2_functional_requirements = ?, q3_physical_specifications = ?, q4_lifestyle_usage = ?, q5_additional = ?, fabricators_needed = ?, category = ?
         WHERE id = ?`;

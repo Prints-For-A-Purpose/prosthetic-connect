@@ -86,7 +86,6 @@ export default function AboutUs() {
       >
         About Us
       </h1>
-      <Button css={{ backgroundColor: "Salmon" }}>Click me</Button>
       <div style={{ ...sectionStyle, ...missionStyle }}>
         <h3 style={{ fontSize: "2rem" }}>Our Mission</h3>
         <p>

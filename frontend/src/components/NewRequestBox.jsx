@@ -2,11 +2,25 @@ import React from "react";
 import { Link } from "react-router-dom";
 import NewProgressBar from "./NewProgressBar";
 // import ProgressBar from "./ProgressBar";
-import { Badge, Card, Grid, Text, Progress } from "@nextui-org/react";
+import { useEffect, useState, useContext } from "react";
+
+import { getUser } from "../adapters/user-adapter.js";
+
+import { Badge, Card, Grid, Text, Spacer, Avatar } from "@nextui-org/react";
 
 export default function NewRequestBox({ request }) {
+  const [pfp, setPfp] = useState("");
+
+  useEffect(() => {
+    const loadRequest = async () => {
+      const [{ pfp_url }] = await getUser(request.user_id);
+      setPfp(pfp_url);
+    };
+    loadRequest();
+  });
+
   return (
-    <Grid xs={6} sm={4}>
+    <Grid xs={7} sm={4}>
       <Card isPressable isHoverable variant="bordered">
         <Card.Header
           css={{
@@ -15,10 +29,13 @@ export default function NewRequestBox({ request }) {
             justifyItems: "flex-start",
           }}
         >
-          <Badge enableShadow disableOutline color="primary">
+          <Avatar text="Primary" color="primary" textColor="white" src={pfp} />
+          <Spacer x={0.5}></Spacer>
+          <Badge enableShadow disableOutline color="primary" variant="flat">
             {request.category}
           </Badge>
-          <Badge enableShadow disableOutline color="secondary">
+          <Spacer x={0.5}></Spacer>
+          <Badge enableShadow disableOutline color="secondary" variant="flat">
             {request.fabricators_needed === 4
               ? "Expert"
               : request.fabricators_needed === 3
@@ -44,7 +61,7 @@ export default function NewRequestBox({ request }) {
             <Text>{request.q2_functional_requirements}</Text>
           </Card.Footer>
           <Card.Footer css={{ justifyItems: "flex-start" }}>
-            <NewProgressBar request={request} />
+            <NewProgressBar request={request} size={"md"} />
           </Card.Footer>
         </a>
       </Card>

@@ -33,7 +33,7 @@ export default function NewComment({ request, setComments, id, is_public }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} aria-label="form">
       <label htmlFor="content">New Comment</label>
       <textarea
         type="text"

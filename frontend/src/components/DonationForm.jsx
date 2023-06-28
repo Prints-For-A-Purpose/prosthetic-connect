@@ -116,7 +116,7 @@ const DonationForm = ({ id, setUserProfile, payment }) => {
   return (
     <>
       <br></br>
-      <form onSubmit={handleDonationSubmit}>
+      <form onSubmit={handleDonationSubmit} aria-label="form">
         <label htmlFor="paymentMethod">Payment Method:</label>
         <select
           id="paymentMethod"

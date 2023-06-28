@@ -3,7 +3,7 @@ import { archiveRequest, startProject } from "../adapters/invites-adapter";
 
 import { useState } from "react";
 
-export default function ChangeStatus({
+export default function NewChangeStatus({
   request,
   setStatus,
   request_id,

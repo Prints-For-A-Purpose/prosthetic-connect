@@ -65,7 +65,7 @@ export default function CommentDeleteEdit({
       <button onClick={showForm} style={buttonVisibility}>
         Edit
       </button>
-      <form onSubmit={handleSubmit} style={formVisibility}>
+      <form onSubmit={handleSubmit} style={formVisibility} aria-label="form">
         <label htmlFor="content">Edit Comment</label>
         <textarea
           type="text"

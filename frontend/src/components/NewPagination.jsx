@@ -32,14 +32,14 @@ export default function NewPaginationBox() {
   //     }
   //   }
 
-  const onClick = async (event) => {
-    console.log(event.target.getAttribute("arial-label"));
-    console.log(event.target.innerText);
-  };
+  // const onClick = async (event) => {
+  //   console.log(event.target.getAttribute("aria-label"));
+  //   console.log(event.target.innerText);
+  // };
 
   return (
     <Pagination
-      onClick={onClick}
+      onPress={onClick}
       total={20}
       initialPage={1}
       color="secondary"

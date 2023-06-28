@@ -115,7 +115,11 @@ export default function QuestionsPage() {
 
   return (
     <div className="container">
-      <form className="form-container" onSubmit={handleSubmit}>
+      <form
+        className="form-container"
+        onSubmit={handleSubmit}
+        aria-label="form"
+      >
         <h2>Create a Request Below</h2>
         <h5>
           (You can save your answers as a draft to your profile if they are not
