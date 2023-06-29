@@ -31,6 +31,7 @@ export default function CommentBox({
               src={comment.pfp_url}
               color="gradient"
               bordered
+              zoomed
             >
               <User.Link href={"/users/" + comment.user_id}>
                 @{comment.username}

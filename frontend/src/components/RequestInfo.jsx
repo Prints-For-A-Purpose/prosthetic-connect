@@ -233,6 +233,7 @@ export default function RequestInfo({
                   src={request.pfp_url}
                   color="gradient"
                   bordered
+                  zoomed
                 />
               }
               arrowIcon={
@@ -293,6 +294,7 @@ export default function RequestInfo({
               }
               contentLeft={
                 <Avatar
+                  zoomed
                   size="xl"
                   src={request.pfp_url}
                   color="gradient"
@@ -349,6 +351,7 @@ export default function RequestInfo({
               }
               contentLeft={
                 <Avatar
+                  zoomed
                   size="xl"
                   src={request.pfp_url}
                   color="gradient"
@@ -418,6 +421,7 @@ export default function RequestInfo({
               }
               contentLeft={
                 <Avatar
+                  zoomed
                   size="xl"
                   src={request.pfp_url}
                   color="gradient"
@@ -519,6 +523,7 @@ export default function RequestInfo({
               }
               contentLeft={
                 <Avatar
+                  zoomed
                   size="xl"
                   src={request.pfp_url}
                   color="gradient"
@@ -557,6 +562,7 @@ export default function RequestInfo({
               }
               contentLeft={
                 <Avatar
+                  zoomed
                   size="xl"
                   src={request.pfp_url}
                   color="gradient"
@@ -762,6 +768,7 @@ export default function RequestInfo({
               }
               contentLeft={
                 <Avatar
+                  zoomed
                   size="xl"
                   src={request.pfp_url}
                   color="gradient"
@@ -819,6 +826,7 @@ export default function RequestInfo({
                 expanded
                 contentLeft={
                   <Avatar
+                    zoomed
                     size="xl"
                     src={request.pfp_url}
                     color="gradient"

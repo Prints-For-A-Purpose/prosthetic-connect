@@ -38,6 +38,7 @@ export default function RequestBox({ request }) {
           }}
         >
           <Avatar
+            zoomed
             text="Primary"
             color="gradient"
             textColor="white"

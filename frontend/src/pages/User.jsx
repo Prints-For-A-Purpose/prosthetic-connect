@@ -131,6 +131,7 @@ export default function UserPage() {
   return (
     <>
       <User
+        zoomed
         src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
         name="Tony Reichert"
         size="500%"

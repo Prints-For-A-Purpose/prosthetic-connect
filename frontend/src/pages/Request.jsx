@@ -204,6 +204,7 @@ export default function Request(isDark) {
                 size="xl"
                 color="gradient"
                 bordered
+                zoomed
               >
                 <User.Link size="$lg" href={"/users/" + request.user_id}>
                   @{username}

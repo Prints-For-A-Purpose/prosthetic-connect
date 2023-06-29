@@ -88,7 +88,7 @@ export default function PendingInvites({
                   >
                     {"Fabricator"}
                   </Badge>
-                  <User src={user.pfp_url}>
+                  <User zoomed src={user.pfp_url}>
                     <User.Link href={"/users/" + user.id}>
                       @{user.username}
                     </User.Link>
