@@ -646,7 +646,8 @@ export default function SiteHeadingAndNav({ isDark, handleChange3 }) {
           </form>
         </Modal.Body>
       </Modal>
+      
     </>
-    
+
   );
 }
