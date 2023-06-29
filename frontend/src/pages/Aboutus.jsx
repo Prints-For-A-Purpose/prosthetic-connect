@@ -1,6 +1,9 @@
 import React from "react";
 import { Button } from "@nextui-org/react";
-
+import jackieImage from './team-images/jackie.jpg';
+import jaredImage from './team-images/jared.jpg';
+import julianImage from './team-images/julian.png';
+import natalieImage from './team-images/natalie.jpg';
 // const Component = () => <Button>Click me</Button>;
 
 export default function AboutUs() {
@@ -52,24 +55,26 @@ export default function AboutUs() {
     alignItems: "center",
   };
 
+  console.log('')
+
   const teamMembers = [
     {
-      imageSrc: "https://avesis.atauni.edu.tr/user/image/2596",
+      imageSrc: julianImage,
       name: "Julian Castro",
-      title: "Developer",
+      title: "Project Manager",
     },
     {
-      imageSrc: "https://avesis.atauni.edu.tr/user/image/2596",
+      imageSrc: jaredImage,
       name: "Jared Knight",
       title: "Developer",
     },
     {
-      imageSrc: "https://avesis.atauni.edu.tr/user/image/2596",
+      imageSrc: jackieImage,
       name: "Jacqueline Lopez",
       title: "Developer",
     },
     {
-      imageSrc: "https://avesis.atauni.edu.tr/user/image/2596",
+      imageSrc: natalieImage,
       name: "Natalie Garcia",
       title: "Developer",
     },
