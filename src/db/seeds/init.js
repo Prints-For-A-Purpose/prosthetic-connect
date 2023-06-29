@@ -91,6 +91,70 @@ exports.seed = async (knex) => {
       bio: "bio",
       payment_url: "1juliancastx",
     },
+    {
+      username: "cool_csat",
+      password_hash: "123",
+      is_fabricator: false,
+      pfp_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png",
+      bio: "bio",
+      payment_url: "1juliancastx"
+    },
+    {
+      username: "awesome_coder",
+      password_hash: "123",
+      is_fabricator: false,
+      pfp_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png",
+      bio: "bio",
+      payment_url: "1juliancastx"
+    },
+    {
+      username: "gaming_enthusiast",
+      password_hash: "123",
+      is_fabricator: false,
+      pfp_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png",
+      bio: "bio",
+      payment_url: "1juliancastx"
+    },
+    {
+      username: "music_lover",
+      password_hash: "123",
+      is_fabricator: false,
+      pfp_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png",
+      bio: "bio",
+      payment_url: "1juliancastx"
+    },
+    {
+      username: "artistic_soul",
+      password_hash: "123",
+      is_fabricator: false,
+      pfp_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png",
+      bio: "bio",
+      payment_url: "1juliancastx"
+    },
+    {
+      username: "coding_ninja",
+      password_hash: "123",
+      is_fabricator: false,
+      pfp_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png",
+      bio: "bio",
+      payment_url: "1juliancastx"
+    },
+    {
+      username: "bookworm",
+      password_hash: "123",
+      is_fabricator: false,
+      pfp_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png",
+      bio: "bio",
+      payment_url: "1juliancastx"
+    },
+    {
+      username: "fitness_guru",
+      password_hash: "123",
+      is_fabricator: false,
+      pfp_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png",
+      bio: "bio",
+      payment_url: "1juliancastx"
+    },
   ]);
   await knex("requests").insert([
     {
