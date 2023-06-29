@@ -92,15 +92,6 @@ exports.seed = async (knex) => {
       payment_url: "1juliancastx",
     },
     {
-      username: "cool_csat",
-      password_hash: "123",
-      is_fabricator: false,
-      pfp_url:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png",
-      bio: "bio",
-      payment_url: "1juliancastx",
-    },
-    {
       username: "awesome_coder",
       password_hash: "123",
       is_fabricator: false,
@@ -353,7 +344,7 @@ exports.seed = async (knex) => {
         "https://media.npr.org/assets/img/2014/10/23/eprosthetic-edit_wide-abb057b906b5eb98857f0054a3c284075c09faee.jpg",
     },
     {
-      user_id: 3,
+      user_id: 10,
       request_status: "Review",
       q1_disability_info: "craniofacial deformity",
       q2_functional_requirements:
@@ -366,7 +357,7 @@ exports.seed = async (knex) => {
         "https://media.npr.org/assets/img/2014/10/23/eprosthetic-edit_wide-abb057b906b5eb98857f0054a3c284075c09faee.jpg",
     },
     {
-      user_id: 10,
+      user_id: 11,
       request_status: "Pending",
       q1_disability_info:
         "I have a visual impairment and need assistance with reading small text.",
@@ -383,7 +374,7 @@ exports.seed = async (knex) => {
     },
 
     {
-      user_id: 11,
+      user_id: 12,
       request_status: "Deployment",
       q1_disability_info:
         "I have limited mobility in my legs and need support while sitting.",
@@ -400,7 +391,7 @@ exports.seed = async (knex) => {
     },
 
     {
-      user_id: 12,
+      user_id: 13,
       request_status: "Development",
       q1_disability_info:
         "I have a hearing impairment and struggle to hear conversations in noisy environments.",
@@ -417,7 +408,7 @@ exports.seed = async (knex) => {
     },
 
     {
-      user_id: 13,
+      user_id: 14,
       request_status: "Review",
       q1_disability_info:
         "I have limited hand dexterity and need assistance with turning keys and door handles.",
@@ -434,7 +425,7 @@ exports.seed = async (knex) => {
     },
 
     {
-      user_id: 14,
+      user_id: 15,
       request_status: "In progress",
       q1_disability_info:
         "I have a limb difference and need a prosthetic hand for functional purposes.",
