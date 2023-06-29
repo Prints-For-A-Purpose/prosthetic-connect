@@ -40,7 +40,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/:id" element={<Home />} />
           <Route path="/new-question" element={<QuestionsPage />} />
-          <Route path="/requests/:id" element={<Request />} />
+          <Route path="/requests/:id" element={<Request isDark={isDark} />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/sign-up" element={<SignUpPage />} />
           <Route path="/About-us" element={<AboutUs />} />

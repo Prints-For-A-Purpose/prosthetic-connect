@@ -92,7 +92,7 @@ class Request {
           ORDER BY 
           created_at DESC
           OFFSET ? 
-          ROWS LIMIT 9`;
+          ROWS LIMIT 8`;
       const { rows } = await knex.raw(query, [page]);
       return rows.map((request) => new Request(request));
     } catch (err) {
