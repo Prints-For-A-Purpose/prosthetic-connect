@@ -32,26 +32,6 @@ class Skill {
       return null;
     }
   }
-  // static async find(id) {
-  //   try {
-  //     const query = `SELECT * FROM comments WHERE id = ?`;
-  //     const {
-  //       rows: [comment],
-  //     } = await knex.raw(query, [id]);
-  //     return comment ? new Comment(comment) : null;
-  //   } catch (err) {
-  //     console.error(err);
-  //     return null;
-  //   }
-  // }
-
-  // update = async (content) => {
-  //   const [updatedContent] = await knex("comments")
-  //     .where({ id: this.id })
-  //     .update({ content })
-  //     .returning("*");
-  //   return updatedContent ? new Comment(updatedContent) : null;
-  // };
 }
 
 module.exports = Skill;

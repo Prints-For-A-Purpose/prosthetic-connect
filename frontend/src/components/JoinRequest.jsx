@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { canInviteThyself, sendInvite } from "../adapters/invites-adapter";
-import { User, Switch, Button, Card, Spacer, Row } from "@nextui-org/react";
+import { Button, Card, Row } from "@nextui-org/react";
 
 export default function JoinRequest({ request }) {
   const { id } = request;
@@ -21,18 +21,25 @@ export default function JoinRequest({ request }) {
     setStatusChange(statusChange + 1);
   };
 
-  if (!canInvite) return <h4>Already Requested to Join</h4>;
+  // if (!canInvite) return <h4>Already Requested to Join</h4>;
 
   return (
     <>
       <Card isHoverable>
-        <h3>Request to Join</h3>
-        <div>
-          <Button onPress={onClick} shadow color="secondary" aria-label="Send">
-            Send Invite
+        <Row css={{ justifyContent: "center" }}>
+          <Button
+            onPress={onClick}
+            shadow
+            flat
+            color="secondary"
+            aria-label="Send"
+            disabled={!canInvite}
+            css={{ width: "100%" }}
+          >
+            {canInvite ? "Send Invitation to Join" : "Invitation Already Sent"}
           </Button>
-        </div>
-        <p>{canInvite}</p>
+          {/* <p>{canInvite}</p> */}
+        </Row>
       </Card>
     </>
   );

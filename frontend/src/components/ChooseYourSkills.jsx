@@ -1,9 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 
-const ChooseYourSkills = ({ role, selectedSkills, setSkills }) => {
+import { Dropdown, Spacer } from "@nextui-org/react";
+
+const ChooseYourSkills = ({ role, selected, setSelected }) => {
   const [visible, setVisible] = useState(null);
   const [rec, setRec] = useState(null);
-  const [exp, setExp] = useState(null);
+
+  const selectedValue = useMemo(
+    () => Array.from(selected).join(", ").replaceAll("_", " "),
+    [selected]
+  );
 
   useEffect(() => {
     setVisible(role === "fabricator" ? true : false);
@@ -38,48 +44,57 @@ const ChooseYourSkills = ({ role, selectedSkills, setSkills }) => {
       "Experienced in creating mechanical components with structural integrity and ergonomics.",
   };
 
-  const handleSelectChange = (event) => {
-    const options = Array.from(event.target.options);
-    const selectedValues = options
-      .filter((option) => option.selected)
-      .map((option) => option.value);
-    const s = new Set(selectedSkills);
-    if (s.has(selectedValues[0])) {
-      s.delete(selectedValues[0]);
-      setSkills(Array.from(s));
-    } else {
-      setSkills([...selectedSkills, selectedValues[0]]);
-    }
-    setExp(explanations[selectedValues[0]]);
-  };
-
   return (
     <>
       {visible && !rec && (
         <>
-          <h4>Please select at least one skill to sign up!</h4>
-          <select
-            multiple
-            value={selectedSkills}
-            onChange={handleSelectChange}
-            style={{ width: "100%" }}
-          >
-            <option value="3D Printing">3D Printing</option>
-            <option value="Design and CAD">Design and CAD</option>
-            <option value="Material Knowledge">Material Knowledge</option>
-            <option value="Prototyping">Prototyping</option>
-            <option value="Customization">Customization</option>
-            <option value="Project Management">Project Management</option>
-            <option value="CNC Machining">CNC Machining</option>
-            <option value="Laser Cutting">Laser Cutting</option>
-            <option value="Electronics">Electronics</option>
-            <option value="3D Modeling">3D Modeling</option>
-            <option value="Welding">Welding</option>
-            <option value="Programming">Programming</option>
-            <option value="Robotics">Robotics</option>
-          </select>
-          <p>{exp}</p>
-          <p>Selected Options: {selectedSkills.join(", ")}</p>
+          <Spacer y={0.5}></Spacer>
+          <h4>Fabricator please select at least one skill to sign up!</h4>
+          <p>
+            {
+              explanations[
+                Array.from(selected)[Array.from(selected).length - 1]
+              ]
+            }
+          </p>
+          <Spacer y={0.5}></Spacer>
+          <Dropdown placement="left-bottom">
+            <Dropdown.Button
+              flat
+              color="secondary"
+              css={{ tt: "capitalize", height: "auto", whiteSpace: "normal" }}
+            >
+              {selectedValue}
+            </Dropdown.Button>
+            <Dropdown.Menu
+              aria-label="Multiple selection actions"
+              color="secondary"
+              disallowEmptySelection
+              selectionMode="multiple"
+              selectedKeys={selected}
+              onSelectionChange={setSelected}
+            >
+              <Dropdown.Item key="3D Printing">3D Printing</Dropdown.Item>
+              <Dropdown.Item key="Design and CAD">Design and CAD</Dropdown.Item>
+              <Dropdown.Item key="Material Knowledge">
+                Material Knowledge
+              </Dropdown.Item>
+              <Dropdown.Item key="Prototyping">Prototyping</Dropdown.Item>
+              <Dropdown.Item key="Customization">Customization</Dropdown.Item>
+              <Dropdown.Item key="Project Management">
+                Project Management
+              </Dropdown.Item>
+              <Dropdown.Item key="CNC Machining">CNC Machining</Dropdown.Item>
+              <Dropdown.Item key="Laser Cutting">Laser Cutting</Dropdown.Item>
+              <Dropdown.Item key="Electronics">Electronics</Dropdown.Item>
+              <Dropdown.Item key="3D Modeling">3D Modeling</Dropdown.Item>
+              <Dropdown.Item key="Welding">Welding</Dropdown.Item>
+              <Dropdown.Item key="Programming">Programming</Dropdown.Item>
+              <Dropdown.Item key="Robotics">Robotics</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+          <Spacer y={0.5}></Spacer>
+
           <p>
             Welcome, fabricators! By joining our community, you become an
             essential part of our mission to make a positive impact through 3D

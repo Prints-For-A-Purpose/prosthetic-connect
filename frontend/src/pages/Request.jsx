@@ -225,7 +225,7 @@ export default function Request() {
       ></RequestInfo>
       <Spacer y={2} />
       <Row>
-        <Spacer x={4} />
+        <Spacer x={6} />
         <PendingInvites
           setNumOfActive={setNumOfActive}
           numOfActive={numOfActive}
@@ -233,12 +233,17 @@ export default function Request() {
           request={request}
           authorized={authorized}
         ></PendingInvites>
-        <Spacer x={4} />
+        <Spacer x={6} />
       </Row>
-      <Row>{canInvite && <JoinRequest request={request}></JoinRequest>}</Row>
-      <Spacer y={2} />
       <Row>
-        <Spacer x={4} />
+        <Spacer x={6} />
+        {canInvite && <JoinRequest request={request}></JoinRequest>}
+        <Spacer x={6} />
+      </Row>
+      <Spacer y={2} />
+      <Spacer x={4} />
+      <Row>
+        <Spacer x={6} />
         <Card>
           <Spacer y={2} />
           <Row css={{ justifyContent: "center" }}>
@@ -308,7 +313,7 @@ export default function Request() {
           </Row>
           <Spacer y={2} />
         </Card>
-        <Spacer x={4} />
+        <Spacer x={6} />
       </Row>
       <Spacer y={4} />
     </>

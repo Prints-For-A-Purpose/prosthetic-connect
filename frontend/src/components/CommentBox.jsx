@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
 import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import CurrentUserContext from "../contexts/current-user-context";
 import CommentDeleteEdit from "../components/CommentDeleteEdit";
 import { formatTimestamp } from "../utils";
@@ -14,10 +14,16 @@ export default function CommentBox({
 }) {
   const { currentUser } = useContext(CurrentUserContext);
   const [commentContent, setCommentContent] = useState(`${comment.content}`);
+  const navigate = useNavigate();
 
   return (
     <>
-      <Card isHoverable variant="bordered">
+      <Card
+        isHoverable
+        isPressable
+        variant="bordered"
+        onPress={() => navigate("/users/" + comment.user_id)}
+      >
         <Card.Header>
           <Row>
             <User

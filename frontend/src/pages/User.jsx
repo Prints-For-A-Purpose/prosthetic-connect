@@ -19,6 +19,16 @@ import DonationForm from "../components/DonationForm";
 import DonateButton from "../components/DonateButton";
 import UploadFile from "../components/UploadFile";
 
+import {
+  Card,
+  Col,
+  Row,
+  Button,
+  Text,
+  User,
+  Container,
+} from "@nextui-org/react";
+
 export default function UserPage() {
   const navigate = useNavigate();
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
@@ -120,12 +130,80 @@ export default function UserPage() {
 
   return (
     <>
+      <User
+        src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
+        name="Tony Reichert"
+        size="500%"
+      />
       {userProfile && userProfile.pfp_url && (
         <img src={userProfile.pfp_url} style={{ maxWidth: "5rem" }}></img>
       )}
       {userProfile && userProfile.bio && <p>{userProfile.bio}</p>}
       <h4>Role: {role}</h4>
       <h1>{profileUsername}</h1>
+      <Container justify="center">
+        <Card css={{ maxWidth: "80%", h: "600px" }}>
+          <Card.Header css={{ position: "absolute", zIndex: 1, top: 5 }}>
+            <Col>
+              <Text
+                size={12}
+                weight="bold"
+                transform="uppercase"
+                color="#ffffffAA"
+              >
+                New
+              </Text>
+              <Text h3 color="black">
+                Acme camera
+              </Text>
+            </Col>
+          </Card.Header>
+          <Card.Body css={{ p: 0 }}>
+            <Card.Image
+              src="https://nextui.org/images/card-example-6.jpeg"
+              width="100%"
+              height="100%"
+              objectFit="cover"
+              alt="Card example background"
+            />
+          </Card.Body>
+          <Card.Footer
+            isBlurred
+            css={{
+              position: "absolute",
+              bgBlur: "#ffffff66",
+              borderTop: "$borderWeights$light solid rgba(255, 255, 255, 0.2)",
+              bottom: 0,
+              zIndex: 1,
+            }}
+          >
+            <Row>
+              <Col>
+                <Text color="#000" size={12}>
+                  Available soon.
+                </Text>
+                <Text color="#000" size={12}>
+                  Get notified.
+                </Text>
+              </Col>
+              <Col>
+                <Row justify="flex-end">
+                  <Button flat auto rounded color="secondary">
+                    <Text
+                      css={{ color: "inherit" }}
+                      size={12}
+                      weight="bold"
+                      transform="uppercase"
+                    >
+                      Notify Me
+                    </Text>
+                  </Button>
+                </Row>
+              </Col>
+            </Row>
+          </Card.Footer>
+        </Card>
+      </Container>
       {skills && (
         <>
           <h3>Skills</h3>

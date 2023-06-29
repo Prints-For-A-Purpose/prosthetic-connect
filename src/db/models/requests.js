@@ -15,6 +15,7 @@ class Request {
     image_url,
     category,
     pfp_url,
+    bio,
   }) {
     this.id = id;
     this.user_id = user_id;
@@ -30,6 +31,7 @@ class Request {
     this.category = category;
     this.image_url = image_url;
     this.pfp_url = pfp_url;
+    this.bio = bio;
   }
   static async createRequests(
     user_id,
@@ -43,8 +45,8 @@ class Request {
     category
   ) {
     try {
-      const query = `INSERT INTO requests (user_id, request_status, q1_disability_info, q2_functional_requirements, q3_physical_specifications, q4_lifestyle_usage, q5_additional, fabricators_needed, category)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) 
+      const query = `INSERT INTO requests (user_id, request_status, q1_disability_info, q2_functional_requirements, q3_physical_specifications, q4_lifestyle_usage, q5_additional, fabricators_needed, category, image_url)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'https://media.npr.org/assets/img/2014/10/23/eprosthetic-edit_wide-abb057b906b5eb98857f0054a3c284075c09faee.jpg') 
         RETURNING *`;
       const {
         rows: [request],

@@ -101,7 +101,9 @@ export default function QuestionsPage() {
     if (currentUser === null) return navigate("/sign-up");
     event.preventDefault();
     request.draft = false;
+    console.log(request);
     const newRequest = await createRequests(request);
+    console.log(newRequest);
     navigate(`../requests/${newRequest[0].id}/`);
   };
 
@@ -109,6 +111,7 @@ export default function QuestionsPage() {
     if (currentUser === null) return navigate("/sign-up");
     event.preventDefault();
     request.draft = true;
+    console.log(request);
     const newRequest = await createRequests(request);
     navigate(`../requests/${newRequest[0].id}/`);
   };

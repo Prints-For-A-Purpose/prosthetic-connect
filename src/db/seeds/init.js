@@ -4,6 +4,7 @@ const User = require("../models/user");
  * @returns { Promise<void> }
  */
 exports.seed = async (knex) => {
+  await knex("skills").del();
   await knex("invitations").del();
   await knex("comments").del();
   await knex("requests").del();
