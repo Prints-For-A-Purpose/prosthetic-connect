@@ -266,14 +266,14 @@ export default function ChangeStatus({
               <p>{explanation}</p>
               <div>
                 {request_status === "Deployment" && (
-                  <p>
+                  <Text>
                     Congratulations on making it to deployment. If there is
                     something wrong with the product talk to your team to try to
                     solve it. If it really can't be resolved then you are
                     welcome to change the request status. Before making any
                     decisions please be certain your are making the most
                     informed choice.
-                  </p>
+                  </Text>
                 )}
                 {newStatus === "Pending" &&
                   newStatus === request_status &&

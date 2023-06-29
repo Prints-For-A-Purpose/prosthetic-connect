@@ -45,6 +45,7 @@ export default function HomePage() {
           size={60}
           css={{
             textGradient: "45deg, $purple600 -20%, $pink600 100%",
+            textAlign: "center",
           }}
           weight="bold"
         >
@@ -62,9 +63,8 @@ export default function HomePage() {
           value={searchKeyword}
           clearable
           css={{ width: "80%" }}
-          // css={{ display: "block", marginLeft: "3rem", marginRight: "3rem" }}
           contentLeft={
-            <svg fill="none" height={16} viewBox="0 0 24 24" width={16}>
+            <svg fill="none" height={36} viewBox="0 0 24 24" width={36}>
               <path
                 d="M11.5 21a9.5 9.5 0 1 0 0-19 9.5 9.5 0 0 0 0 19ZM22 22l-2-2"
                 stroke={"var(--nextui-colors-accents6)"}
@@ -78,15 +78,11 @@ export default function HomePage() {
         />
       </Row>
       <Spacer y={2}></Spacer>
-      <Row>
-        <Spacer x={2}></Spacer>
-        <Grid.Container gap={2} justify="flex-start">
-          {filteredRequests.map((request) => (
-            <RequestBox request={request} key={request.id} />
-          ))}
-        </Grid.Container>
-        <Spacer x={2}></Spacer>
-      </Row>
+      <Grid.Container gap={4} justify="center">
+        {filteredRequests.map((request) => (
+          <RequestBox request={request} key={request.id} />
+        ))}
+      </Grid.Container>
       <Spacer y={2}></Spacer>
       <Row css={{ justifyContent: "center" }}>
         <Pagination

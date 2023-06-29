@@ -33,7 +33,7 @@ import ProgressBar from "../components/ProgressBar";
 import PendingInvites from "../components/PendingInvites";
 import JoinRequest from "../components/JoinRequest";
 
-export default function Request() {
+export default function Request(isDark) {
   const { id } = useParams();
   const navigate = useNavigate();
   const { currentUser } = useContext(CurrentUserContext);
@@ -150,7 +150,7 @@ export default function Request() {
           >
             <Card.Header css={{ position: "absolute", zIndex: 1, top: 5 }}>
               <Col>
-                <Badge variant="flat" color="secondary" enableShadow>
+                <Badge variant="flat" color="secondary" enableShadow size="xl">
                   Requested {formatTimestamp(request.timestamp)}
                 </Badge>
                 <Text
@@ -189,7 +189,9 @@ export default function Request() {
               isBlurred
               css={{
                 position: "absolute",
-                bgBlur: "#ffffff66", // bgBlur: "#0f111466",
+                // bgBlur: "#ffffff66",
+                // bgBlur: "#0f111466",
+                bgBlur: "#ffffff66",
                 borderTop:
                   "$borderWeights$light solid rgba(255, 255, 255, 0.2)", // borderTop: "$borderWeights$light solid $gray800",
                 bottom: 0,
@@ -203,7 +205,7 @@ export default function Request() {
                 color="gradient"
                 bordered
               >
-                <User.Link href={"/users/" + request.user_id}>
+                <User.Link size="$lg" href={"/users/" + request.user_id}>
                   @{username}
                 </User.Link>
               </User>
@@ -214,7 +216,7 @@ export default function Request() {
           </Card>
         </Grid>
       </Grid.Container>
-      <Spacer y={2} />
+      {/* <Spacer y={2} /> */}
       <RequestInfo
         request={request}
         currentUser={currentUser}
@@ -223,7 +225,7 @@ export default function Request() {
         complete={complete}
         numOfActive={numOfActive}
       ></RequestInfo>
-      <Spacer y={2} />
+      {/* <Spacer y={2} /> */}
       <Row>
         <Spacer x={6} />
         <PendingInvites
