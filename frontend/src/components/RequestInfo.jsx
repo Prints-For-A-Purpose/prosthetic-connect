@@ -645,7 +645,7 @@ export default function RequestInfo({
                   </Text>
                   {formVisibility && (
                     <div>
-                      <Dropdown>
+                      <Dropdown placement="right-top">
                         <Dropdown.Button
                           flat
                           color="secondary"
@@ -665,7 +665,6 @@ export default function RequestInfo({
                             key="Prosthetics"
                             value="Prosthetics"
                             name="Prosthetics"
-                            description={categoryDescriptions["Prosthetics"]}
                           >
                             Prosthetics
                           </Dropdown.Item>
@@ -673,9 +672,6 @@ export default function RequestInfo({
                             key="Assistive Devices"
                             value="Assistive Devices"
                             name="Assistive Devices"
-                            description={
-                              categoryDescriptions["Assistive Devices"]
-                            }
                           >
                             Assistive Devices
                           </Dropdown.Item>
@@ -683,7 +679,6 @@ export default function RequestInfo({
                             key="Orthotics"
                             value="Orthotics"
                             name="Orthotics"
-                            description={categoryDescriptions["Orthotics"]}
                           >
                             Orthotics
                           </Dropdown.Item>
@@ -691,7 +686,6 @@ export default function RequestInfo({
                             key="Mobility Aids"
                             value="Mobility Aids"
                             name="Mobility Aids"
-                            description={categoryDescriptions["Mobility Aids"]}
                           >
                             Mobility Aids
                           </Dropdown.Item>
@@ -699,31 +693,20 @@ export default function RequestInfo({
                             key="Wearable Technology and Accessories"
                             value="Wearable Technology and Accessories"
                             name="Wearable Technology and Accessories"
-                            description={
-                              categoryDescriptions[
-                                "Wearable Technology and Accessories"
-                              ]
-                            }
                           >
-                            Wearable Technology and Accessories
+                            Wearable Technology
                           </Dropdown.Item>
                           <Dropdown.Item
                             key="Customization and Personalization"
                             value="Customization and Personalization"
                             name="Customization and Personalization"
-                            description={
-                              categoryDescriptions[
-                                "Customization and Personalization"
-                              ]
-                            }
                           >
-                            Customization and Personalization
+                            Customization
                           </Dropdown.Item>
                           <Dropdown.Item
                             key="Medical Tools"
                             value="Medical Tools"
                             name="Medical Tools"
-                            description={categoryDescriptions["Medical Tools"]}
                           >
                             Medical Tools
                           </Dropdown.Item>
@@ -731,9 +714,6 @@ export default function RequestInfo({
                             key="Rehabilitation Aids"
                             value="Rehabilitation Aids"
                             name="Rehabilitation Aids"
-                            description={
-                              categoryDescriptions["Rehabilitation Aids"]
-                            }
                           >
                             Rehabilitation Aids
                           </Dropdown.Item>
@@ -741,9 +721,6 @@ export default function RequestInfo({
                             key="Animal Prosthetics"
                             value="Animal Prosthetics"
                             name="Animal Prosthetics"
-                            description={
-                              categoryDescriptions["Animal Prosthetics"]
-                            }
                           >
                             Animal Prosthetics
                           </Dropdown.Item>
@@ -751,9 +728,6 @@ export default function RequestInfo({
                             key="Craniofacial Optics"
                             value="Craniofacial Optics"
                             name="Craniofacial Optics"
-                            description={
-                              categoryDescriptions["Craniofacial Optics"]
-                            }
                           >
                             Craniofacial Optics
                           </Dropdown.Item>
@@ -761,7 +735,6 @@ export default function RequestInfo({
                             key="Miscellaneous"
                             value="Miscellaneous"
                             name="Miscellaneous"
-                            description={categoryDescriptions["Miscellaneous"]}
                           >
                             Miscellaneous / Other
                           </Dropdown.Item>
