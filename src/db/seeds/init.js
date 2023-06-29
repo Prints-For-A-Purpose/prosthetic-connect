@@ -91,6 +91,78 @@ exports.seed = async (knex) => {
       bio: "bio",
       payment_url: "1juliancastx",
     },
+    {
+      username: "cool_csat",
+      password_hash: "123",
+      is_fabricator: false,
+      pfp_url:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png",
+      bio: "bio",
+      payment_url: "1juliancastx",
+    },
+    {
+      username: "awesome_coder",
+      password_hash: "123",
+      is_fabricator: false,
+      pfp_url:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png",
+      bio: "bio",
+      payment_url: "1juliancastx",
+    },
+    {
+      username: "gaming_enthusiast",
+      password_hash: "123",
+      is_fabricator: false,
+      pfp_url:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png",
+      bio: "bio",
+      payment_url: "1juliancastx",
+    },
+    {
+      username: "music_lover",
+      password_hash: "123",
+      is_fabricator: false,
+      pfp_url:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png",
+      bio: "bio",
+      payment_url: "1juliancastx",
+    },
+    {
+      username: "artistic_soul",
+      password_hash: "123",
+      is_fabricator: false,
+      pfp_url:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png",
+      bio: "bio",
+      payment_url: "1juliancastx",
+    },
+    {
+      username: "coding_ninja",
+      password_hash: "123",
+      is_fabricator: false,
+      pfp_url:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png",
+      bio: "bio",
+      payment_url: "1juliancastx",
+    },
+    {
+      username: "bookworm",
+      password_hash: "123",
+      is_fabricator: false,
+      pfp_url:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png",
+      bio: "bio",
+      payment_url: "1juliancastx",
+    },
+    {
+      username: "fitness_guru",
+      password_hash: "123",
+      is_fabricator: false,
+      pfp_url:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png",
+      bio: "bio",
+      payment_url: "1juliancastx",
+    },
   ]);
   await knex("requests").insert([
     {
@@ -282,13 +354,97 @@ exports.seed = async (knex) => {
     },
     {
       user_id: 3,
-      request_status: "Deployment",
+      request_status: "Review",
       q1_disability_info: "craniofacial deformity",
       q2_functional_requirements:
         "I need glasses frames that can stay on my face.",
       q3_physical_specifications: "I am missing my left ear.",
       q4_lifestyle_usage: "It would be for daily use to see better.",
       fabricators_needed: 2,
+      category: "Prosthetics",
+      image_url:
+        "https://media.npr.org/assets/img/2014/10/23/eprosthetic-edit_wide-abb057b906b5eb98857f0054a3c284075c09faee.jpg",
+    },
+    {
+      user_id: 10,
+      request_status: "Pending",
+      q1_disability_info:
+        "I have a visual impairment and need assistance with reading small text.",
+      q2_functional_requirements:
+        "I would like the 3D-printed item to be a magnifying tool with adjustable zoom levels.",
+      q3_physical_specifications:
+        "Measurements such as the size and weight of the device would be needed to ensure portability and comfortable use.",
+      q4_lifestyle_usage:
+        "I would use the 3D-printed item for reading books, labels, and other printed materials in my daily life.",
+      fabricators_needed: 1,
+      category: "Assistive Devices",
+      image_url:
+        "https://media.npr.org/assets/img/2014/10/23/eprosthetic-edit_wide-abb057b906b5eb98857f0054a3c284075c09faee.jpg",
+    },
+
+    {
+      user_id: 11,
+      request_status: "Deployment",
+      q1_disability_info:
+        "I have limited mobility in my legs and need support while sitting.",
+      q2_functional_requirements:
+        "I would like the 3D-printed item to be a custom seat cushion that provides comfort and stability.",
+      q3_physical_specifications:
+        "Measurements such as the dimensions and contours of my body would be required to create a well-fitting cushion.",
+      q4_lifestyle_usage:
+        "I would use the 3D-printed cushion on my wheelchair and other seating surfaces to improve posture and reduce pressure points.",
+      fabricators_needed: 3,
+      category: "Mobility Aids",
+      image_url:
+        "https://media.npr.org/assets/img/2014/10/23/eprosthetic-edit_wide-abb057b906b5eb98857f0054a3c284075c09faee.jpg",
+    },
+
+    {
+      user_id: 12,
+      request_status: "Development",
+      q1_disability_info:
+        "I have a hearing impairment and struggle to hear conversations in noisy environments.",
+      q2_functional_requirements:
+        "I would like the 3D-printed item to be custom earplugs with noise-cancelling capabilities.",
+      q3_physical_specifications:
+        "Ear impressions would be necessary to ensure a snug fit and effective noise reduction.",
+      q4_lifestyle_usage:
+        "I would use the 3D-printed earplugs in social gatherings, concerts, and other noisy situations to improve my hearing experience.",
+      fabricators_needed: 2,
+      category: "Hearing Aids",
+      image_url:
+        "https://media.npr.org/assets/img/2014/10/23/eprosthetic-edit_wide-abb057b906b5eb98857f0054a3c284075c09faee.jpg",
+    },
+
+    {
+      user_id: 13,
+      request_status: "Review",
+      q1_disability_info:
+        "I have limited hand dexterity and need assistance with turning keys and door handles.",
+      q2_functional_requirements:
+        "I would like the 3D-printed item to be a key holder and door opener that provides a better grip.",
+      q3_physical_specifications:
+        "Measurements such as the size and shape of the key holder would be needed to accommodate different key types.",
+      q4_lifestyle_usage:
+        "I would use the 3D-printed device to make it easier for me to unlock doors and access my home independently.",
+      fabricators_needed: 3,
+      category: "Assistive Devices",
+      image_url:
+        "https://media.npr.org/assets/img/2014/10/23/eprosthetic-edit_wide-abb057b906b5eb98857f0054a3c284075c09faee.jpg",
+    },
+
+    {
+      user_id: 14,
+      request_status: "In progress",
+      q1_disability_info:
+        "I have a limb difference and need a prosthetic hand for functional purposes.",
+      q2_functional_requirements:
+        "I would like the 3D-printed item to have articulated fingers and a gripping mechanism.",
+      q3_physical_specifications:
+        "Measurements such as the length and circumference of my residual limb would be required for a proper fit.",
+      q4_lifestyle_usage:
+        "I would use the 3D-printed prosthetic hand to perform everyday tasks like grasping objects, writing, and operating tools.",
+      fabricators_needed: 1,
       category: "Prosthetics",
       image_url:
         "https://media.npr.org/assets/img/2014/10/23/eprosthetic-edit_wide-abb057b906b5eb98857f0054a3c284075c09faee.jpg",

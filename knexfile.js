@@ -29,4 +29,16 @@ module.exports = {
       database: process.env.database || 'postgres',
     },
   },
+  production: {
+    client: 'pg',
+    connection: process.env.PG_CONNECTION_STRING,
+    migrations: {
+      directory: path.join(__dirname, 'src', 'db', 'migrations'),
+      stub: path.join(__dirname, 'migration-stub.js'),
+    },
+    seeds: {
+      directory: path.join(__dirname, 'src', 'db', 'seeds'),
+    },
+  },
 };
+
