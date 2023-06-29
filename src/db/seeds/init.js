@@ -337,7 +337,7 @@ exports.seed = async (knex) => {
         "https://media.npr.org/assets/img/2014/10/23/eprosthetic-edit_wide-abb057b906b5eb98857f0054a3c284075c09faee.jpg",
     },
     {
-      user_id: 3,
+      user_id: 10,
       request_status: "Review",
       q1_disability_info: "craniofacial deformity",
       q2_functional_requirements:
@@ -350,7 +350,7 @@ exports.seed = async (knex) => {
         "https://media.npr.org/assets/img/2014/10/23/eprosthetic-edit_wide-abb057b906b5eb98857f0054a3c284075c09faee.jpg",
     },
     {
-      user_id: 3,
+      user_id: 11,
       request_status: "Pending",
       q1_disability_info: "I have a visual impairment and need assistance with reading small text.",
       q2_functional_requirements: "I would like the 3D-printed item to be a magnifying tool with adjustable zoom levels.",
@@ -362,7 +362,7 @@ exports.seed = async (knex) => {
     },
     
     {
-      user_id: 3,
+      user_id: 12,
       request_status: "Deployment",
       q1_disability_info: "I have limited mobility in my legs and need support while sitting.",
       q2_functional_requirements: "I would like the 3D-printed item to be a custom seat cushion that provides comfort and stability.",
@@ -374,7 +374,7 @@ exports.seed = async (knex) => {
     },
     
     {
-      user_id: 3,
+      user_id: 13,
       request_status: "Development",
       q1_disability_info: "I have a hearing impairment and struggle to hear conversations in noisy environments.",
       q2_functional_requirements: "I would like the 3D-printed item to be custom earplugs with noise-cancelling capabilities.",
@@ -386,7 +386,7 @@ exports.seed = async (knex) => {
     },
     
     {
-      user_id: 3,
+      user_id: 14,
       request_status: "Review",
       q1_disability_info: "I have limited hand dexterity and need assistance with turning keys and door handles.",
       q2_functional_requirements: "I would like the 3D-printed item to be a key holder and door opener that provides a better grip.",
@@ -398,7 +398,7 @@ exports.seed = async (knex) => {
     },
     
     {
-      user_id: 3,
+      user_id: 15,
       request_status: "In progress",
       q1_disability_info: "I have a limb difference and need a prosthetic hand for functional purposes.",
       q2_functional_requirements: "I would like the 3D-printed item to have articulated fingers and a gripping mechanism.",
