@@ -1,7 +1,16 @@
 import { useState } from "react";
 import { createComment } from "../adapters/comments-adapter";
 import { getComments, getPrivateComments } from "../adapters/comments-adapter";
-import { Card, Textarea, Spacer, Button, Grid, Row } from "@nextui-org/react";
+import {
+  Card,
+  Textarea,
+  Spacer,
+  Button,
+  Grid,
+  Row,
+  Input,
+  Container,
+} from "@nextui-org/react";
 
 export default function NewComment({
   request,
@@ -41,10 +50,10 @@ export default function NewComment({
 
   return (
     <>
-      <Card>
+      <Container css={{ maxWidth: "50%" }}>
         <form onSubmit={handleSubmit} aria-label="form">
-          <Row>
-            <Textarea
+          <Row css={{ alignItems: "center" }}>
+            <Input
               type="text"
               autoComplete="off"
               id="content"
@@ -52,26 +61,32 @@ export default function NewComment({
               onChange={handleChange}
               value={content}
               required
-              labelPlaceholder="New Comment ..."
+              rounded
+              labelPlaceholder={
+                is_public
+                  ? "Add a Public Comment ..."
+                  : "Add a Private Comment..."
+              }
               aria-label="submit"
               status="secondary"
               fullWidth="true"
               maxLength="255"
-            ></Textarea>
+            ></Input>
+            <Spacer x={1}></Spacer>
             <Button
               type="submit"
+              rounded={true}
               shadow
-              color="secondary"
+              color="gradient"
               size="lg"
-              css={{ height: "5rem" }}
               auto
               aria-label="Submit"
             >
-              Submit Comment
+              Join Discussion
             </Button>
           </Row>
         </form>
-      </Card>
+      </Container>
     </>
   );
 }

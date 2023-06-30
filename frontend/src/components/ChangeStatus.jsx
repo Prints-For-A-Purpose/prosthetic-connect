@@ -1,9 +1,20 @@
 import { moveStatusProgress } from "../adapters/request-adapter";
 import { archiveRequest, startProject } from "../adapters/invites-adapter";
 
-import { useState } from "react";
+import { useState, useMemo, useEffect } from "react";
 
-import { Modal, Input, Row, Checkbox, Button, Text } from "@nextui-org/react";
+import {
+  Modal,
+  Input,
+  Row,
+  Dropdown,
+  Spacer,
+  Button,
+  Text,
+  Container,
+  Loading,
+} from "@nextui-org/react";
+import confetti from "canvas-confetti";
 
 export default function ChangeStatus({
   request,
@@ -64,7 +75,7 @@ export default function ChangeStatus({
     Archived: {
       description:
         "Archived requests are only visible to the Recipient. Drafts are also held as archived until the Recipient is ready to publish them publicly.",
-      color: "#ff9089",
+      color: "hsl(4, 100%, 80%)",
     },
   };
 
@@ -78,6 +89,13 @@ export default function ChangeStatus({
   } = newContent;
 
   const [newStatus, setNewStatus] = useState(request_status);
+  const [s, setS] = useState(new Set([newStatus]));
+
+  const selectedValue = useMemo(
+    () => Array.from(s).join(", ").replaceAll("_", " "),
+    [s]
+  );
+
   const [explanation, setExplanation] = useState(
     statusDescriptions[request_status].description
   );
@@ -92,14 +110,156 @@ export default function ChangeStatus({
     setVisible(false);
   };
 
-  const handleChange = (event) => {
-    setNewStatus(event.target.value);
-    setExplanation(statusDescriptions[event.target.value].description);
-    setButtonColor(statusDescriptions[event.target.value].color);
-  };
+  useEffect(() => {
+    setNewStatus(Array.from(s)[0]);
+    setExplanation(statusDescriptions[Array.from(s)[0]].description);
+    setButtonColor(statusDescriptions[Array.from(s)[0]].color);
+  }, Array.from(s));
 
+  const handleConfetti = () => {
+    closeHandler();
+    if (newStatus === "Deployment") {
+      let duration = 15 * 1000;
+      let animationEnd = Date.now() + duration;
+      let defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+      function randomInRange(min, max) {
+        return Math.random() * (max - min) + min;
+      }
+
+      let interval = setInterval(function () {
+        let timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) {
+          return clearInterval(interval);
+        }
+
+        let particleCount = 50 * (timeLeft / duration);
+
+        confetti(
+          Object.assign({}, defaults, {
+            particleCount,
+            origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+          })
+        );
+        confetti(
+          Object.assign({}, defaults, {
+            particleCount,
+            origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+          })
+        );
+      }, 250);
+    } else if (
+      newStatus === "Pending" ||
+      newStatus === "Planning" ||
+      newStatus === "Design" ||
+      newStatus === "Development" ||
+      newStatus === "Testing" ||
+      newStatus === "Review" ||
+      newStatus === "Iteration" ||
+      (newStatus === "Documentation" && newStatus !== request_status)
+    ) {
+      let duration = 1.5 * 1000;
+      let animationEnd = Date.now() + duration;
+      let defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+      function randomInRange(min, max) {
+        return Math.random() * (max - min) + min;
+      }
+
+      let interval = setInterval(function () {
+        let timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) {
+          return clearInterval(interval);
+        }
+
+        let particleCount = 50 * (timeLeft / duration);
+
+        confetti(
+          Object.assign({}, defaults, {
+            particleCount,
+            origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+          })
+        );
+        confetti(
+          Object.assign({}, defaults, {
+            particleCount,
+            origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+          })
+        );
+      }, 250);
+    }
+  };
   const statusName = Object.keys(statusDescriptions);
   let index = statusName.findIndex((e) => e === request_status);
+
+  const disabled = [];
+  if (
+    request_status === "Planning" ||
+    request_status === "Design" ||
+    q1_disability_info === "" ||
+    q2_functional_requirements === "" ||
+    q3_physical_specifications === "" ||
+    q4_lifestyle_usage === "" ||
+    category === "" ||
+    fabricators_needed === "" ||
+    (index > 3 && index !== 9)
+  ) {
+    disabled.push("Pending");
+  }
+  if (index > 2 || !complete) {
+    disabled.push("Planning");
+  }
+  if (
+    index > 3 ||
+    request_status === "Archived" ||
+    request_status === "Pending"
+  ) {
+    disabled.push("Design");
+  }
+  if (
+    index > 4 ||
+    request_status === "Archived" ||
+    request_status === "Pending"
+  ) {
+    disabled.push("Development");
+  }
+  if (
+    index > 5 ||
+    request_status === "Archived" ||
+    request_status === "Pending"
+  ) {
+    disabled.push("Testing");
+  }
+  if (
+    index > 6 ||
+    request_status === "Archived" ||
+    request_status === "Pending"
+  ) {
+    disabled.push("Review");
+  }
+  if (
+    index > 7 ||
+    request_status === "Archived" ||
+    request_status === "Pending"
+  ) {
+    disabled.push("Iteration");
+  }
+  if (
+    index > 8 ||
+    request_status === "Archived" ||
+    request_status === "Pending"
+  ) {
+    disabled.push("Documentation");
+  }
+  if (
+    index === 8 ||
+    request_status === "Archived" ||
+    request_status === "Pending"
+  ) {
+    disabled.push("Deployment");
+  }
 
   const handleSelectSubmit = async (event) => {
     event.preventDefault();
@@ -126,41 +286,72 @@ export default function ChangeStatus({
     closeHandler();
   };
 
+  const colors =
+    newStatus !== "Deployment"
+      ? {
+          background: buttonColor,
+        }
+      : {};
+
   return (
     <>
-      <div>
+      <Container css={{ maxWidth: "50%" }}>
         <Button
           auto
           flat
           color="secondary"
           shadow
           onPress={handler}
-          css={{ zIndex: "0" }}
+          css={{ zIndex: "0", width: "100%" }}
         >
           Change Status
+          <Spacer x={1}></Spacer>
+          <Loading type="points" color="secondary" />
         </Button>
-        <Modal
-          closeButton
-          blur
-          aria-labelledby="modal-title"
-          width="600px"
-          scroll
-          open={visible}
-          onClose={closeHandler}
-        >
-          <form onSubmit={handleSelectSubmit} aria-label="form">
-            <Modal.Header>
-              <Text id="modal-title" size={18}>
-                <b>You </b>Control The Request Status
+        <Spacer y={1}></Spacer>
+      </Container>
+      <Modal
+        closeButton
+        blur
+        aria-labelledby="modal-title"
+        width="600px"
+        scroll
+        open={visible}
+        onClose={closeHandler}
+      >
+        <form onSubmit={handleSelectSubmit} aria-label="form">
+          <Modal.Header>
+            <Text id="modal-title" size={18}>
+              <Text b color="secondary">
+                You{" "}
               </Text>
-            </Modal.Header>
-            <Modal.Body>
-              <label>Pick a new Status:</label>
-              <select onChange={handleChange} defaultValue={newStatus}>
-                <option value="Archived" name="Archived">
+              Control The Request Status
+            </Text>
+          </Modal.Header>
+          <Modal.Body>
+            <Text>Pick A New Status</Text>
+            <Dropdown placement="right-top">
+              <Dropdown.Button
+                flat
+                color="secondary"
+                css={{ tt: "capitalize" }}
+              >
+                {selectedValue}
+              </Dropdown.Button>
+              <Dropdown.Menu
+                aria-label="Single selection actions"
+                color="secondary"
+                disallowEmptySelection
+                selectionMode="single"
+                selectedKeys={s}
+                onSelectionChange={setS}
+                disabledKeys={[...disabled]}
+              >
+                <Dropdown.Item key="Archived" value="Archived" name="Archived">
                   Archived - 0%
-                </option>
-                <option
+                </Dropdown.Item>
+                <Dropdown.Item
+                  key="Pending"
                   value="Pending"
                   name="Pending"
                   disabled={
@@ -176,97 +367,55 @@ export default function ChangeStatus({
                   }
                 >
                   Pending - 5%
-                </option>
-                <option
-                  value="Planning"
-                  name="Planning"
-                  disabled={index > 2 || !complete}
-                >
+                </Dropdown.Item>
+                <Dropdown.Item key="Planning" value="Planning" name="Planning">
                   Planning - 10%
-                </option>
-                <option
-                  value="Design"
-                  name="Design"
-                  disabled={
-                    index > 3 ||
-                    request_status === "Archived" ||
-                    request_status === "Pending"
-                  }
-                >
+                </Dropdown.Item>
+                <Dropdown.Item key="Design" value="Design" name="Design">
                   Design - 30%
-                </option>
-                <option
+                </Dropdown.Item>
+                <Dropdown.Item
+                  key="Development"
                   value="Development"
                   name="Development"
-                  disabled={
-                    index > 4 ||
-                    request_status === "Archived" ||
-                    request_status === "Pending"
-                  }
                 >
                   Development - 50%
-                </option>
-                <option
-                  value="Testing"
-                  name="Testing"
-                  disabled={
-                    index > 5 ||
-                    request_status === "Archived" ||
-                    request_status === "Pending"
-                  }
-                >
+                </Dropdown.Item>
+                <Dropdown.Item key="Testing" value="Testing" name="Testing">
                   Testing - 70%
-                </option>
-                <option
-                  value="Review"
-                  name="Review"
-                  disabled={
-                    index > 6 ||
-                    request_status === "Archived" ||
-                    request_status === "Pending"
-                  }
-                >
+                </Dropdown.Item>
+                <Dropdown.Item key="Review" value="Review" name="Review">
                   Review - 80%
-                </option>
-                <option
+                </Dropdown.Item>
+                <Dropdown.Item
+                  key="Iteration"
                   value="Iteration"
                   name="Iteration"
-                  disabled={
-                    index > 7 ||
-                    request_status === "Archived" ||
-                    request_status === "Pending"
-                  }
                 >
                   Iteration - 90%
-                </option>
-                <option
+                </Dropdown.Item>
+                <Dropdown.Item
+                  key="Documentation"
                   value="Documentation"
                   name="Documentation"
-                  disabled={
-                    index > 8 ||
-                    request_status === "Archived" ||
-                    request_status === "Pending"
-                  }
                 >
                   Documentation - 95%
-                </option>
-                <option
+                </Dropdown.Item>
+                <Dropdown.Item
+                  key="Deployment"
                   value="Deployment"
                   name="Deployment"
-                  disabled={
-                    index === 8 ||
-                    request_status === "Archived" ||
-                    request_status === "Pending"
-                  }
                 >
                   Deployment - 100%
-                </option>
-              </select>
-              <br></br>
-              <p>{explanation}</p>
-              <div>
-                {request_status === "Deployment" && (
-                  <Text>
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+            <br></br>
+            <p>{explanation}</p>
+            <div>
+              {request_status === "Deployment" && (
+                <>
+                  <Text color="warning">
                     Congratulations on making it to deployment. If there is
                     something wrong with the product talk to your team to try to
                     solve it. If it really can't be resolved then you are
@@ -274,124 +423,157 @@ export default function ChangeStatus({
                     decisions please be certain your are making the most
                     informed choice.
                   </Text>
-                )}
-                {newStatus === "Pending" &&
-                  newStatus === request_status &&
-                  !complete && (
-                    <p>
+                  <Spacer y={0.5}></Spacer>
+                </>
+              )}
+              {newStatus === "Pending" &&
+                newStatus === request_status &&
+                !complete && (
+                  <>
+                    <Text color="warning">
                       Thank you for completing the questionnaire. Right now you
                       don't have the minimum required number of fabricators to
                       being working on your request. While you wait you can
                       continue to refine your answers or if you already have
                       some fabricators you can get to know each other in the
                       mean time.
-                    </p>
-                  )}
+                    </Text>
+                    <Spacer y={0.5}></Spacer>
+                  </>
+                )}
 
-                {newStatus === request_status &&
-                  request_status === "Archived" &&
-                  (q1_disability_info === "" ||
-                    q2_functional_requirements === "" ||
-                    q3_physical_specifications === "" ||
-                    q4_lifestyle_usage === "" ||
-                    category === "" ||
-                    fabricators_needed === "") && (
-                    <p>
+              {newStatus === request_status &&
+                request_status === "Archived" &&
+                (q1_disability_info === "" ||
+                  q2_functional_requirements === "" ||
+                  q3_physical_specifications === "" ||
+                  q4_lifestyle_usage === "" ||
+                  category === "" ||
+                  fabricators_needed === "") && (
+                  <>
+                    <Text color="success">
                       You've made excellent progress so far to your
                       questionnaire. When you are ready and have submitted all
                       your answers then you may move your project forward.
-                    </p>
-                  )}
+                    </Text>
+                    <Spacer y={0.5}></Spacer>
+                  </>
+                )}
 
-                {newStatus === request_status &&
-                  request_status === "Archived" &&
-                  !(
-                    q1_disability_info === "" ||
-                    q2_functional_requirements === "" ||
-                    q3_physical_specifications === "" ||
-                    q4_lifestyle_usage === "" ||
-                    category === "" ||
-                    fabricators_needed === ""
-                  ) && (
-                    <p>
+              {newStatus === request_status &&
+                request_status === "Archived" &&
+                !(
+                  q1_disability_info === "" ||
+                  q2_functional_requirements === "" ||
+                  q3_physical_specifications === "" ||
+                  q4_lifestyle_usage === "" ||
+                  category === "" ||
+                  fabricators_needed === ""
+                ) && (
+                  <>
+                    <Text color="success">
                       Great job on finishing your questionnaire. When you are
                       ready you can publish it by changing it to pending.
-                    </p>
-                  )}
+                    </Text>
+                    <Spacer y={0.5}></Spacer>
+                  </>
+                )}
 
-                {newStatus !== request_status &&
-                  newStatus === "Pending" &&
-                  request_status !== "Planning" && (
-                    <p>
+              {newStatus !== request_status &&
+                newStatus === "Pending" &&
+                request_status !== "Planning" && (
+                  <>
+                    <Text color="green">
                       Once you are satisfied with your answers to the
                       questionnaire you may move your project to pending. Once
                       pending your request will become public and fabricators
                       may find and join your request.
-                    </p>
-                  )}
+                    </Text>{" "}
+                    <Spacer y={0.5}></Spacer>
+                  </>
+                )}
 
-                {request_status === "Pending" &&
-                  newStatus === request_status &&
-                  complete && (
-                    <p>
+              {request_status === "Pending" &&
+                newStatus === request_status &&
+                complete && (
+                  <>
+                    <Text color="success">
                       Congrats, you completed the questionnaire, you have all
                       your fabricators ready, so now when you and your team are
                       ready you can start the planning phase.
-                    </p>
-                  )}
+                    </Text>
+                    <Spacer y={0.5}></Spacer>
+                  </>
+                )}
 
-                {newStatus !== "Deployment" &&
-                  newStatus === "Planning" &&
-                  request_status === "Pending" &&
-                  complete && (
-                    <p>
+              {newStatus !== "Deployment" &&
+                newStatus === "Planning" &&
+                request_status === "Pending" &&
+                complete && (
+                  <>
+                    <Text color="success">
                       When you're ready you can go ahead and move to planning.
-                    </p>
-                  )}
+                    </Text>
+                    <Spacer y={0.5}></Spacer>
+                  </>
+                )}
 
-                {(request_status === "Documentation" ||
-                  request_status === "Iteration" ||
-                  request_status === "Review") &&
-                  request_status === newStatus && (
-                    <p>You are so close, keep going!</p>
-                  )}
+              {(request_status === "Documentation" ||
+                request_status === "Iteration" ||
+                request_status === "Review") &&
+                request_status === newStatus && (
+                  <>
+                    <Text color="secondary">You are so close, keep going!</Text>
+                    <Spacer y={0.5}></Spacer>
+                  </>
+                )}
 
-                {request_status !== "Deployment" &&
-                  newStatus !== "Deployment" &&
-                  request_status !== newStatus &&
-                  complete && (
-                    <p>
+              {request_status !== "Deployment" &&
+                newStatus !== "Deployment" &&
+                request_status !== newStatus &&
+                complete && (
+                  <>
+                    <Text color="warning">
                       Carefully understand what this stage entails before
                       deciding to change {request_status} to {newStatus}.
-                    </p>
-                  )}
+                    </Text>
+                    <Spacer y={0.5}></Spacer>
+                  </>
+                )}
 
-                {request_status === "Documentation" &&
-                  request_status === newStatus && (
-                    <p>
+              {request_status === "Documentation" &&
+                request_status === newStatus && (
+                  <>
+                    <Text color="secondary">
                       One more step to deployment, be proud of yourselves for
                       all the hard work to get here.
-                    </p>
-                  )}
+                    </Text>
+                    <Spacer y={0.5}></Spacer>
+                  </>
+                )}
 
-                {request_status !== "Pending" &&
-                  request_status !== "Archived" &&
-                  request_status !== "Deployment" &&
-                  request_status !== "Documentation" &&
-                  newStatus === request_status &&
-                  complete && (
-                    <p>
+              {request_status !== "Pending" &&
+                request_status !== "Archived" &&
+                request_status !== "Deployment" &&
+                request_status !== "Documentation" &&
+                newStatus === request_status &&
+                complete && (
+                  <>
+                    <Text color="warning">
                       Carefully understand what every stage means before
                       deciding to change it from {request_status}.
-                    </p>
-                  )}
+                    </Text>
+                    <Spacer y={0.5}></Spacer>
+                  </>
+                )}
 
-                {request_status !== "Deployment" &&
-                  request_status !== "Archived" &&
-                  request_status !== "Pending" &&
-                  newStatus === request_status &&
-                  complete && (
-                    <p>
+              {request_status !== "Deployment" &&
+                request_status !== "Archived" &&
+                request_status !== "Pending" &&
+                newStatus === request_status &&
+                complete && (
+                  <>
+                    <Text>
                       Now that the request is being worked on you can move the
                       project forward. The time it take for each phase can vary
                       a lot, use the percentages as a reference for
@@ -401,11 +583,14 @@ export default function ChangeStatus({
                       to make sure you are all ready to move your project
                       forward. You can only move your project backwards one
                       phase at a time.
-                    </p>
-                  )}
+                    </Text>
+                    <Spacer y={0.5}></Spacer>
+                  </>
+                )}
 
-                {newStatus !== request_status && newStatus === "Archived" && (
-                  <p>
+              {newStatus !== request_status && newStatus === "Archived" && (
+                <>
+                  <Text color="error">
                     If you archive your request all pending and accepted
                     fabricators will be removed from this request. Your request
                     will now be visible only to you from your profile and
@@ -414,42 +599,53 @@ export default function ChangeStatus({
                     are ready to publish it you can change the status to
                     pending. If you no longer want to create a request you can
                     alternatively delete it.
-                  </p>
+                  </Text>
+                  <Spacer y={0.5}></Spacer>
+                </>
+              )}
+
+              {request_status !== "Documentation" &&
+                request_status !== "Deployment" &&
+                newStatus !== "Planning" &&
+                newStatus === "Deployment" &&
+                complete && (
+                  <>
+                    <Text color="warning">
+                      Are you sure you want to move to deployment?
+                    </Text>
+                    <Spacer y={0.5}></Spacer>
+                  </>
                 )}
 
-                {request_status !== "Documentation" &&
-                  request_status !== "Deployment" &&
-                  newStatus !== "Planning" &&
-                  newStatus === "Deployment" &&
-                  complete && (
-                    <p>Are you sure you want to move to deployment?</p>
-                  )}
-
-                {request_status === "Documentation" &&
-                  request_status !== "Deployment" &&
-                  newStatus !== "Planning" &&
-                  newStatus === "Deployment" &&
-                  complete && <p>Do you have what it takes?</p>}
-              </div>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button auto flat color="error" onPress={closeHandler}>
-                Cancel
-              </Button>
-              <Button
-                auto
-                onPress={closeHandler}
-                type="submit"
-                style={{
-                  background: buttonColor,
-                }}
-              >
-                Change Status
-              </Button>
-            </Modal.Footer>
-          </form>
-        </Modal>
-      </div>
+              {request_status === "Documentation" &&
+                request_status !== "Deployment" &&
+                newStatus !== "Planning" &&
+                newStatus === "Deployment" &&
+                complete && (
+                  <>
+                    <Text color="secondary">Do you have what it takes?</Text>
+                    <Spacer y={0.5}></Spacer>
+                  </>
+                )}
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button auto flat color="error" onPress={closeHandler}>
+              Cancel
+            </Button>
+            <Button
+              auto
+              onPress={closeHandler}
+              type="submit"
+              color="gradient"
+              style={colors}
+              onClick={handleConfetti}
+            >
+              Change Status
+            </Button>
+          </Modal.Footer>
+        </form>
+      </Modal>
     </>
   );
 }

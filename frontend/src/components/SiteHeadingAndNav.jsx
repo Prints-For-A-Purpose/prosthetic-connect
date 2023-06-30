@@ -6,6 +6,7 @@ import { createUser } from "../adapters/user-adapter";
 import { createSkill } from "../adapters/skills-adapter";
 
 import ChooseYourSkills from "../components/ChooseYourSkills";
+import QuestionsNew from "./QuestionsNew";
 
 const sendSkills = async (user_id, skill_name) => {
   try {
@@ -59,7 +60,7 @@ export default function SiteHeadingAndNav({ isDark, handleChange3 }) {
   };
 
   // const { setVisible2, bindings2 } = useModal();
-  const { setVisible, bindings } = useModal();
+  const { setVisible, setVisible7, bindings } = useModal();
   const [errorText, setErrorText] = useState("");
 
   const [checked, setChecked] = useState("");
@@ -194,10 +195,7 @@ export default function SiteHeadingAndNav({ isDark, handleChange3 }) {
               Users
             </Navbar.Link>
             {currentUser && currentUser.is_fabricator === false && (
-              <Navbar.Link
-                href="/new-question"
-                isActive={is_active.toLowerCase() === "new-question"}
-              >
+              <Navbar.Link onPress={() => setVisible(true)}>
                 New Request
               </Navbar.Link>
             )}
@@ -410,26 +408,27 @@ export default function SiteHeadingAndNav({ isDark, handleChange3 }) {
         onClose={closeHandler1}
       >
         <Modal.Header>
-          <Text id="modal-title" size={20}>
+          <Text id="modal-title" size={20} color="secondary">
             Welcome to
             <br></br>
-            <Text b size={24} color="secondary">
+            <Text
+              b
+              size={24}
+              css={{
+                textGradient: "45deg, $purple600 -20%, $pink600 100%",
+              }}
+            >
               Prints For A Purpose
             </Text>
           </Text>
         </Modal.Header>
         <Modal.Body>
-          <form
-            // className="login-form"
-            onSubmit={handleSubmit}
-            aria-label="form"
-          >
-            {/* <h1>Login</h1> */}
+          <form onSubmit={handleSubmit} aria-label="form">
             <Input
               type="text"
               bordered
               fullWidth
-              color="primary"
+              color="secondary"
               size="lg"
               id="username"
               name="username"
@@ -456,7 +455,7 @@ export default function SiteHeadingAndNav({ isDark, handleChange3 }) {
               type="password"
               bordered
               fullWidth
-              color="primary"
+              color="secondary"
               size="lg"
               autoComplete="current-password"
               id="password"
@@ -473,7 +472,6 @@ export default function SiteHeadingAndNav({ isDark, handleChange3 }) {
               }
             />
             <Spacer y={1}></Spacer>
-            {/* //////////////////////////////////////////////////////////////// */}
             <Text size="$md">
               Don't have an account with us?{" "}
               <Link
@@ -510,6 +508,7 @@ export default function SiteHeadingAndNav({ isDark, handleChange3 }) {
         </Modal.Body>
       </Modal>
       <Modal
+        closeButton
         scroll
         width="600px"
         aria-labelledby="modal-title"
@@ -517,134 +516,173 @@ export default function SiteHeadingAndNav({ isDark, handleChange3 }) {
         blur
         {...bindings}
       >
-        <Modal.Header>
-          <Text id="modal-title" size={20}>
-            Sign Up For
-            <br></br>
-            <Text b size={24} color="secondary">
-              Prints For A Purpose
-            </Text>
-          </Text>
-        </Modal.Header>
-        <Modal.Body>
-          <form
-            className="signup-form"
-            onSubmit={handleSubmit2}
-            onChange={handleChange2}
-            aria-label="form"
-          >
-            <Input
-              type="text"
-              bordered
-              fullWidth
-              color="primary"
-              size="lg"
-              id="username"
-              name="username"
-              autoComplete="off"
-              placeholder="Username"
-              aria-label="username"
-              value={username}
-              onChange={handleChange2}
-              contentLeft={
-                <svg width={24} height={24} viewBox="0 0 24 24">
-                  <g
-                    fill="none"
-                    stroke="#7827c8"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={1.5}
+        {currentUser && currentUser.is_fabricator === false ? (
+          <>
+            <Modal.Header>
+              <Text b size={24} color="secondary">
+                Prints For A Purpose
+                <br></br>
+                <Text
+                  id="modal-title"
+                  size={20}
+                  css={{
+                    textGradient: "45deg, $purple600 -20%, $pink600 100%",
+                  }}
+                >
+                  Request Questionnaire
+                </Text>
+              </Text>
+            </Modal.Header>
+            <Modal.Body>
+              <QuestionsNew setVisible={setVisible}></QuestionsNew>
+            </Modal.Body>
+          </>
+        ) : (
+          <>
+            <Modal.Header>
+              <Text id="modal-title" size={20} color="secondary">
+                Sign Up For
+                <br></br>
+                <Text
+                  b
+                  size={24}
+                  css={{
+                    textGradient: "45deg, $purple600 -20%, $pink600 100%",
+                  }}
+                >
+                  Prints For A Purpose
+                </Text>
+              </Text>
+            </Modal.Header>
+            <Modal.Body>
+              <form
+                className="signup-form"
+                onSubmit={handleSubmit2}
+                onChange={handleChange2}
+                aria-label="form"
+              >
+                <Input
+                  type="text"
+                  bordered
+                  fullWidth
+                  color="secondary"
+                  size="lg"
+                  id="username"
+                  name="username"
+                  autoComplete="off"
+                  placeholder="Username"
+                  aria-label="username"
+                  value={username}
+                  onChange={handleChange2}
+                  contentLeft={
+                    <svg width={24} height={24} viewBox="0 0 24 24">
+                      <g
+                        fill="none"
+                        stroke="#7827c8"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={1.5}
+                      >
+                        <path d="M12 20.5H7c-3 0-5-1.5-5-5v-7c0-3.5 2-5 5-5h10c3 0 5 1.5 5 5v3" />
+                        <path d="M17 9l-3.13 2.5a3.166 3.166 0 01-3.75 0L7 9M19.21 14.77l-3.539 3.54a1.232 1.232 0 00-.3.59l-.19 1.35a.635.635 0 00.76.76l1.35-.19a1.189 1.189 0 00.59-.3l3.54-3.54a1.365 1.365 0 000-2.22 1.361 1.361 0 00-2.211.01zM18.7 15.28a3.185 3.185 0 002.22 2.22" />
+                      </g>
+                    </svg>
+                  }
+                />
+                <Spacer y={0.75}></Spacer>
+                <Input
+                  type="password"
+                  bordered
+                  fullWidth
+                  color="secondary"
+                  size="lg"
+                  autoComplete="off"
+                  id="password"
+                  name="password"
+                  placeholder="Password"
+                  aria-label="password"
+                  onChange={handleChange2}
+                  value={password}
+                  contentLeft={
+                    <svg width={24} height={24} viewBox="0 0 24 24">
+                      <g fill="#7827c8">
+                        <path d="M18.75 8v2.1a12.984 12.984 0 00-1.5-.1V8c0-3.15-.89-5.25-5.25-5.25S6.75 4.85 6.75 8v2a12.984 12.984 0 00-1.5.1V8c0-2.9.7-6.75 6.75-6.75S18.75 5.1 18.75 8z" />
+                        <path d="M18.75 10.1a12.984 12.984 0 00-1.5-.1H6.75a12.984 12.984 0 00-1.5.1C2.7 10.41 2 11.66 2 15v2c0 4 1 5 5 5h10c4 0 5-1 5-5v-2c0-3.34-.7-4.59-3.25-4.9zM8.71 16.71A1.052 1.052 0 018 17a1 1 0 01-.38-.08 1.032 1.032 0 01-.33-.21A1.052 1.052 0 017 16a1 1 0 01.08-.38 1.155 1.155 0 01.21-.33 1.032 1.032 0 01.33-.21 1 1 0 011.09.21 1.155 1.155 0 01.21.33A1 1 0 019 16a1.052 1.052 0 01-.29.71zm4.21-.33a1.155 1.155 0 01-.21.33A1.052 1.052 0 0112 17a1.033 1.033 0 01-.71-.29 1.155 1.155 0 01-.21-.33A1 1 0 0111 16a1.033 1.033 0 01.29-.71 1.047 1.047 0 011.42 0A1.033 1.033 0 0113 16a1 1 0 01-.08.38zm3.79.33a1.014 1.014 0 01-1.42 0 1.014 1.014 0 010-1.42 1.047 1.047 0 011.42 0c.04.05.08.1.12.16a.556.556 0 01.09.17.636.636 0 01.06.18 1.5 1.5 0 01.02.2 1.052 1.052 0 01-.29.71z" />
+                      </g>
+                    </svg>
+                  }
+                />
+                <Spacer y={1}></Spacer>
+                <Radio.Group
+                  label="Roles"
+                  value={checked}
+                  onChange={setChecked}
+                  orientation="horizontal"
+                >
+                  <Radio
+                    value="recipient"
+                    color="secondary"
+                    labelColor="secondary"
                   >
-                    <path d="M12 20.5H7c-3 0-5-1.5-5-5v-7c0-3.5 2-5 5-5h10c3 0 5 1.5 5 5v3" />
-                    <path d="M17 9l-3.13 2.5a3.166 3.166 0 01-3.75 0L7 9M19.21 14.77l-3.539 3.54a1.232 1.232 0 00-.3.59l-.19 1.35a.635.635 0 00.76.76l1.35-.19a1.189 1.189 0 00.59-.3l3.54-3.54a1.365 1.365 0 000-2.22 1.361 1.361 0 00-2.211.01zM18.7 15.28a3.185 3.185 0 002.22 2.22" />
-                  </g>
-                </svg>
-              }
-            />
-            <Spacer y={0.75}></Spacer>
-            <Input
-              type="password"
-              bordered
-              fullWidth
-              color="primary"
-              size="lg"
-              autoComplete="off"
-              id="password"
-              name="password"
-              placeholder="Password"
-              aria-label="password"
-              onChange={handleChange2}
-              value={password}
-              contentLeft={
-                <svg width={24} height={24} viewBox="0 0 24 24">
-                  <g fill="#7827c8">
-                    <path d="M18.75 8v2.1a12.984 12.984 0 00-1.5-.1V8c0-3.15-.89-5.25-5.25-5.25S6.75 4.85 6.75 8v2a12.984 12.984 0 00-1.5.1V8c0-2.9.7-6.75 6.75-6.75S18.75 5.1 18.75 8z" />
-                    <path d="M18.75 10.1a12.984 12.984 0 00-1.5-.1H6.75a12.984 12.984 0 00-1.5.1C2.7 10.41 2 11.66 2 15v2c0 4 1 5 5 5h10c4 0 5-1 5-5v-2c0-3.34-.7-4.59-3.25-4.9zM8.71 16.71A1.052 1.052 0 018 17a1 1 0 01-.38-.08 1.032 1.032 0 01-.33-.21A1.052 1.052 0 017 16a1 1 0 01.08-.38 1.155 1.155 0 01.21-.33 1.032 1.032 0 01.33-.21 1 1 0 011.09.21 1.155 1.155 0 01.21.33A1 1 0 019 16a1.052 1.052 0 01-.29.71zm4.21-.33a1.155 1.155 0 01-.21.33A1.052 1.052 0 0112 17a1.033 1.033 0 01-.71-.29 1.155 1.155 0 01-.21-.33A1 1 0 0111 16a1.033 1.033 0 01.29-.71 1.047 1.047 0 011.42 0A1.033 1.033 0 0113 16a1 1 0 01-.08.38zm3.79.33a1.014 1.014 0 01-1.42 0 1.014 1.014 0 010-1.42 1.047 1.047 0 011.42 0c.04.05.08.1.12.16a.556.556 0 01.09.17.636.636 0 01.06.18 1.5 1.5 0 01.02.2 1.052 1.052 0 01-.29.71z" />
-                  </g>
-                </svg>
-              }
-            />
-            <Spacer y={1}></Spacer>
-            <Radio.Group
-              label="Roles"
-              value={checked}
-              onChange={setChecked}
-              orientation="horizontal"
-            >
-              <Radio value="recipient" color="secondary" labelColor="secondary">
-                Recipient
-              </Radio>
-              <Radio value="fabricator" color="primary" labelColor="primary">
-                Fabricator
-              </Radio>
-            </Radio.Group>
-            <Spacer y={0.5}></Spacer>
-            <ChooseYourSkills
-              role={checked}
-              selected={selected}
-              setSelected={setSelected}
-            ></ChooseYourSkills>
-            <Spacer y={0.5}></Spacer>
-            <Text size="$md">
-              Already have an account with us?{" "}
-              <Link
-                onClick={() => {
-                  setVisible(false);
-                  handler1();
-                  setChecked("");
-                  setPassword("");
-                  setUsername("");
-                  setSelected(["3D Printing"]);
-                }}
-              >
-                Log in!
-              </Link>
-            </Text>
-            <Spacer y={0.75}></Spacer>
-
-            <Row justify="space-between">
-              <Button
-                auto
-                flat
-                color="error"
-                shadow
-                onPress={() => setVisible(false)}
-              >
-                Close
-              </Button>
-              <Button
-                auto
-                flat
-                type="submit"
-                shadow
-                onPress={() => setVisible(false)}
-              >
-                Create Account
-              </Button>
-            </Row>
-            <Spacer y={0.5}></Spacer>
-          </form>
-        </Modal.Body>
+                    Recipient
+                  </Radio>
+                  <Radio
+                    value="fabricator"
+                    color="primary"
+                    labelColor="primary"
+                  >
+                    Fabricator
+                  </Radio>
+                </Radio.Group>
+                <Spacer y={0.5}></Spacer>
+                <ChooseYourSkills
+                  role={checked}
+                  selected={selected}
+                  setSelected={setSelected}
+                ></ChooseYourSkills>
+                <Spacer y={0.5}></Spacer>
+                <Text size="$md">
+                  Already have an account with us?{" "}
+                  <Link
+                    onClick={() => {
+                      setVisible(false);
+                      handler1();
+                      setChecked("");
+                      setPassword("");
+                      setUsername("");
+                      setSelected(["3D Printing"]);
+                    }}
+                  >
+                    Log in!
+                  </Link>
+                </Text>
+                <Spacer y={0.75}></Spacer>
+                <Row justify="space-between">
+                  <Button
+                    auto
+                    flat
+                    color="error"
+                    shadow
+                    onPress={() => setVisible(false)}
+                  >
+                    Close
+                  </Button>
+                  <Button
+                    auto
+                    flat
+                    type="submit"
+                    shadow
+                    onPress={() => setVisible(false)}
+                    color="secondary"
+                  >
+                    Create Account
+                  </Button>
+                </Row>
+                <Spacer y={0.5}></Spacer>
+              </form>
+            </Modal.Body>
+          </>
+        )}
       </Modal>
     </>
   );

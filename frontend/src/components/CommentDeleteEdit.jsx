@@ -187,6 +187,7 @@ export default function CommentDeleteEdit({
                 </svg>
               }
             ></Button>
+            <Spacer x={1} />
           </Row>
         </Grid.Container>
       </Row>

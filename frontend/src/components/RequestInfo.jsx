@@ -164,54 +164,48 @@ export default function RequestInfo({
 
   return (
     <>
-      <Row css={{ justifyContent: "center" }}>
-        {authorized && (
-          <ChangeStatus
-            request={request}
-            request_id={request.id}
-            setStatus={setStatus}
-            newContent={newContent}
-            setErrorText={setErrorText}
-            complete={complete}
-            numOfActive={numOfActive}
-            // styles={boxSizing:"content-box"}
-          ></ChangeStatus>
-        )}
-      </Row>
-      <div>
-        <Modal
-          closeButton
-          blur
-          aria-labelledby="modal-title"
-          open={visible}
-          onClose={closeHandler}
-        >
-          <Modal.Header>
-            <Text id="modal-title" size={18}>
-              Are you sure you want to delete{" "}
-              <Text b size={18}>
-                this request?
-              </Text>
+      {authorized && (
+        <ChangeStatus
+          request={request}
+          request_id={request.id}
+          setStatus={setStatus}
+          newContent={newContent}
+          setErrorText={setErrorText}
+          complete={complete}
+          numOfActive={numOfActive}
+          // styles={boxSizing:"content-box"}
+        ></ChangeStatus>
+      )}
+      <Modal
+        closeButton
+        blur
+        aria-labelledby="modal-title"
+        open={visible}
+        onClose={closeHandler}
+      >
+        <Modal.Header>
+          <Text id="modal-title" size={18}>
+            Are you sure you want to delete{" "}
+            <Text b size={18}>
+              this request?
             </Text>
-          </Modal.Header>
-          <Modal.Footer>
-            <Button auto flat color="error" onPress={closeHandler}>
-              Cancel
-            </Button>
-            <Button auto flat color="secondary" onPress={deleteReq}>
-              Delete
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      </div>
+          </Text>
+        </Modal.Header>
+        <Modal.Footer>
+          <Button auto flat color="error" onPress={closeHandler}>
+            Cancel
+          </Button>
+          <Button auto flat color="secondary" onPress={deleteReq}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <Row css={{ justifyContent: "center" }}>
         <form
           onSubmit={handleSubmit}
           aria-label="form"
           style={{ width: "100%", maxWidth: "82%" }}
         >
-          {/* <Grid.Container gap={2}> */}
-          {/* <Grid> */}
           <Collapse.Group shadow accordion={false}>
             <Collapse
               expanded={exp}
@@ -263,7 +257,6 @@ export default function RequestInfo({
               {formVisibility && (
                 <div>
                   <Textarea
-                    // css={{ mw: "80%" }}
                     type="text"
                     maxLength="1000"
                     fullWidth="true"
@@ -326,7 +319,6 @@ export default function RequestInfo({
               {formVisibility && (
                 <div>
                   <Textarea
-                    // css={{ mw: "80%" }}
                     type="text"
                     maxLength="1000"
                     fullWidth="true"
@@ -396,7 +388,6 @@ export default function RequestInfo({
               {formVisibility && (
                 <div>
                   <Textarea
-                    // css={{ mw: "80%" }}
                     type="text"
                     maxLength="1000"
                     fullWidth="true"
@@ -458,7 +449,6 @@ export default function RequestInfo({
               {formVisibility && (
                 <div>
                   <Textarea
-                    // css={{ mw: "80%" }}
                     type="text"
                     maxLength="1000"
                     className="form-input"
@@ -574,75 +564,75 @@ export default function RequestInfo({
                   fill="#7827c8"
                   id="Layer_1"
                   xmlns="http://www.w3.org/2000/svg"
-                  xmlnsXlink="http://www.w3.org/1999/xlink"
+                  xmlns:xlink="http://www.w3.org/1999/xlink"
                   viewBox="0 0 512 512"
-                  xmlSpace="preserve"
-                  width={40}
-                  height={40}
+                  xml:space="preserve"
+                  width="40"
+                  height="40"
                   stroke="#7827c8"
-                  strokeWidth={12.8}
+                  stroke-width="12.8"
                 >
-                  <g id="SVGRepo_bgCarrier" strokeWidth={0} />
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                   <g
                     id="SVGRepo_tracerCarrier"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></g>
                   <g id="SVGRepo_iconCarrier">
                     <g>
                       <g>
-                        <path d="M431.584,212.326v-55.131h-33.391v55.13h-32.041v-72.304h232.76v72.306h-32.041v-88.823h-33.391v88.823h-32.041v-72.306 h-33.391v72.306h-20.958v59.087l-24.026-15.895l-18.424,27.848l42.45,28.084v111.79h20.958V512h229.689v-88.761h20.958V212.326 H431.584z M398.192,478.609H235.286v-55.369h162.906V478.609z M419.15,389.848H214.328v-144.13H419.15V389.848z" />
+                        <path d="M431.584,212.326v-55.131h-33.391v55.13h-32.041v-72.304H332.76v72.306h-32.041v-88.823h-33.391v88.823h-32.041v-72.306 h-33.391v72.306h-20.958v59.087l-24.026-15.895l-18.424,27.848l42.45,28.084v111.79h20.958V512h229.689v-88.761h20.958V212.326 H431.584z M398.192,478.609H235.286v-55.369h162.906V478.609z M419.15,389.848H214.328v-144.13H419.15V389.848z"></path>
                       </g>
                     </g>
                     <g>
                       <g>
                         <rect
-                          x={77.304}
-                          y={203.534}
+                          x="77.304"
+                          y="203.534"
                           transform="matrix(0.5518 -0.834 0.834 0.5518 -152.9406 183.2325)"
-                          width={33.392}
-                          height={60.74}
-                        />
+                          width="33.392"
+                          height="60.74"
+                        ></rect>
                       </g>
                     </g>
                     <g>
                       <g>
                         <rect
-                          x={201.892}
-                          y={32.725}
-                          width={33.391}
-                          height={73.606}
-                        />
+                          x="201.892"
+                          y="32.725"
+                          width="33.391"
+                          height="73.606"
+                        ></rect>
                       </g>
                     </g>
                     <g>
                       <g>
                         <rect
-                          x={332.763}
-                          y={32.725}
-                          width={33.391}
-                          height={73.606}
-                        />
+                          x="332.763"
+                          y="32.725"
+                          width="33.391"
+                          height="73.606"
+                        ></rect>
                       </g>
                     </g>
                     <g>
                       <g>
-                        <rect x={267.327} width={33.391} height={89.155} />
+                        <rect x="267.327" width="33.391" height="89.155"></rect>
                       </g>
                     </g>
                     <g>
                       <g>
                         <rect
-                          x={398.188}
-                          y={67.384}
-                          width={33.391}
-                          height={55.458}
-                        />
+                          x="398.188"
+                          y="67.384"
+                          width="33.391"
+                          height="55.458"
+                        ></rect>
                       </g>
                     </g>
                     <g>
                       <g>
-                        <circle cx={360.612} cy={450.927} r={11.45} />
+                        <circle cx="360.612" cy="450.927" r="11.45"></circle>
                       </g>
                     </g>
                   </g>
@@ -853,7 +843,24 @@ export default function RequestInfo({
                 <Spacer y={0.5}></Spacer>
                 <Row css={{ justifyContent: "space-around" }}>
                   {formVisibility && (
-                    <Button color="secondary" flat type="submit">
+                    <Button
+                      color="secondary"
+                      flat
+                      type="submit"
+                      icon={
+                        <svg
+                          fill="#7827c8"
+                          height={24}
+                          width={24}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 512 512"
+                          xmlSpace="preserve"
+                        >
+                          <path d="M480 0H32C14.328 0 0 14.328 0 32v64c0 17.672 14.328 32 32 32s32-14.328 32-32V64h384v384H64v-32c0-17.672-14.328-32-32-32S0 398.328 0 416v64c0 17.672 14.328 32 32 32h448c17.672 0 32-14.328 32-32V32c0-17.672-14.328-32-32-32z" />
+                          <path d="M240.906 348.211A31.95 31.95 0 00256 352a31.998 31.998 0 0017.75-5.375l96-64C378.656 276.688 384 266.703 384 256s-5.344-20.688-14.25-26.625l-96-64c-9.828-6.555-22.484-7.156-32.844-1.586A31.989 31.989 0 00224 192v32H32c-17.672 0-32 14.328-32 32s14.328 32 32 32h192v32c0 11.805 6.5 22.648 16.906 28.211z" />
+                        </svg>
+                      }
+                    >
                       Submit Edit
                     </Button>
                   )}
@@ -916,8 +923,6 @@ export default function RequestInfo({
               </Collapse>
             )}
           </Collapse.Group>
-          {/* </Grid> */}
-          {/* </Grid.Container> */}
         </form>
       </Row>
     </>

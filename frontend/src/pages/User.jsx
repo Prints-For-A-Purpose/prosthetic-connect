@@ -22,9 +22,13 @@ import UploadFile from "../components/UploadFile";
 import {
   Card,
   Col,
+  Grid,
   Row,
   Button,
   Text,
+  Tooltip,
+  Spacer,
+  Badge,
   User,
   Container,
 } from "@nextui-org/react";
@@ -44,8 +48,36 @@ export default function UserPage() {
   const { id } = useParams();
   const isCurrentUserProfile = currentUser && currentUser.id === Number(id);
 
+  const explanations = {
+    "3D Printing":
+      "Experience in operating and calibrating 3D printers, and understanding the printing process.",
+    "Design and CAD":
+      "Computer-aided design skills capable of creating and modifying 2D and 3D designs.",
+    "Material Knowledge":
+      "Knowledgeable of material properties, requirements, and suitable applications.",
+    Prototyping:
+      "Vigilant testers with rapid prototyping and iterative design processes.",
+    Customization:
+      "Adapters for individual needs and incorporation of personalized features. ",
+    "Project Management":
+      "Capable of organizing and coordinating projects while managing timelines, resources and collaboration.",
+    "CNC Machining":
+      "Competent at milling, cutting, or drilling with CNC equipment and tooling software.",
+    "Laser Cutting": "Proficiency in laser cutting and engraving techniques.",
+    Electronics:
+      "Knowledge of electronic components, wiring, soldering, PCB designs, and microcontrollers. ",
+    "3D Modeling":
+      "Intricate sculpting and artistic modeling for 3D printers. ",
+    Welding:
+      "Proficiency in welding techniques for combining metal structures or frames.",
+    Programming:
+      "Knowledge of programming languages and software development. ",
+    Robotics:
+      "Experienced in creating mechanical components with structural integrity and ergonomics.",
+  };
+
   const otherSkills = [
-    "3D Printing ",
+    "3D Printing",
     "Design and CAD",
     "Material Knowledge",
     "Prototyping",
@@ -118,137 +150,213 @@ export default function UserPage() {
   if (!userProfile && !errorText) return null;
   if (errorText) return <p>{errorText}</p>;
 
-  // What parts of state would change if we altered our currentUser context?
-  // Ideally, this would update if we mutated it
-  // But we also have to consider that we may NOT be on the current users page
-
   const profileUsername = isCurrentUserProfile
     ? currentUser.username
     : userProfile.username;
 
-  const role = userProfile.is_fabricator ? "Fabricator" : "Recipient";
-
   return (
     <>
-      <User
-        zoomed
-        src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
-        name="Tony Reichert"
-        size="500%"
-      />
-      {userProfile && userProfile.pfp_url && (
-        <img src={userProfile.pfp_url} style={{ maxWidth: "5rem" }}></img>
-      )}
-      {userProfile && userProfile.bio && <p>{userProfile.bio}</p>}
-      <h4>Role: {role}</h4>
-      <h1>{profileUsername}</h1>
-      <Container justify="center">
-        <Card css={{ maxWidth: "80%", h: "600px" }}>
-          <Card.Header css={{ position: "absolute", zIndex: 1, top: 5 }}>
+      <Spacer y={1}></Spacer>
+      <Row css={{ justifyContent: "center" }}>
+        <Card
+          css={{
+            justifyContent: "center",
+            maxWidth: "60%",
+            "--nextui--cardColor": "var(--nextui-colors-purple300)",
+          }}
+        >
+          <Spacer y={1}></Spacer>
+          <Row>
+            <User
+              zoomed
+              src={userProfile.pfp_url}
+              size="100%"
+              css={{ maxWidth: "450px" }}
+              bordered
+              color="gradient"
+            />
+            <Spacer x={1}></Spacer>
+            <Spacer y={1}></Spacer>
             <Col>
               <Text
-                size={12}
+                h1
+                size={60}
+                css={{
+                  textGradient: "45deg, $purple600 -20%, $pink600 100%",
+                  textAlign: "center",
+                }}
                 weight="bold"
-                transform="uppercase"
-                color="#ffffffAA"
               >
-                New
+                @{profileUsername}
               </Text>
-              <Text h3 color="black">
-                Acme camera
+              <Button
+                auto
+                type="submit"
+                color="gradient"
+                isFocusVisible={false}
+                css={{ width: "100%" }}
+              >
+                {userProfile.is_fabricator ? "Fabricator" : "Recipient"}
+              </Button>
+              <Text blockquote css={{ textAlign: "center" }}>
+                {userProfile && userProfile.bio && <p>{userProfile.bio}</p>}
               </Text>
             </Col>
-          </Card.Header>
-          <Card.Body css={{ p: 0 }}>
-            <Card.Image
-              src="https://nextui.org/images/card-example-6.jpeg"
-              width="100%"
-              height="100%"
-              objectFit="cover"
-              alt="Card example background"
-            />
-          </Card.Body>
-          <Card.Footer
-            isBlurred
-            css={{
-              position: "absolute",
-              bgBlur: "#ffffff66",
-              borderTop: "$borderWeights$light solid rgba(255, 255, 255, 0.2)",
-              bottom: 0,
-              zIndex: 1,
-            }}
-          >
-            <Row>
-              <Col>
-                <Text color="#000" size={12}>
-                  Available soon.
-                </Text>
-                <Text color="#000" size={12}>
-                  Get notified.
-                </Text>
-              </Col>
-              <Col>
-                <Row justify="flex-end">
-                  <Button flat auto rounded color="secondary">
-                    <Text
-                      css={{ color: "inherit" }}
-                      size={12}
-                      weight="bold"
-                      transform="uppercase"
-                    >
-                      Notify Me
-                    </Text>
-                  </Button>
-                </Row>
-              </Col>
-            </Row>
-          </Card.Footer>
-        </Card>
-      </Container>
-      {skills && (
-        <>
-          <h3>Skills</h3>
-          <div>
-            {skills.map((s) => (
-              <button
-                className="button-33"
-                key={s.id}
-                value={s.id}
-                onClick={isCurrentUserProfile && deleteSkill}
+            <Spacer x={1}></Spacer>
+          </Row>
+          {skills && (
+            <>
+              <Row css={{ justifyContent: "center" }}>
+                <Text h2>Skills</Text>
+              </Row>
+              <Spacer y={0.5}></Spacer>
+              <Row
+                css={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  justifyContent: "space-evenly",
+                  gap: "30px",
+                }}
               >
-                {isCurrentUserProfile && "X "}
-                {s.skill_name}
-              </button>
-            ))}
-            <br></br>
-            <br></br>
-
-            {isCurrentUserProfile && (
-              <button className="button-33" onClick={showOther}>
-                +
-              </button>
-            )}
-          </div>
-          <br></br>
-          <br></br>
-          {isCurrentUserProfile && modal && (
-            <div>
-              {rem.map((s, i) => (
-                <button
-                  className="button-33"
-                  key={i}
-                  value={s}
-                  onClick={addSkill}
-                >
-                  + {s}
-                </button>
-              ))}
-            </div>
+                {console.log(skills)}
+                {skills.map((s) => (
+                  <Tooltip
+                    content={explanations[`${s.skill_name}`]}
+                    color="secondary"
+                  >
+                    <Button
+                      className="button-33"
+                      key={s.id}
+                      value={s.id}
+                      onClick={isCurrentUserProfile && deleteSkill}
+                      flat
+                      shadow
+                      color="secondary"
+                      size="lg"
+                      rounded
+                      icon={
+                        isCurrentUserProfile && (
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            stroke="#7827c8"
+                            width={24}
+                            height={24}
+                          >
+                            <path
+                              d="M8 12h8m-4 9a9 9 0 110-18 9 9 0 010 18z"
+                              stroke="#7827c8"
+                              strokeWidth={2}
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        )
+                      }
+                    >
+                      {s.skill_name}
+                    </Button>
+                  </Tooltip>
+                ))}
+              </Row>
+              {isCurrentUserProfile && (
+                <>
+                  <Spacer y={1.5}></Spacer>
+                  <Row css={{ justifyContent: "center" }}>
+                    <Button
+                      className="button-33"
+                      onClick={showOther}
+                      flat
+                      shadow
+                      color="secondary"
+                      rounded
+                      size="lg"
+                      icon={
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width={24}
+                          height={24}
+                        >
+                          <g
+                            stroke="#7827c8"
+                            strokeWidth={2}
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path d="M7 12h5m0 0h5m-5 0V7m0 5v5" />
+                            <circle cx={12} cy={12} r={9} />
+                          </g>
+                        </svg>
+                      }
+                    ></Button>
+                  </Row>
+                  <Spacer y={1.5}></Spacer>
+                </>
+              )}
+              {isCurrentUserProfile && modal && (
+                <>
+                  <Row
+                    css={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      justifyContent: "space-evenly",
+                      gap: "30px",
+                    }}
+                  >
+                    {rem.map((s, i) => (
+                      <>
+                        <Tooltip
+                          content={explanations[`${s}`]}
+                          color="secondary"
+                        >
+                          <Button
+                            className="button-33"
+                            key={i}
+                            value={s}
+                            onClick={addSkill}
+                            flat
+                            shadow
+                            color="secondary"
+                            size="lg"
+                            rounded
+                            icon={
+                              <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                width={24}
+                                height={24}
+                              >
+                                <g
+                                  stroke="#7827c8"
+                                  strokeWidth={2}
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                >
+                                  <path d="M7 12h5m0 0h5m-5 0V7m0 5v5" />
+                                  <circle cx={12} cy={12} r={9} />
+                                </g>
+                              </svg>
+                            }
+                          >
+                            {s}
+                          </Button>
+                        </Tooltip>
+                      </>
+                    ))}
+                  </Row>
+                </>
+              )}
+              <Spacer y={1}></Spacer>
+            </>
           )}
-        </>
-      )}
+        </Card>
+      </Row>
 
-      {!!isCurrentUserProfile && (
+      {/* {!!isCurrentUserProfile && (
         <button onClick={handleLogout}>Log Out</button>
       )}
       {!!isCurrentUserProfile && (
@@ -275,15 +383,25 @@ export default function UserPage() {
           userProfile={userProfile}
           payment={payment}
         ></DonateButton>
-      )}
-      <h2>{userProfile.is_fabricator ? "Working On" : "Needs Help With"}</h2>
-      <div>
+      )} */}
+      <Spacer y={1}></Spacer>
+      <Row css={{ justifyContent: "center" }}>
+        <Text h2>
+          {userProfile.is_fabricator
+            ? "Currently Helping On: "
+            : "I Need Help With:"}
+        </Text>
+      </Row>
+      <Grid.Container gap={4} justify="center">
         {userRequests.map((request) => (
-          <div key={request.id}>
-            <RequestBox request={request} />
-          </div>
+          <RequestBox
+            request={request}
+            key={request.id}
+            css={{ justifyContent: "center" }}
+          />
         ))}
-      </div>
+      </Grid.Container>
+      <Spacer y={2}></Spacer>
     </>
   );
 }

@@ -115,84 +115,24 @@ export default function RequestBox({ request }) {
                 >
                   <svg
                     fill="#7827c8"
-                    id="Layer_1"
                     xmlns="http://www.w3.org/2000/svg"
-                    xmlns:xlink="http://www.w3.org/1999/xlink"
                     viewBox="0 0 512 512"
-                    xml:space="preserve"
-                    width="40"
-                    height="40"
+                    xmlSpace="preserve"
+                    width={40}
+                    height={40}
                     stroke="#7827c8"
-                    stroke-width="12.8"
+                    strokeWidth={12.8}
                   >
-                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                    <g
-                      id="SVGRepo_tracerCarrier"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    ></g>
-                    <g id="SVGRepo_iconCarrier">
-                      <g>
-                        <g>
-                          <path d="M431.584,212.326v-55.131h-33.391v55.13h-32.041v-72.304H332.76v72.306h-32.041v-88.823h-33.391v88.823h-32.041v-72.306 h-33.391v72.306h-20.958v59.087l-24.026-15.895l-18.424,27.848l42.45,28.084v111.79h20.958V512h229.689v-88.761h20.958V212.326 H431.584z M398.192,478.609H235.286v-55.369h162.906V478.609z M419.15,389.848H214.328v-144.13H419.15V389.848z"></path>
-                        </g>
-                      </g>
-                      <g>
-                        <g>
-                          <rect
-                            x="77.304"
-                            y="203.534"
-                            transform="matrix(0.5518 -0.834 0.834 0.5518 -152.9406 183.2325)"
-                            width="33.392"
-                            height="60.74"
-                          ></rect>
-                        </g>
-                      </g>
-                      <g>
-                        <g>
-                          <rect
-                            x="201.892"
-                            y="32.725"
-                            width="33.391"
-                            height="73.606"
-                          ></rect>
-                        </g>
-                      </g>
-                      <g>
-                        <g>
-                          <rect
-                            x="332.763"
-                            y="32.725"
-                            width="33.391"
-                            height="73.606"
-                          ></rect>
-                        </g>
-                      </g>
-                      <g>
-                        <g>
-                          <rect
-                            x="267.327"
-                            width="33.391"
-                            height="89.155"
-                          ></rect>
-                        </g>
-                      </g>
-                      <g>
-                        <g>
-                          <rect
-                            x="398.188"
-                            y="67.384"
-                            width="33.391"
-                            height="55.458"
-                          ></rect>
-                        </g>
-                      </g>
-                      <g>
-                        <g>
-                          <circle cx="360.612" cy="450.927" r="11.45"></circle>
-                        </g>
-                      </g>
-                    </g>
+                    <path d="M431.584 212.326v-55.131h-33.391v55.13h-32.041v-72.304H332.76v72.306h-32.041v-88.823h-33.391v88.823h-32.041v-72.306h-33.391v72.306h-20.958v59.087l-24.026-15.895-18.424 27.848 42.45 28.084v111.79h20.958V512h229.689v-88.761h20.958V212.326h-20.959zm-33.392 266.283H235.286V423.24h162.906v55.369zm20.958-88.761H214.328v-144.13H419.15v144.13z" />
+                    <path
+                      transform="rotate(-56.509 94.003 233.9)"
+                      d="M77.304 203.534H110.696V264.274H77.304z"
+                    />
+                    <path d="M201.892 32.725H235.283V106.33099999999999H201.892z" />
+                    <path d="M332.763 32.725H366.154V106.33099999999999H332.763z" />
+                    <path d="M267.327 0H300.718V89.155H267.327z" />
+                    <path d="M398.188 67.384H431.579V122.842H398.188z" />
+                    <circle cx={360.612} cy={450.927} r={11.45} />
                   </svg>
                   <Spacer x={0.5}></Spacer>
                   <Text color="secondary" b size="$lg">

@@ -1,6 +1,8 @@
-import { useNavigate } from "react-router-dom";
-import { updateQuestionnaire } from "../adapters/request-adapter";
-import { useState, useMemo } from "react";
+import CurrentUserContext from "../contexts/current-user-context";
+import { useNavigate, Navigate } from "react-router-dom";
+import { createRequests } from "../adapters/request-adapter";
+// import { updateQuestionnaire } from "../adapters/request-adapter";
+import { useState, useMemo, useContext, useEffect } from "react";
 import {
   Input,
   Dropdown,
@@ -9,10 +11,13 @@ import {
   Collapse,
   Text,
   Avatar,
+  Spacer,
+  Button,
 } from "@nextui-org/react";
 
-export default function QuestionsNew({ request }) {
+export default function QuestionsNew({ setVisible }) {
   const navigate = useNavigate();
+  const { currentUser } = useContext(CurrentUserContext);
 
   const [edit, setEdit] = useState({
     q1_disability_info: "",
@@ -20,20 +25,9 @@ export default function QuestionsNew({ request }) {
     q3_physical_specifications: "",
     q4_lifestyle_usage: "",
     q5_additional: "",
-    fabricators_needed: "",
+    fabricators_needed: 0,
     category: "",
   });
-  // const [newContent, setNewContent] = useState({
-  //   q1_disability_info,
-  //   q2_functional_requirements,
-  //   q3_physical_specifications,
-  //   q4_lifestyle_usage,
-  //   q5_additional,
-  //   fabricators_needed,
-  //   category,
-  // });
-
-  // const [exp, setExp] = useState(false);
 
   const categoryDescriptions = {
     Prosthetics: "Prosthetic for various body parts.",
@@ -70,16 +64,31 @@ export default function QuestionsNew({ request }) {
     4: "Expert: Highly complex and intricate designs, needing specialized techniques, materials and technology.",
   };
 
-  // const [difficulty, setDifficulty] = useState(
-  // difficultyTags[fabricators_needed]
-  // );
-
-  const [s, setS] = useState(new Set([category]));
+  const [s, setS] = useState(new Set([]));
+  const [difficulty, setDifficulty] = useState("");
+  const [isDraft, setIsDraft] = useState(true);
 
   const selectedValue = useMemo(
     () => Array.from(s).join(", ").replaceAll("_", " "),
     [s]
   );
+
+  useEffect(() => {
+    if (
+      edit.q1_disability_info &&
+      edit.q2_functional_requirements &&
+      edit.q3_physical_specifications &&
+      edit.q4_lifestyle_usage &&
+      edit.q5_additional &&
+      edit.fabricators_needed &&
+      s.size !== 0
+    ) {
+      setIsDraft(false);
+    } else {
+      setIsDraft(true);
+    }
+    console.log(s.size);
+  }, [edit, Array.from(s)]);
 
   const handleChange = (event) => {
     if (
@@ -95,6 +104,7 @@ export default function QuestionsNew({ request }) {
     setEdit({
       ...edit,
       [event.target.name]: event.target.value,
+      ["category"]: Array.from(s)[0],
     });
     if (event.target.name === "fabricators_needed") {
       setDifficulty(difficultyTags[event.target.value]);
@@ -102,32 +112,32 @@ export default function QuestionsNew({ request }) {
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
-    let formData = await new FormData(event.target);
-    formData = Object.fromEntries(formData.entries());
-    formData.id = request.id;
-    formData.category = Array.from(s)[0];
-    if (formData.fabricators_needed === undefined)
-      formData.fabricators_needed = fabricators_needed;
-    await updateQuestionnaire(formData);
-    setFormVisibility(false);
-    setButtonVisibility(true);
-    setNewContent({
-      ...edit,
-    });
+    edit.draft = false;
+    edit.fabricators_needed = Number(edit.fabricators_needed);
+    console.log(edit);
+    const newRequest = await createRequests(edit);
+    setVisible(false);
+    return navigate(`/requests/${newRequest[0].id}/`);
+  };
+
+  const handleDraft = async (event) => {
+    edit.draft = true;
+    edit.category = s.size === 0 ? "" : Array.from(s)[0];
+    edit.fabricators_needed =
+      edit.fabricators_needed === "" ? 0 : +edit.fabricators_needed;
+    console.log(edit);
+    const newRequest = await createRequests(edit);
+    setVisible(false);
+    return navigate(`/requests/${newRequest[0].id}/`);
   };
 
   return (
     <>
       <Row css={{ justifyContent: "center" }}>
-        <form
-          onSubmit={handleSubmit}
-          aria-label="form"
-          style={{ width: "100%", maxWidth: "82%" }}
-        >
+        <form aria-label="form" style={{ width: "100%", maxWidth: "100%" }}>
           <Collapse.Group shadow accordion={false}>
             <Collapse
-              expanded={exp}
+              expanded
               css={{ width: "100%" }}
               title={
                 <Text h2 color="secondary">
@@ -143,7 +153,11 @@ export default function QuestionsNew({ request }) {
               contentLeft={
                 <Avatar
                   size="xl"
-                  src={request.pfp_url}
+                  src={
+                    currentUser && currentUser.pfp_url
+                      ? currentUser.pfp_url
+                      : "none"
+                  }
                   color="gradient"
                   bordered
                   zoomed
@@ -176,15 +190,14 @@ export default function QuestionsNew({ request }) {
                 fullWidth="true"
                 className="form-input"
                 name="q1_disability_info"
-                initialValue={q1_disability_info}
+                labelPlaceholder="I Have Trouble With This ..."
                 onChange={handleChange}
                 status="secondary"
-                label={newContent.q1_disability_info}
                 aria-label="q1_disability_info"
               />
             </Collapse>
             <Collapse
-              expanded={exp}
+              expanded
               title={
                 <Text h2 color="secondary">
                   Desired Functionality
@@ -200,7 +213,11 @@ export default function QuestionsNew({ request }) {
                 <Avatar
                   zoomed
                   size="xl"
-                  src={request.pfp_url}
+                  src={
+                    currentUser && currentUser.pfp_url
+                      ? currentUser.pfp_url
+                      : "none"
+                  }
                   color="gradient"
                   bordered
                 />
@@ -230,15 +247,14 @@ export default function QuestionsNew({ request }) {
                 fullWidth="true"
                 className="form-input"
                 name="q2_functional_requirements"
-                initialValue={q2_functional_requirements}
+                labelPlaceholder="Could You Make Me This ..."
                 onChange={handleChange}
                 status="secondary"
-                label={newContent.q2_functional_requirements}
                 aria-label="q2_functional_requirements"
               />
             </Collapse>
             <Collapse
-              expanded={exp}
+              expanded={false}
               title={
                 <Text h2 color="secondary">
                   Measurements
@@ -248,7 +264,11 @@ export default function QuestionsNew({ request }) {
                 <Avatar
                   zoomed
                   size="xl"
-                  src={request.pfp_url}
+                  src={
+                    currentUser && currentUser.pfp_url
+                      ? currentUser.pfp_url
+                      : "none"
+                  }
                   color="gradient"
                   bordered
                 />
@@ -291,15 +311,13 @@ export default function QuestionsNew({ request }) {
                 fullWidth="true"
                 className="form-input"
                 name="q3_physical_specifications"
-                initialValue={q3_physical_specifications}
                 onChange={handleChange}
                 status="secondary"
-                label={newContent.q3_physical_specifications}
                 aria-label="q3_physical_specifications"
               />
             </Collapse>
             <Collapse
-              expanded={exp}
+              expanded={false}
               title={
                 <Text h2 color="secondary">
                   Life Style
@@ -309,7 +327,11 @@ export default function QuestionsNew({ request }) {
                 <Avatar
                   zoomed
                   size="xl"
-                  src={request.pfp_url}
+                  src={
+                    currentUser && currentUser.pfp_url
+                      ? currentUser.pfp_url
+                      : "none"
+                  }
                   color="gradient"
                   bordered
                 />
@@ -344,15 +366,13 @@ export default function QuestionsNew({ request }) {
                 className="form-input"
                 fullWidth="true"
                 name="q4_lifestyle_usage"
-                initialValue={q4_lifestyle_usage}
                 onChange={handleChange}
                 status="secondary"
-                label={newContent.q4_lifestyle_usage}
                 aria-label="q4_lifestyle_usage"
               />
             </Collapse>
             <Collapse
-              expanded={exp}
+              expanded={false}
               title={
                 <Text h2 color="secondary">
                   Additional Information
@@ -402,7 +422,11 @@ export default function QuestionsNew({ request }) {
                 <Avatar
                   zoomed
                   size="xl"
-                  src={request.pfp_url}
+                  src={
+                    currentUser && currentUser.pfp_url
+                      ? currentUser.pfp_url
+                      : "none"
+                  }
                   color="gradient"
                   bordered
                 />
@@ -414,15 +438,14 @@ export default function QuestionsNew({ request }) {
                 className="form-input"
                 fullWidth="true"
                 name="q5_additional"
-                initialValue={q5_additional}
+                labelPlaceholder="* Optional"
                 onChange={handleChange}
                 status="secondary"
-                label={newContent.q5_additional}
                 aria-label="q5_additional"
               ></Textarea>
             </Collapse>
             <Collapse
-              expanded={exp}
+              expanded={false}
               title={
                 <Text h2 color="secondary">
                   Category
@@ -435,7 +458,11 @@ export default function QuestionsNew({ request }) {
                 <Avatar
                   zoomed
                   size="xl"
-                  src={request.pfp_url}
+                  src={
+                    currentUser && currentUser.pfp_url
+                      ? currentUser.pfp_url
+                      : "none"
+                  }
                   color="gradient"
                   bordered
                 />
@@ -443,9 +470,7 @@ export default function QuestionsNew({ request }) {
               arrowIcon={
                 <svg
                   fill="#7827c8"
-                  id="Layer_1"
                   xmlns="http://www.w3.org/2000/svg"
-                  xmlnsXlink="http://www.w3.org/1999/xlink"
                   viewBox="0 0 512 512"
                   xmlSpace="preserve"
                   width={40}
@@ -453,75 +478,21 @@ export default function QuestionsNew({ request }) {
                   stroke="#7827c8"
                   strokeWidth={12.8}
                 >
-                  <g id="SVGRepo_bgCarrier" strokeWidth={0} />
-                  <g
-                    id="SVGRepo_tracerCarrier"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+                  <path d="M431.584 212.326v-55.131h-33.391v55.13h-32.041v-72.304H332.76v72.306h-32.041v-88.823h-33.391v88.823h-32.041v-72.306h-33.391v72.306h-20.958v59.087l-24.026-15.895-18.424 27.848 42.45 28.084v111.79h20.958V512h229.689v-88.761h20.958V212.326h-20.959zm-33.392 266.283H235.286V423.24h162.906v55.369zm20.958-88.761H214.328v-144.13H419.15v144.13z" />
+                  <path
+                    transform="rotate(-56.509 94.003 233.9)"
+                    d="M77.304 203.534H110.696V264.274H77.304z"
                   />
-                  <g id="SVGRepo_iconCarrier">
-                    <g>
-                      <g>
-                        <path d="M431.584,212.326v-55.131h-33.391v55.13h-32.041v-72.304h232.76v72.306h-32.041v-88.823h-33.391v88.823h-32.041v-72.306 h-33.391v72.306h-20.958v59.087l-24.026-15.895l-18.424,27.848l42.45,28.084v111.79h20.958V512h229.689v-88.761h20.958V212.326 H431.584z M398.192,478.609H235.286v-55.369h162.906V478.609z M419.15,389.848H214.328v-144.13H419.15V389.848z" />
-                      </g>
-                    </g>
-                    <g>
-                      <g>
-                        <rect
-                          x={77.304}
-                          y={203.534}
-                          transform="matrix(0.5518 -0.834 0.834 0.5518 -152.9406 183.2325)"
-                          width={33.392}
-                          height={60.74}
-                        />
-                      </g>
-                    </g>
-                    <g>
-                      <g>
-                        <rect
-                          x={201.892}
-                          y={32.725}
-                          width={33.391}
-                          height={73.606}
-                        />
-                      </g>
-                    </g>
-                    <g>
-                      <g>
-                        <rect
-                          x={332.763}
-                          y={32.725}
-                          width={33.391}
-                          height={73.606}
-                        />
-                      </g>
-                    </g>
-                    <g>
-                      <g>
-                        <rect x={267.327} width={33.391} height={89.155} />
-                      </g>
-                    </g>
-                    <g>
-                      <g>
-                        <rect
-                          x={398.188}
-                          y={67.384}
-                          width={33.391}
-                          height={55.458}
-                        />
-                      </g>
-                    </g>
-                    <g>
-                      <g>
-                        <circle cx={360.612} cy={450.927} r={11.45} />
-                      </g>
-                    </g>
-                  </g>
+                  <path d="M201.892 32.725H235.283V106.33099999999999H201.892z" />
+                  <path d="M332.763 32.725H366.154V106.33099999999999H332.763z" />
+                  <path d="M267.327 0H300.718V89.155H267.327z" />
+                  <path d="M398.188 67.384H431.579V122.842H398.188z" />
+                  <circle cx={360.612} cy={450.927} r={11.45} />
                 </svg>
               }
             >
               <Text h4>
-                <b>{Array.from(s)[0]}:</b>{" "}
+                <b>{Array.from(s)[0] ? Array.from(s)[0] + ": " : ""}</b>
                 {categoryDescriptions[Array.from(s)[0]]}
               </Text>
               <Dropdown placement="right-top">
@@ -530,7 +501,7 @@ export default function QuestionsNew({ request }) {
                   color="secondary"
                   css={{ tt: "capitalize" }}
                 >
-                  {selectedValue}
+                  {selectedValue || "Please Pick One"}
                 </Dropdown.Button>
                 <Dropdown.Menu
                   aria-label="Single selection actions"
@@ -621,7 +592,7 @@ export default function QuestionsNew({ request }) {
               </Dropdown>
             </Collapse>
             <Collapse
-              expanded={exp}
+              expanded={false}
               title={
                 <Text h2 color="secondary">
                   Complexity
@@ -637,7 +608,11 @@ export default function QuestionsNew({ request }) {
                 <Avatar
                   zoomed
                   size="xl"
-                  src={request.pfp_url}
+                  src={
+                    currentUser && currentUser.pfp_url
+                      ? currentUser.pfp_url
+                      : "none"
+                  }
                   color="gradient"
                   bordered
                 />
@@ -658,7 +633,6 @@ export default function QuestionsNew({ request }) {
               }
             >
               <Input
-                label={newContent.fabricators_needed}
                 type="number"
                 status="secondary"
                 className="form-input"
@@ -666,11 +640,102 @@ export default function QuestionsNew({ request }) {
                 min={1}
                 max={4}
                 onChange={handleChange}
-                disabled={request.request_status !== "Archived"}
-                defaultValue={fabricators_needed}
+                labelPlaceholder="1-4"
                 aria-label="fabricators_needed"
+                size="xl"
               />
               <Text h4>{difficulty}</Text>
+            </Collapse>
+            <Collapse
+              title={
+                <Text h2 color="secondary">
+                  Save or Submit
+                </Text>
+              }
+              expanded
+              contentLeft={
+                <Avatar
+                  zoomed
+                  size="xl"
+                  src={
+                    currentUser && currentUser.pfp_url
+                      ? currentUser.pfp_url
+                      : "none"
+                  }
+                  color="gradient"
+                  bordered
+                />
+              }
+              arrowIcon={
+                <svg
+                  width={40}
+                  height={40}
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M3.99 16.854l-1.314 3.504a.75.75 0 00.966.965l3.503-1.314a3 3 0 001.068-.687L18.36 9.175s-.354-1.061-1.414-2.122c-1.06-1.06-2.122-1.414-2.122-1.414L4.677 15.786a3 3 0 00-.687 1.068zm12.249-12.63l1.383-1.383c.248-.248.579-.406.925-.348.487.08 1.232.322 1.934 1.025.703.703.945 1.447 1.025 1.934.058.346-.1.677-.348.925L19.774 7.76s-.353-1.06-1.414-2.12c-1.06-1.062-2.121-1.415-2.121-1.415z"
+                    fill="#7827c8"
+                  />
+                </svg>
+              }
+            >
+              <Spacer y={0.5}></Spacer>
+              <Row css={{ justifyContent: "space-around" }}>
+                <Button
+                  auto
+                  color="secondary"
+                  flat
+                  shadow
+                  onPress={handleDraft}
+                  css={{ zIndex: "0" }}
+                  icon={
+                    <svg
+                      width={24}
+                      height={24}
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                    >
+                      <path
+                        fill="#7827c8"
+                        fillRule="evenodd"
+                        d="M15.198 3.52a1.612 1.612 0 012.223 2.336L6.346 16.421l-2.854.375 1.17-3.272L15.197 3.521zm3.725-1.322a3.612 3.612 0 00-5.102-.128L3.11 12.238a1 1 0 00-.253.388l-1.8 5.037a1 1 0 001.072 1.328l4.8-.63a1 1 0 00.56-.267L18.8 7.304a3.612 3.612 0 00.122-5.106zM12 17a1 1 0 100 2h6a1 1 0 100-2h-6z"
+                      />
+                    </svg>
+                  }
+                >
+                  Save As Draft
+                </Button>
+                <Button
+                  auto
+                  color="secondary"
+                  flat
+                  shadow
+                  disabled={isDraft === true ? true : false}
+                  css={{ zIndex: "0" }}
+                  onPress={handleSubmit}
+                  icon={
+                    <svg
+                      fill="#7827c8"
+                      height={24}
+                      width={24}
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 512 512"
+                      xmlSpace="preserve"
+                    >
+                      <path d="M480 0H32C14.328 0 0 14.328 0 32v64c0 17.672 14.328 32 32 32s32-14.328 32-32V64h384v384H64v-32c0-17.672-14.328-32-32-32S0 398.328 0 416v64c0 17.672 14.328 32 32 32h448c17.672 0 32-14.328 32-32V32c0-17.672-14.328-32-32-32z" />
+                      <path d="M240.906 348.211A31.95 31.95 0 00256 352a31.998 31.998 0 0017.75-5.375l96-64C378.656 276.688 384 266.703 384 256s-5.344-20.688-14.25-26.625l-96-64c-9.828-6.555-22.484-7.156-32.844-1.586A31.989 31.989 0 00224 192v32H32c-17.672 0-32 14.328-32 32s14.328 32 32 32h192v32c0 11.805 6.5 22.648 16.906 28.211z" />
+                    </svg>
+                  }
+                >
+                  Submit Request
+                </Button>
+              </Row>
+              <Spacer y={1}></Spacer>
             </Collapse>
           </Collapse.Group>
         </form>

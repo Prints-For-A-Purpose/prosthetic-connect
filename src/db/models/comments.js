@@ -32,7 +32,7 @@ class Comment {
     ORDER BY 
     c.created_at DESC
     OFFSET ?
-    ROWS lIMIT 7;`;
+    ROWS lIMIT 5;`;
     const { rows } = await knex.raw(query, [id, page]);
     return rows.map((comments) => new Comment(comments));
   }
@@ -46,7 +46,7 @@ class Comment {
     ORDER BY 
     c.created_at DESC
     OFFSET ?
-    ROWS lIMIT 7;`;
+    ROWS lIMIT 5;`;
     const { rows } = await knex.raw(query, [id, page]);
     return rows.map((comments) => new Comment(comments));
   }
